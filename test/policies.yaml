@@ -1,0 +1,54 @@
+- resources: https://workspaces.dashkite.io{/path*}
+  policies:
+    request:
+
+      - condition:  
+          authorization: rune
+        actions:
+          - name: rune authorization
+
+      - condition:
+          authorization: email
+        context:
+          - email: ${ request.authorization.credential }
+          - team:
+              name: request
+              bindings:
+                resource: "workspace-team"
+                bindings:
+                  email: ${ email }
+          - authorization:
+              name: issue rune
+              bindings:
+                rune:
+                  - origin: "https://workspaces.dashkite.io"
+                  - days: 30
+                  - grants:
+                      - resources:
+                          - "account-workspaces"
+                        bindings:
+                          account: ${ team.address }
+                        methods:
+                          - get
+                          - put
+                          - delete
+          - rune: ${ authorization.rune }
+            nonce: ${ authorization.nonce }
+        actions:
+          - name: email rune link
+            bindings:
+              email: ${ email }
+              rune: ${ rune }
+          - name: respond
+            bindings:
+              description: unauthorized
+              headers:
+                www-authenticate: rune, nonce=${ nonce }        
+
+
+      - actions:
+          - name: response
+            bindings:
+              description: unauthorized
+              headers:
+                www-authenticate: [ email ]
