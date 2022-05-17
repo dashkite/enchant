@@ -28,14 +28,14 @@
     "@dashkite/amen-console": "^0.0.1",
     "@dashkite/assert": "^0.1.3",
     "@dashkite/genie": "^0.5.11",
-    "@dashkite/genie-presets": "^0.5.7",
-    "node-fetch": "^2.6.7"
+    "@dashkite/genie-presets": "^0.5.7"
   },
   "dependencies": {
     "@dashkite/dolores": "^0.0.9",
     "@dashkite/messages": "file:../messages",
-    "@dashkite/parse": "^0.3.1",
+    "@dashkite/polaris": "file:../polaris",
     "@dashkite/runes": "file:../runes",
-    "@pandastrike/router": "^3.1.0"
+    "@pandastrike/router": "^3.1.0",
+    "panda-confidential": "^3.1.2"
   }
 }

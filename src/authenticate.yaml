@@ -1,0 +1,8 @@
+origin: https://guardian.dashkite.io
+expires: 
+  minutes: 10
+grants:
+  - resources: [ authentication ]
+    bindings:
+      ciphertext: ${ ciphertext }
+    methods: [ get ]

@@ -4,16 +4,26 @@ import { generic } from "@dashkite/joy/generic"
 import * as Text from "@dashkite/joy/text"
 import { Messages } from "@dashkite/messages"
 import { Router } from "@pandastrike/router"
-import * as Parse from "@dashkite/parse"
 import * as Runes from "@dashkite/runes"
 import { getSecret } from "@dashkite/dolores/secrets"
+import { expand } from "@dashkite/polaris"
+
+import { confidential } from "panda-confidential"
+Confidential = confidential()
+
+import {
+  command
+  isCommand
+} from "./helpers"
+
+import { match } from "./matchers"
+
+import authenticate from "./authenticate"
 import _messages from "./messages"
 
 messages = Messages.create()
 messages.add _messages
 messages.prefix = "enchant"
-
-parseAuthorizationFromHeader = Parse
 
 unauthorized = ( code, context ) ->
   # TODO add www-authenticate header?
@@ -32,63 +42,58 @@ parseAuthorizationFromHeader = ( header ) ->
     .reduce assign, {}
   { scheme, credential, parameters }
 
-# parseAuthorizationFromHeader = Parse.parser Parse.pipe [
-#   Parse.all [
-#     Parse.word
-#     Parse.skip Parse.ws
-#     Parse.re /^[^,]+/
-#     Parse.list ( Parse.text "," ), Parse.all [
-#       Parse.word
-#       Parse.text "="
-#       Parse.word
-#     ]
-#   ]
-# ]
-
 parseAuthorizationFromRequest = ( request ) ->
   if ( header = request.headers?.authorization?[0] )?
     parseAuthorizationFromHeader header
 
-Matchers =
-  authorization: ( context, value ) ->
-    value == context.authorization?.scheme
-  bindings: ( context, value ) ->
-    for key, _value of value
-      if context[ key ] == _value
-        continue
-      else
-        return false
-    true
-
-match = ( context, policy ) ->
-  if policy.condition?
-    for key, value of policy.condition
-      if !( Matchers[ key ] context, value )
-        return false
-    true
-  else
-    true
-
 Resolvers =
-  request: ( context, resource ) ->
-    context.forward await requestFromResource { resource, method: "get" }
+
+  "issue rune": ( context, { secret, authorization } ) ->
+    Runes.issue {
+      secret: ( await getSecret secret )
+      authorization 
+    }
+
+  "encrypt rune": ( context, bindings ) ->
+    { rune } = bindings
+    { EncryptionKeyPair, SharedKey, Message, encrypt } = Confidential
+    keyPair = EncryptionKeyPair.from "base64",
+      await getSecret bindings["key pair"]
+    key = SharedKey.create keyPair
+    message = Message.from "utf8", rune
+    ( await encrypt key, message ).to "base36"
+
+  request: ( context, { resource } ) ->
+    context.fetch await requestFromResource { resource, method: "get" }
+
+resolve = generic name: "enchant[resolve]"
+
+generic resolve, Type.isObject, Type.isString, ( context, template ) ->
+  expand template, context
+
+generic resolve, Type.isObject, Type.isObject, ( context, action ) ->
+  resolve context, command action
+
+generic resolve, Type.isObject, isCommand, ( context, { name, bindings } ) ->
+  Resolvers[ name ] context, expand bindings, context
 
 Actions =
 
-  "issue rune": (context, { rune }) ->
+  "email authentication": ( context,  { email, link } ) ->
+    # TODO email link
 
   "rune authorization": ( context ) ->
-    { request, authorization } = context
-    { scheme, credential, parameters } = authorization
+    { fetch, request } = context
+    { scheme, credential, parameters } = request.authorization
     { nonce } = parameters
     if scheme == "rune"
       secret = await getSecret "guardian"
       if Runes.verify { rune: credential, nonce, secret }
         [ authorization ] = Runes.decode credential
-        if await Runes.match { request, authorization }
-          context.forward = true
+        if request = await Runes.match { context..., authorization }
+          context.response = fetch request
         else
-          context.response = unauthorized "request disallowed", { request }
+          context.response = unauthorized "request disallowed", context
       else
         context.response = unauthorized "verification failed", { request }
     else
@@ -96,17 +101,15 @@ Actions =
 
   response: ( context, response ) -> context.response = response
 
-resolve = generic name: "enchant[resolve]"
-
-generic resolve, Type.isObject, Type.isString, ( context, template ) ->
-  expand template, context
-
-generic resolve, Type.isObject, Type.isObject, ( context, { name, bindings } ) ->
-  Resolvers[ name ] context, bindings
-
 execute = generic name: "enchant[execute]"
 
-generic execute, Type.isObject, Type.isObject, ( context, { name, bindings } ) ->
+generic execute, Type.isObject, Type.isString, ( context, name ) ->
+  execute context, { name, bindings: {} }
+
+generic execute, Type.isObject, Type.isObject, ( context, action ) ->
+  execute context, command action
+
+generic execute, Type.isObject, isCommand, ( context, { name, bindings } ) ->
   Actions[ name ] context, bindings
 
 class Enchanter
@@ -129,14 +132,18 @@ class Enchanter
     (request) ->
       if ( _match = router.match request.url )?
         { policies } = _match.data
-        authorization = parseAuthorizationFromRequest request
+        request.authorization = parseAuthorizationFromRequest request
         for policy in policies.request
-          context = { request, forward: f, authorization, authorized: false }
-          if match context, policy
-            for key, resolver of policy.context
-              context[ key ] = await resolve context, resolver
+          context = { request, fetch: f }
+          if match context, policy.conditions
+            if policy.context?
+              for resolver in policy.context
+                for key, _resolver of resolver
+                  context[ key ] = await resolve context, _resolver
+                  console.log resolve: key
+                  console.log context[ key ]
             for action in policy.actions
-              await execute context, action
+              await execute context, expand action, context
             break if context.response? || context.forward
 
       # unless context.response?

@@ -1,54 +1,87 @@
-- resources: https://workspaces.dashkite.io{/path*}
+- resources: https://guardian.dashkite.io/authenticate/{ciphertext}
+  policies:
+    conditions:
+      - authorization: rune
+    actions:
+      - rune authorization
+      - authenticate
+
+- resources: https://foo.dashkite.io{/path*}
   policies:
     request:
-
-      - condition:  
-          authorization: rune
+      - conditions:  
+          - authorization: rune
         actions:
-          - name: rune authorization
+          - rune authorization
 
-      - condition:
-          authorization: email
+      - conditions:
+          - authorization: email
         context:
           - email: ${ request.authorization.credential }
-          - team:
-              name: request
-              bindings:
-                resource: "workspace-team"
-                bindings:
-                  email: ${ email }
           - authorization:
-              name: issue rune
-              bindings:
-                rune:
-                  - origin: "https://workspaces.dashkite.io"
-                  - days: 30
-                  - grants:
-                      - resources:
-                          - "account-workspaces"
-                        bindings:
-                          account: ${ team.address }
-                        methods:
-                          - get
-                          - put
-                          - delete
-          - rune: ${ authorization.rune }
-            nonce: ${ authorization.nonce }
+              issue rune:
+                secret: guardian
+                authorization:
+                  origin: https://foo.dashkite.io
+                  expires: 
+                    days: 30
+                  identity: ${ email }
+                  resolvers:
+                    account:
+                      request:
+                        resource: 
+                          name: account
+                          bindings:
+                            email: ${ email }
+                    workspaces:
+                      request:
+                        resource:
+                          name: workspaces
+                          bindings: 
+                            account: \${ account.address }
+                  grants:
+                    - resources: [ account ]
+                      bindings:
+                        email: alice@acme.org
+                      methods: [ get ]
+                    - resources: [ workspaces ]
+                      resolvers: [ account ]
+                      bindings:
+                        account: \${ account.address }
+                      methods: [ get ]
+                    - resources: [ workspace ]
+                      resolvers: [ workspaces ]
+                      bindings:
+                        workspace: \${ workspaces[*].address }
+                      methods: [ get ]
+          - ciphertext:
+              encrypt rune: 
+                key pair: guardian-encryption-key-pair
+                rune: ${ authorization.rune }
+          - ephemeral:
+              issue rune:
+                secret: guardian
+                authorization:
+                  origin: https://guardian.dashkite.io
+                  expires: 
+                    minutes: 10
+                  grants:
+                    - resources: [ authentication ]
+                      bindings:
+                        ciphertext: ${ ciphertext }
+                      methods: [ get ]
         actions:
-          - name: email rune link
-            bindings:
+          - email authentication:
               email: ${ email }
-              rune: ${ rune }
-          - name: respond
-            bindings:
+              link: >-
+                https://guardian.dashkite.com/${ciphertext}/${ephemeral.rune}/${ephemeral.nonce}
+          - response:
               description: unauthorized
               headers:
-                www-authenticate: rune, nonce=${ nonce }        
-
+                www-authenticate: rune, nonce=${ authorization.nonce }        
 
       - actions:
-          - name: response
-            bindings:
+          - response:
               description: unauthorized
               headers:
                 www-authenticate: [ email ]
