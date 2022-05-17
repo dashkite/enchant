@@ -80,6 +80,8 @@ generic resolve, Type.isObject, isCommand, ( context, { name, bindings } ) ->
 Actions =
 
   "email authentication": ( context,  { email, link } ) ->
+    console.log link
+    
     # TODO email link
 
   "rune authorization": ( context ) ->
@@ -140,8 +142,6 @@ class Enchanter
               for resolver in policy.context
                 for key, _resolver of resolver
                   context[ key ] = await resolve context, _resolver
-                  console.log resolve: key
-                  console.log context[ key ]
             for action in policy.actions
               await execute context, expand action, context
             break if context.response? || context.forward
