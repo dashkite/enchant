@@ -42,7 +42,7 @@
                   grants:
                     - resources: [ account ]
                       bindings:
-                        email: alice@acme.org
+                        email: chand@dashkite.com
                       methods: [ get ]
                     - resources: [ workspaces ]
                       resolvers: [ account ]

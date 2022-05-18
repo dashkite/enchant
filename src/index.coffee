@@ -7,6 +7,7 @@ import { Router } from "@pandastrike/router"
 import * as Runes from "@dashkite/runes"
 import { getSecret } from "@dashkite/dolores/secrets"
 import { expand } from "@dashkite/polaris"
+import { sendEmail } from "@dashkite/dolores/ses"
 
 import { confidential } from "panda-confidential"
 Confidential = confidential()
@@ -80,9 +81,13 @@ generic resolve, Type.isObject, isCommand, ( context, { name, bindings } ) ->
 Actions =
 
   "email authentication": ( context,  { email, link } ) ->
-    console.log link
-    
-    # TODO email link
+    params = 
+      source: "DashKite Authentication <authentication@dashkite.com>"
+      template: "dashkite-development-authenticate"
+      toAddresses: [email]
+      templateData: authenticationLink: link
+
+    await sendEmail params
 
   "rune authorization": ( context ) ->
     { fetch, request } = context

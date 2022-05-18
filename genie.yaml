@@ -29,3 +29,17 @@ presets:
           glob:
             - "{src,test}/**/*.yaml"
       browser: *yaml
+
+  pug:
+    targets:
+      node:
+        - preset: render
+          glob:
+            - "email/**/*.pug"
+
+sky:
+  namespace: dashkite
+  ses:
+    templates:
+      - name: authenticate
+        subject: Authenticate with DashKite

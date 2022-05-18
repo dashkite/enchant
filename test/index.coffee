@@ -41,7 +41,7 @@ authorization = policies[1]
   .authorization[ "issue rune" ]
   .authorization
 
-context = email: "alice@acme.org"
+context = email: "chand@dashkite.com"
 
 authorization = expand authorization, context
 
@@ -91,7 +91,7 @@ do ->
         method: "get"
         headers:
           authorization: [
-            "email alice@acme.org"
+            "email chand@dashkite.com"
           ]
       console.log response
 
