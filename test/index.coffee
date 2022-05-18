@@ -6,6 +6,9 @@ import { getSecret } from "@dashkite/dolores/secrets"
 import * as Runes from "@dashkite/runes"
 import { expand } from "@dashkite/polaris"
 
+import { confidential } from "panda-confidential"
+Confidential = confidential()
+
 import { Enchanter } from "../src"
 
 import fooAPI from "./api/foo"
@@ -41,7 +44,7 @@ authorization = policies[1]
   .authorization[ "issue rune" ]
   .authorization
 
-context = email: "chand@dashkite.com"
+context = email: "dan@dashkite.com"
 
 authorization = expand authorization, context
 
@@ -91,8 +94,42 @@ do ->
         method: "get"
         headers:
           authorization: [
-            "email chand@dashkite.com"
+            "email dan@dashkite.com"
           ]
-      console.log response
+      assert.equal response.description, "unauthorized"
+      assert response.headers[ "www-authenticate"].startsWith "rune, nonce="
+    
+    test "authenticate", ->
+      # WARNING this is copied from the source
+      #         if that code changes, we should also change it here
+      { EncryptionKeyPair, SharedKey, Message, encrypt } = Confidential
+      keyPair = EncryptionKeyPair.from "base64",
+        await getSecret "guardian-encryption-key-pair"
+      key = SharedKey.create keyPair
+      message = Message.from "utf8", rune
+      ciphertext = ( await encrypt key, message ).to "base36"
+
+      response = await do ({ rune, nonce, authorization, response } = {}) ->
+        ephemeral = policies[1]
+          .policies
+          .request[1]
+          .context[3]
+          .ephemeral[ "issue rune" ]
+          .authorization
+
+        authorization = expand ephemeral, { ciphertext }
+        { rune, nonce } = await Runes.issue { authorization, secret }
+
+        handler
+          url: "https://foo.dashkite.io/authenticate/#{ciphertext}"
+          method: "get"
+          headers:
+            authorization: [
+              "rune #{rune}, nonce=#{nonce}"
+            ]
+
+      assert.equal response.description, "ok"
+      assert.equal response.content, rune
+
 
   ]

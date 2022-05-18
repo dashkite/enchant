@@ -89,6 +89,19 @@ Actions =
 
     await sendEmail params
 
+  "authenticate": ( context, bindings ) ->
+    { ciphertext } = context.request.resource.bindings
+    { Envelope, EncryptionKeyPair, SharedKey, Message, decrypt } = Confidential
+    envelope = Envelope.from "base36", ciphertext
+    keyPair = EncryptionKeyPair.from "base64",
+      await getSecret bindings["key pair"]
+    key = SharedKey.create keyPair
+    message = decrypt key, envelope
+    rune = message.to "utf8"
+    context.response =
+      description: "ok"
+      content: rune
+
   "rune authorization": ( context ) ->
     { fetch, request } = context
     { scheme, credential, parameters } = request.authorization
@@ -98,7 +111,7 @@ Actions =
       if Runes.verify { rune: credential, nonce, secret }
         [ authorization ] = Runes.decode credential
         if request = await Runes.match { context..., authorization }
-          context.response = fetch request
+          context.request = request
         else
           context.response = unauthorized "request disallowed", context
       else
@@ -149,13 +162,10 @@ class Enchanter
                   context[ key ] = await resolve context, _resolver
             for action in policy.actions
               await execute context, expand action, context
-            break if context.response? || context.forward
-
-      # unless context.response?
-
-      #   # if we got there without throwing, that means all the policices
-      #   # were satisfied so we can forward the request
-      #   context.response = await f request
+              break if context.response?
+            unless context.response?
+              context.response = await f context.request
+            break
 
       # # TODO apply the response policies
       # # finally, return the response

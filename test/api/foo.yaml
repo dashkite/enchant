@@ -10,6 +10,16 @@ resources:
             content-type: [ "application/json" ]
             status: [ 200 ]
 
+  authenticate:
+    template: /authenticate/{ciphertext}
+    methods:
+      get:
+        signatures:
+          request: {}
+          response:
+            content-type: [ "application/json" ]
+            status: [ 200 ]
+
   workspace:
     template: /workspace/{workspace}
     methods:
