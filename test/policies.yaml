@@ -1,4 +1,6 @@
-- resources: https://foo.dashkite.io/authenticate/{ciphertext}
+- resources:
+    - origin: https://foo.dashkite.io
+      include: [ authenticate ]
   policies:
     request:
       - conditions:
@@ -9,7 +11,9 @@
               key pair: guardian-encryption-key-pair
 
 
-- resources: https://foo.dashkite.io{/path*}
+- resources:
+  - origin: https://foo.dashkite.io
+    exclude: []
   policies:
     request:
       - conditions:  

@@ -19,6 +19,7 @@ enchanter = Enchanter.create()
 enchanter.register policies
 enchant = enchanter.enchant.bind enchanter
 
+# TODO update tests to better emulate guardian fetch
 fetch = ( request ) ->
   # TODO possibly switch back to target using helper 
   #      to derive target from resource?
@@ -88,7 +89,7 @@ do ->
         [ https://foo.dashkite.io/workspace/evil ]
         and method [ get ]."
 
-    test "issue rune", ->
+    test { description: "issue rune", wait: 2000 }, ->
       response = await handler
         url: "https://foo.dashkite.io/workspace/acme"
         method: "get"
@@ -120,6 +121,10 @@ do ->
         authorization = expand ephemeral, { ciphertext }
         { rune, nonce } = await Runes.issue { authorization, secret }
 
+        # we now have the ciphertext for the durable rune and the
+        # rune and nonce for the ephemeral rune (that we'll use to
+        # authenticate), simulating what we would have extracted from
+        # the magic link received via the email...
         handler
           url: "https://foo.dashkite.io/authenticate/#{ciphertext}"
           method: "get"
