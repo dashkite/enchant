@@ -109,13 +109,17 @@ Actions =
     { nonce } = parameters
     if scheme == "rune"
       secret = await getSecret "guardian"
+      console.log "Rune Authorization Verify", request.resource
       if Runes.verify { rune: credential, nonce, secret }
         [ authorization ] = Runes.decode credential
+        console.log "Rune Authorization Match"
         if request = await Runes.match { context..., authorization }
           context.request = request
         else
+          console.log "Rune Authorization Match failed", context.request.resource
           context.response = unauthorized "request disallowed", context
       else
+        console.log "Rune Authorization Verification failed"
         context.response = unauthorized "verification failed", { request }
     else
       context.response = unauthorized "wrong authorization", { request, scheme }
