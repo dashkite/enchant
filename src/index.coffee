@@ -66,7 +66,7 @@ Resolvers =
     ( await encrypt key, message ).to "base36"
 
   request: ( context, { resource } ) ->
-    context.fetch await requestFromResource { resource, method: "get" }
+    await context.fetch await requestFromResource { resource, method: "get" }
 
 resolve = generic name: "enchant[resolve]"
 
@@ -212,7 +212,7 @@ class Enchanter
           # TODO should this be the default for a non-matched rule?
           #      rationale is that we already exclude public resources
           #      in the rule specification
-          fetch request
+          await fetch request
       else
         description: "not found"
 
