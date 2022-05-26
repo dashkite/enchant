@@ -26,13 +26,13 @@ fetch = ( request ) ->
   { resource } = request
   switch resource.name
     when "description"
-      fooAPI
+      content: JSON.stringify fooAPI
     when "workspace"
-      address: "acme"
+      content: address: "acme"
     when "workspaces"
-      [ { address: "acme" }, { address: "happycorp" } ]
+      content: [ { address: "acme" }, { address: "happycorp" } ]
     when "account"
-      address: "alice"
+      content: address: "alice"
     else
       throw new Error "oops that's not a pretend resource!"
 
@@ -61,9 +61,8 @@ do ->
       response = await handler
         url: "https://foo.dashkite.io/workspace/acme"
         method: "get"
-
       assert.equal response.description == "unauthorized"
-      assert.equal response. headers[ "www-authenticate" ][0], "email"
+      assert.equal response.headers[ "www-authenticate" ][0], "email"
     
     test "authorized with rune", ->
       response = await handler
@@ -73,7 +72,7 @@ do ->
           authorization: [
             "rune #{ rune }, nonce=#{ nonce }"
           ]
-      assert.equal response.address, "acme"
+      assert.equal response.content.address, "acme"
 
     test "wrong authorization with rune", ->
       response = await handler
@@ -89,7 +88,7 @@ do ->
         [ https://foo.dashkite.io/workspace/evil ]
         and method [ get ]."
 
-    test { description: "issue rune", wait: 2000 }, ->
+    test { description: "issue rune", wait: 10000 }, ->
       response = await handler
         url: "https://foo.dashkite.io/workspace/acme"
         method: "get"

@@ -144,6 +144,7 @@ discover = ({ fetch, origin }) ->
     # TODO maybe get rid of the need for this later?
     target: "/"
     headers: accept: "application/json"
+  #TODO assume fetch returns processed content body
   JSON.parse response.content
 
 Request =
