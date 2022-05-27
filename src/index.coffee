@@ -6,12 +6,18 @@ import { Messages } from "@dashkite/messages"
 import { Router } from "@pandastrike/router"
 import * as Runes from "@dashkite/runes"
 import { getSecret } from "@dashkite/dolores/secrets"
-import { expand } from "@dashkite/polaris"
 import { sendEmail } from "@dashkite/dolores/ses"
+import { getItem } from "@dashkite/dolores/graphene-alpha"
+
+import Mime from "mime-types"
+import { expand } from "@dashkite/polaris"
 import URITemplate from "uri-template.js"
 
 import { confidential } from "panda-confidential"
 Confidential = confidential()
+
+getContentType = ( target ) ->
+  ( Mime.lookup target ) ? "application/octet-stream"
 
 import {
   command
@@ -126,6 +132,17 @@ Actions =
 
   response: ( context, response ) -> context.response = response
 
+  "load media": ( context, { database } ) ->
+    { request } = context
+    { resource, target } = request
+    { domain } = resource
+    if ( item = await getItem { database, domain, target  })?
+      context.response =
+        description: "ok"
+        content: item.content
+        headers:
+          "content-type": getContentType target
+
 execute = generic name: "enchant[execute]"
 
 generic execute, Type.isObject, Type.isString, ( context, name ) ->
@@ -137,9 +154,9 @@ generic execute, Type.isObject, Type.isObject, ( context, action ) ->
 generic execute, Type.isObject, isCommand, ( context, { name, bindings } ) ->
   Actions[ name ] context, bindings
 
-discover = ({ fetch, origin }) ->
+discover = ({ fetch, origin, domain }) ->
   response = await fetch 
-    resource: { origin, name: "description" }
+    resource: { origin, domain, name: "description" }
     method: "get"
     # TODO maybe get rid of the need for this later?
     target: "/"
@@ -152,6 +169,10 @@ Request =
     request._url ?= new URL request.url
     request._url.origin
 
+  domain: ( request ) ->
+    request._url ?= new URL request.url
+    request._url.hostname
+
   target: ( request ) ->
     url = ( request._url ?= new URL request.url )
     url.pathname + url.search
@@ -162,11 +183,14 @@ Resource =
       { fetch, request } = context
       origin = Request.origin request
       target = Request.target request
-      api = ( cache[ origin ] ?= await discover { fetch, origin } )
+      # so we have it later...
+      # TODO maybe normalize the request beforehand?
+      domain = Request.domain request
+      api = ( cache[ origin ] ?= await discover { fetch, domain, origin } )
       for name, resource of api.resources
         bindings = URITemplate.extract resource.template, target
         if ( target == URITemplate.expand resource.template, bindings )
-          return { origin, name, bindings }
+          return { domain, origin, name, bindings }
       null
 
 Rules =

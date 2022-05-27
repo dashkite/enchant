@@ -37,6 +37,7 @@
     "@dashkite/polaris": "file:../polaris",
     "@dashkite/runes": "file:../runes",
     "@pandastrike/router": "^3.1.0",
+    "mime-types": "^2.1.35",
     "panda-confidential": "^3.1.2",
     "uri-template.js": "^0.1.2"
   }
