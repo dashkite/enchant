@@ -132,16 +132,43 @@ Actions =
 
   response: ( context, response ) -> context.response = response
 
-  "load media": ( context, { database } ) ->
+  "load media": ( context, { database, fallback } ) ->
+    console.log "loading media"
     { request } = context
     { resource, target } = request
     { domain } = resource
-    if ( item = await getItem { database, domain, target  })?
-      context.response =
-        description: "ok"
-        content: item.content
-        headers:
-          "content-type": getContentType target
+    # TODO generate these based on accept?
+    # TODO use configuration to determine
+
+    # drop the leading /
+    # TODO we could simply require the / in the key by convention?
+    target = target[1..]
+    candidates = []
+
+    if target == "" then candidates.push "index.html"
+    else if target.endsWith "/" then candidates.push target[...-1]
+    else if !( /\.\w+$/.test target )
+      candidates.push "#{target}.html"
+      candidates.push "#{target}/index.html"
+    else
+      candidates.push target
+
+    if fallback? && !( fallback in candidates )
+      candidates.push fallback
+
+    console.log candidates
+
+    for key in candidates
+      if ( item = await getItem { database, collection: domain, key  })?
+        context.response =
+          description: "ok"
+          content: item.content
+          headers:
+            "content-type": [ getContentType key ]
+            "access-control-allow-origin": [ "*" ]
+            "access-control-allow-methods": [ "get" ]
+        break
+    context.response ?= description: "not found"
 
 execute = generic name: "enchant[execute]"
 
@@ -155,6 +182,7 @@ generic execute, Type.isObject, isCommand, ( context, { name, bindings } ) ->
   Actions[ name ] context, bindings
 
 discover = ({ fetch, origin, domain }) ->
+  console.log "fetch description for", { origin, domain, name: "description" }
   response = await fetch 
     resource: { origin, domain, name: "description" }
     method: "get"
@@ -162,6 +190,7 @@ discover = ({ fetch, origin, domain }) ->
     target: "/"
     headers: accept: "application/json"
   #TODO assume fetch returns processed content body
+  console.log discover: JSON.parse response.content
   JSON.parse response.content
 
 Request =
@@ -178,20 +207,23 @@ Request =
     url.pathname + url.search
 
 Resource =
-  find: do ( cache = {}) ->
-    ( context ) ->
-      { fetch, request } = context
-      origin = Request.origin request
-      target = Request.target request
-      # so we have it later...
-      # TODO maybe normalize the request beforehand?
-      domain = Request.domain request
-      api = ( cache[ origin ] ?= await discover { fetch, domain, origin } )
-      for name, resource of api.resources
-        bindings = URITemplate.extract resource.template, target
-        if ( target == URITemplate.expand resource.template, bindings )
-          return { domain, origin, name, bindings }
-      null
+  find: ( context ) ->
+    console.log "Resource.find"
+    { fetch, request } = context
+    origin = Request.origin request
+    target = Request.target request
+    # so we have it later...
+    # TODO maybe normalize the request beforehand?
+    domain = Request.domain request
+    api = await discover { fetch, domain, origin }
+    for name, resource of api.resources when resource.template?
+      console.log "checking #{name}"
+      bindings = URITemplate.extract resource.template, target
+      console.log { bindings }
+      console.log match: URITemplate.expand resource.template, bindings
+      if ( target == URITemplate.expand resource.template, bindings )
+        return { domain, origin, name, bindings }
+    null
 
 Rules =
   find: (resource, rules) ->
