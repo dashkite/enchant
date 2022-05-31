@@ -217,12 +217,18 @@ Resource =
     domain = Request.domain request
     api = await discover { fetch, domain, origin }
     for name, resource of api.resources when resource.template?
-      console.log "checking #{name}"
-      bindings = URITemplate.extract resource.template, target
-      console.log { bindings }
-      console.log match: URITemplate.expand resource.template, bindings
-      if ( target == URITemplate.expand resource.template, bindings )
-        return { domain, origin, name, bindings }
+      console.log "checking resource #{name}"
+      # TODO template expansion of {/path*} should return [] for /, not null
+      #      for now, we allow an array of templates, which might be a reasonable
+      #      thing to do in any event...
+      { template } = resource
+      templates = if Type.isArray template then template else [ template ]
+      for template in templates
+        bindings = URITemplate.extract template, target
+        console.log { bindings }
+        console.log match: _target = URITemplate.expand template, bindings
+        if ( target == _target )
+          return { domain, origin, name, bindings }
     null
 
 Rules =
