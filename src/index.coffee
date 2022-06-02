@@ -7,17 +7,15 @@ import { Router } from "@pandastrike/router"
 import * as Runes from "@dashkite/runes"
 import { getSecret } from "@dashkite/dolores/secrets"
 import { sendEmail } from "@dashkite/dolores/ses"
+import { getObject } from "@dashkite/dolores/bucket"
 import { getItem } from "@dashkite/dolores/graphene-alpha"
+import { MediaType } from "@dashkite/media-type"
 
-import Mime from "mime-types"
 import { expand } from "@dashkite/polaris"
 import URITemplate from "uri-template.js"
 
 import { confidential } from "panda-confidential"
 Confidential = confidential()
-
-getContentType = ( target ) ->
-  ( Mime.lookup target ) ? "application/octet-stream"
 
 import {
   command
@@ -159,12 +157,24 @@ Actions =
     console.log candidates
 
     for key in candidates
-      if ( item = await getItem { database, collection: domain, key  })?
+      mediaType = MediaType.fromPath key
+      item = switch MediaType.category mediaType
+        when "text", "json"
+          console.log "loading content from Graphene"
+          encoding = "text"
+          await getItem { database, collection: domain, key }
+        when "binary"
+          console.log "loading content from S3"
+          console.log { domain, key }
+          encoding = "base64"
+          await getObject domain, key
+      if item?
         context.response =
           description: "ok"
           content: item.content
+          encoding: encoding
           headers:
-            "content-type": [ getContentType key ]
+            "content-type": [ MediaType.format mediaType ]
             "access-control-allow-origin": [ "*" ]
             "access-control-allow-methods": [ "get" ]
         break
