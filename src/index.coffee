@@ -175,8 +175,6 @@ Actions =
           encoding: encoding
           headers:
             "content-type": [ MediaType.format mediaType ]
-            "access-control-allow-origin": [ "*" ]
-            "access-control-allow-methods": [ "get" ]
         break
     context.response ?= description: "not found"
 
@@ -216,6 +214,16 @@ Request =
     url = ( request._url ?= new URL request.url )
     url.pathname + url.search
 
+decode = ( bindings ) ->
+  result = {}
+  for key, value of bindings
+    result[ key ] = do ->
+      if Type.isString value
+        decodeURIComponent value
+      else if Type.isArray value
+        decodeURIComponent item for item in value
+  result
+
 Resource =
   find: ( context ) ->
     console.log "Resource.find"
@@ -234,7 +242,7 @@ Resource =
       { template } = resource
       templates = if Type.isArray template then template else [ template ]
       for template in templates
-        bindings = URITemplate.extract template, target
+        bindings = decode URITemplate.extract template, target
         console.log { bindings }
         console.log match: _target = URITemplate.expand template, bindings
         if ( target == _target )
@@ -254,6 +262,15 @@ Rules =
         else
           throw failure "bad rule definition", rule
 
+cors = (f) ->
+  ( request ) -> 
+    response = await f request
+    response.headers ?= {}
+    Object.assign response.headers,
+      "access-control-allow-origin": [ "*" ]
+      "access-control-allow-methods": [ "get" ]
+    response
+
 class Enchanter
 
   @create: -> new @
@@ -264,7 +281,7 @@ class Enchanter
 
     rules = @rules
     
-    (request) ->
+    cors (request) ->
       if ( resource = await Resource.find { request, fetch } )?
         request.resource = resource
         if ( rule = Rules.find resource, rules )?
