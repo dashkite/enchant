@@ -3,7 +3,6 @@ import * as Fn from "@dashkite/joy/function"
 import { generic } from "@dashkite/joy/generic"
 import * as Text from "@dashkite/joy/text"
 import { Messages } from "@dashkite/messages"
-import { Router } from "@pandastrike/router"
 import * as Runes from "@dashkite/runes"
 import { getSecret } from "@dashkite/dolores/secrets"
 import { sendEmail } from "@dashkite/dolores/ses"
@@ -12,7 +11,7 @@ import { getItem } from "@dashkite/dolores/graphene-alpha"
 import { MediaType } from "@dashkite/media-type"
 
 import { expand } from "@dashkite/polaris"
-import URITemplate from "uri-template.js"
+import * as URLCodex from "@dashkite/url-codex"
 
 import { confidential } from "panda-confidential"
 Confidential = confidential()
@@ -214,16 +213,6 @@ Request =
     url = ( request._url ?= new URL request.url )
     url.pathname + url.search
 
-decode = ( bindings ) ->
-  result = {}
-  for key, value of bindings
-    result[ key ] = do ->
-      if Type.isString value
-        decodeURIComponent value
-      else if Type.isArray value
-        decodeURIComponent item for item in value
-  result
-
 Resource =
   find: ( context ) ->
     console.log "Resource.find"
@@ -242,10 +231,8 @@ Resource =
       { template } = resource
       templates = if Type.isArray template then template else [ template ]
       for template in templates
-        bindings = decode URITemplate.extract template, target
-        console.log { bindings }
-        console.log match: _target = URITemplate.expand template, bindings
-        if ( target == _target )
+        console.log "decoding #{template} for #{target}"
+        if ( bindings = URLCodex.match template, target )?
           return { domain, origin, name, bindings }
     null
 

@@ -41,7 +41,7 @@ resources:
             status: [ 200 ]
 
   account:
-    template: /accounts{?email,address}
+    template: /accounts?{email?}&{address?}
     methods:
       get:
         signatures:
