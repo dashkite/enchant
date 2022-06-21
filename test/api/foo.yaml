@@ -11,11 +11,12 @@ resources:
             status: [ 200 ]
 
   authenticate:
-    template: /authenticate/{ciphertext}
+    template: /authenticate
     methods:
-      get:
+      post:
         signatures:
-          request: {}
+          request:
+            content-type: [ "text/plain" ]
           response:
             content-type: [ "application/json" ]
             status: [ 200 ]

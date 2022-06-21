@@ -74,14 +74,15 @@
                     minutes: 10
                   grants:
                     - resources: [ authenticate ]
-                      bindings:
-                        ciphertext: ${ ciphertext }
-                      methods: [ get ]
+                      methods: [ post ]
         actions:
           - email authentication:
+              database: bkqooszc5jqsoyxrcedr6lrsc
               email: ${ email }
-              link: >-
-                https://foo.dashkite.com/${ciphertext}/${ephemeral.rune}/${ephemeral.nonce}
+              ciphertext: ${ ciphertext }
+              ephemeral:
+                rune: ${ ephemeral.rune }
+                nonce: ${ ephemeral.nonce }
           - response:
               description: unauthorized
               headers:

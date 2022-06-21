@@ -125,12 +125,13 @@ do ->
         # authenticate), simulating what we would have extracted from
         # the magic link received via the email...
         handler
-          url: "https://foo.dashkite.io/authenticate/#{ciphertext}"
-          method: "get"
+          url: "https://foo.dashkite.io/authenticate"
+          method: "post"
           headers:
             authorization: [
               "rune #{rune}, nonce=#{nonce}"
             ]
+          content: ciphertext
 
       assert.equal response.description, "ok"
       assert.equal response.content, rune

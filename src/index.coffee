@@ -8,7 +8,7 @@ import * as Runes from "@dashkite/runes"
 import { getSecret } from "@dashkite/dolores/secrets"
 import { sendEmail } from "@dashkite/dolores/ses"
 import { getObject } from "@dashkite/dolores/bucket"
-import { getItem } from "@dashkite/dolores/graphene-alpha"
+import { getItem, putItem } from "@dashkite/dolores/graphene-alpha"
 import { MediaType } from "@dashkite/media-type"
 
 import { expand } from "@dashkite/polaris"
@@ -37,6 +37,9 @@ unauthorized = ( code, context ) ->
   content: messages.message code, context
 
 assign = ( result, object ) -> Object.assign result, object
+
+generateAddress = ->
+  Confidential.convert from: "bytes", to: "base36", await Confidential.randomBytes 8
 
 parseAuthorizationFromHeader = ( header ) ->
   [ credential, parameters... ] = Text.split ",", Text.trim header
@@ -85,7 +88,24 @@ generic resolve, Type.isObject, isCommand, ( context, { name, bindings } ) ->
 
 Actions =
 
-  "email authentication": ( context,  { email, link } ) ->
+  "load bundle": ( context, { database } ) ->
+    { code } = context.request.resource.bindings
+    if ( bundle = await getItem { database, collection: "bundles", key: code} )?
+      context.response = 
+        description: "ok"
+        content: bundle.content
+        headers:
+          "content-type": [ "application/json"]
+    else
+      context.response = 
+        description: "not found"
+
+  "email authentication": ( context,  { database, email, ciphertext, ephemeral } ) ->
+    address = await generateAddress()
+    item = { ciphertext, ephemeral }
+    #TODO Expire this item in graphene
+    await putItem { database, collection: "bundles", key: address, content: item}
+    link = "https://workspaces.dashkite.com/authenticate/#{address}"
     params = 
       source: "DashKite Authentication <authentication@dashkite.com>"
       template: "dashkite-development-authenticate"
@@ -95,7 +115,7 @@ Actions =
     await sendEmail params
 
   "authenticate": ( context, bindings ) ->
-    { ciphertext } = context.request.resource.bindings
+    ciphertext = context.request.content
     { Envelope, EncryptionKeyPair, SharedKey, Message, decrypt } = Confidential
     envelope = Envelope.from "base36", ciphertext
     keyPair = EncryptionKeyPair.from "base64",
@@ -106,6 +126,8 @@ Actions =
     context.response =
       description: "ok"
       content: rune
+      headers:
+        "content-type": [ "text/plain"]
 
   "rune authorization": ( context ) ->
     { fetch, request } = context
@@ -218,10 +240,10 @@ decode = ( bindings ) ->
   result = {}
   for key, value of bindings
     result[ key ] = do ->
-      if Type.isString value
-        decodeURIComponent value
-      else if Type.isArray value
+      if Type.isArray value
         decodeURIComponent item for item in value
+      else
+        decodeURIComponent value
   result
 
 Resource =
@@ -266,9 +288,12 @@ cors = (f) ->
   ( request ) -> 
     response = await f request
     response.headers ?= {}
+    #TODO We will need to expand this list. Should we wilcard it?
     Object.assign response.headers,
       "access-control-allow-origin": [ "*" ]
-      "access-control-allow-methods": [ "get" ]
+      "access-control-allow-methods": [ "*" ]
+      "access-control-allow-headers": [ "*" ]
+      "access-control-expose-headers": [ "*" ]
     response
 
 class Enchanter
@@ -284,7 +309,9 @@ class Enchanter
     cors (request) ->
       if ( resource = await Resource.find { request, fetch } )?
         request.resource = resource
-        if ( rule = Rules.find resource, rules )?
+        if request.method == "options"
+          description: "no content"
+        else if ( rule = Rules.find resource, rules )?
           request.authorization = parseAuthorizationFromRequest request
           for policy in rule.policies.request
             context = { request, fetch }
@@ -299,6 +326,8 @@ class Enchanter
               unless context.response?
                 context.response = await fetch context.request
               break
+            else
+              context.response = description: "bad request"
           # # TODO apply the response policies
           # # finally, return the response
           context.response
