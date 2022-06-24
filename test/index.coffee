@@ -102,22 +102,28 @@ do ->
     test "authenticate", ->
       # WARNING this is copied from the source
       #         if that code changes, we should also change it here
-      { EncryptionKeyPair, SharedKey, Message, encrypt } = Confidential
+      { EncryptionKeyPair, SharedKey, Message, encrypt, hash, convert } = Confidential
       keyPair = EncryptionKeyPair.from "base64",
         await getSecret "guardian-encryption-key-pair"
       key = SharedKey.create keyPair
       message = Message.from "utf8", rune
       ciphertext = ( await encrypt key, message ).to "base36"
+      
+      cipher_message = Message.from "utf8", ciphertext
+      hash = convert 
+        from: "bytes" 
+        to: "base36" 
+        ( hash cipher_message ).hash[0..31]
 
       response = await do ({ rune, nonce, authorization, response } = {}) ->
         ephemeral = policies[1]
           .policies
           .request[1]
-          .context[3]
+          .context[4]
           .ephemeral[ "issue rune" ]
           .authorization
 
-        authorization = expand ephemeral, { ciphertext }
+        authorization = expand ephemeral, { hash }
         { rune, nonce } = await Runes.issue { authorization, secret }
 
         # we now have the ciphertext for the durable rune and the
@@ -125,7 +131,7 @@ do ->
         # authenticate), simulating what we would have extracted from
         # the magic link received via the email...
         handler
-          url: "https://foo.dashkite.io/authenticate"
+          url: "https://foo.dashkite.io/authenticate/#{hash}"
           method: "post"
           headers:
             authorization: [

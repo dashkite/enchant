@@ -65,6 +65,9 @@
               encrypt rune: 
                 key pair: guardian-encryption-key-pair
                 rune: ${ authorization.rune }
+          - hash:
+              hash ciphertext:
+                ciphertext: ${ ciphertext }
           - ephemeral:
               issue rune:
                 secret: guardian
@@ -74,12 +77,15 @@
                     minutes: 10
                   grants:
                     - resources: [ authenticate ]
+                      bindings:
+                        hash: ${ hash }
                       methods: [ post ]
         actions:
           - email authentication:
               database: bkqooszc5jqsoyxrcedr6lrsc
               email: ${ email }
               ciphertext: ${ ciphertext }
+              hash: ${ hash }
               ephemeral:
                 rune: ${ ephemeral.rune }
                 nonce: ${ ephemeral.nonce }

@@ -72,6 +72,12 @@ Resolvers =
     message = Message.from "utf8", rune
     ( await encrypt key, message ).to "base36"
 
+  "hash ciphertext": ( context, bindings ) ->
+    { ciphertext } = bindings
+    { Message, hash, convert } = Confidential
+    cipher_message = Message.from "utf8", ciphertext
+    convert from: "bytes", to: "base36", ( hash cipher_message ).hash[0..31]
+
   request: ( context, { resource } ) ->
     await context.fetch await requestFromResource { resource, method: "get" }
 
@@ -100,9 +106,9 @@ Actions =
       context.response = 
         description: "not found"
 
-  "email authentication": ( context,  { database, email, ciphertext, ephemeral } ) ->
+  "email authentication": ( context,  { database, email, ciphertext, hash, ephemeral } ) ->
     address = await generateAddress()
-    item = { ciphertext, ephemeral }
+    item = { ciphertext, hash, ephemeral }
     #TODO Expire this item in graphene
     await putItem { database, collection: "bundles", key: address, content: item}
     link = "https://workspaces.dashkite.com/authenticate/#{address}"

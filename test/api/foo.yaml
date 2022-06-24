@@ -11,7 +11,7 @@ resources:
             status: [ 200 ]
 
   authenticate:
-    template: /authenticate
+    template: /authenticate/{hash}
     methods:
       post:
         signatures:
