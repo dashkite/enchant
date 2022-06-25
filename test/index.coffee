@@ -109,11 +109,8 @@ do ->
       message = Message.from "utf8", rune
       ciphertext = ( await encrypt key, message ).to "base36"
       
-      cipher_message = Message.from "utf8", ciphertext
-      hash = convert 
-        from: "bytes" 
-        to: "base36" 
-        ( hash cipher_message ).hash[0..31]
+      cipher_message = Message.from "base36", ciphertext
+      hash =  ( hash cipher_message ).to "base36"
 
       response = await do ({ rune, nonce, authorization, response } = {}) ->
         ephemeral = policies[1]

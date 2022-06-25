@@ -75,8 +75,8 @@ Resolvers =
   "hash ciphertext": ( context, bindings ) ->
     { ciphertext } = bindings
     { Message, hash, convert } = Confidential
-    cipher_message = Message.from "utf8", ciphertext
-    convert from: "bytes", to: "base36", ( hash cipher_message ).hash[0..31]
+    cipher_message = Message.from "base36", ciphertext
+    ( hash cipher_message ).to "base36"
 
   request: ( context, { resource } ) ->
     await context.fetch await requestFromResource { resource, method: "get" }
