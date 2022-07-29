@@ -197,7 +197,6 @@ discover = ({ fetch, origin, domain }) ->
     target: "/"
     headers: accept: "application/json"
   #TODO assume fetch returns processed content body
-  console.log discover: JSON.parse response.content
   JSON.parse response.content
 
 Request =
@@ -258,43 +257,35 @@ cors = (f) ->
       "access-control-allow-methods": [ "get" ]
     response
 
-class Enchanter
+enchant = ( rules, fetch ) ->
 
-  @create: -> new @
-
-  register: ( @rules ) ->
-
-  enchant: (fetch) ->
-
-    rules = @rules
-    
-    cors (request) ->
-      if ( resource = await Resource.find { request, fetch } )?
-        request.resource = resource
-        if ( rule = Rules.find resource, rules )?
-          request.authorization = parseAuthorizationFromRequest request
-          for policy in rule.policies.request
-            context = { request, fetch }
-            if match context, policy.conditions
-              if policy.context?
-                for resolver in policy.context
-                  for key, _resolver of resolver
-                    context[ key ] = await resolve context, _resolver
-              for action in policy.actions
-                await execute context, expand action, context
-                break if context.response?
-              unless context.response?
-                context.response = await fetch context.request
-              break
-          # # TODO apply the response policies
-          # # finally, return the response
-          context.response
-        else
-          # TODO should this be the default for a non-matched rule?
-          #      rationale is that we already exclude public resources
-          #      in the rule specification
-          await fetch request
+  cors (request) ->
+    if ( resource = await Resource.find { request, fetch } )?
+      request.resource = resource
+      if ( rule = Rules.find resource, rules )?
+        request.authorization = parseAuthorizationFromRequest request
+        for policy in rule.policies.request
+          context = { request, fetch }
+          if match context, policy.conditions
+            if policy.context?
+              for resolver in policy.context
+                for key, _resolver of resolver
+                  context[ key ] = await resolve context, _resolver
+            for action in policy.actions
+              await execute context, expand action, context
+              break if context.response?
+            unless context.response?
+              context.response = await fetch context.request
+            break
+        # TODO apply the response policies
+        # finally, return the response
+        context.response
       else
-        description: "not found"
+        # TODO should this be the default for a non-matched rule?
+        #      rationale is that we already exclude public resources
+        #      in the rule specification
+        await fetch request
+    else
+      description: "not found"
 
-export  { Enchanter }
+export { enchant }

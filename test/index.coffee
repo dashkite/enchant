@@ -9,15 +9,11 @@ import { expand } from "@dashkite/polaris"
 import { confidential } from "panda-confidential"
 Confidential = confidential()
 
-import { Enchanter } from "../src"
+import { enchant } from "../src"
 
 import fooAPI from "./api/foo"
 import guardianAPI from "./api/guardian"
 import policies from "./policies"
-
-enchanter = Enchanter.create()
-enchanter.register policies
-enchant = enchanter.enchant.bind enchanter
 
 # TODO update tests to better emulate guardian fetch
 fetch = ( request ) ->
@@ -36,7 +32,7 @@ fetch = ( request ) ->
     else
       throw new Error "oops that's not a pretend resource!"
 
-handler = enchant fetch
+handler = enchant policies, fetch
 
 authorization = policies[1]
   .policies
