@@ -88,7 +88,7 @@ do ->
         [ https://foo.dashkite.io/workspace/evil ]
         and method [ get ]."
 
-    test { description: "issue rune", wait: 10000 }, ->
+    test { description: "issue rune", wait: 15000 }, ->
       response = await handler
         url: "https://foo.dashkite.io/workspace/acme"
         method: "get"

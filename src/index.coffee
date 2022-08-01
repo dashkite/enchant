@@ -118,7 +118,13 @@ Actions =
       toAddresses: [email]
       templateData: authenticationLink: link
 
-    await sendEmail params
+    try 
+      await sendEmail params
+    catch
+      console.log "SEND EMAIL ERROR"
+      context.response =
+        description: "bad request"
+        content: "send email failed"
 
   "authenticate": ( context, bindings ) ->
     ciphertext = context.request.content
