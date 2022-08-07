@@ -112,17 +112,13 @@ Actions =
     { nonce } = parameters
     if scheme == "rune"
       secret = await getSecret "guardian"
-      console.log "Rune Authorization Verify", request.resource
       if Runes.verify { rune: credential, nonce, secret }
         [ authorization ] = Runes.decode credential
-        console.log "Rune Authorization Match"
         if request = await Runes.match { context..., authorization }
           context.request = request
         else
-          console.log "Rune Authorization Match failed", context.request.resource
           context.response = unauthorized "request disallowed", context
       else
-        console.log "Rune Authorization Verification failed"
         context.response = unauthorized "verification failed", { request }
     else
       context.response = unauthorized "wrong authorization", { request, scheme }
@@ -130,7 +126,6 @@ Actions =
   response: ( context, response ) -> context.response = response
 
   "load media": ( context, { database, fallback } ) ->
-    console.log "loading media"
     { request } = context
     { resource, target } = request
     { domain } = resource
@@ -153,18 +148,13 @@ Actions =
     if fallback? && !( fallback in candidates )
       candidates.push fallback
 
-    console.log candidates
-
     for key in candidates
       mediaType = MediaType.fromPath key
       item = switch MediaType.category mediaType
         when "text", "json"
-          console.log "loading content from Graphene"
           encoding = "text"
           await getItem { database, collection: domain, key }
         when "binary"
-          console.log "loading content from S3"
-          console.log { domain, key }
           encoding = "base64"
           await getObject domain, key
       if item?
@@ -189,15 +179,13 @@ generic execute, Type.isObject, isCommand, ( context, { name, bindings } ) ->
   Actions[ name ] context, bindings
 
 discover = ({ fetch, origin, domain }) ->
-  console.log "fetch description for", { origin, domain, name: "description" }
   response = await fetch 
     resource: { origin, domain, name: "description" }
     method: "get"
     # TODO maybe get rid of the need for this later?
     target: "/"
     headers: accept: "application/json"
-  #TODO assume fetch returns processed content body
-  JSON.parse response.content
+  response.content
 
 Request =
   origin: ( request ) ->
@@ -214,7 +202,6 @@ Request =
 
 Resource =
   find: ( context ) ->
-    console.log "Resource.find"
     { fetch, request } = context
     origin = Request.origin request
     target = Request.target request
@@ -223,14 +210,12 @@ Resource =
     domain = Request.domain request
     api = await discover { fetch, domain, origin }
     for name, resource of api.resources when resource.template?
-      console.log "checking resource #{name}"
       # TODO template expansion of {/path*} should return [] for /, not null
       #      for now, we allow an array of templates, which might be a reasonable
       #      thing to do in any event...
       { template } = resource
       templates = if Type.isArray template then template else [ template ]
       for template in templates
-        console.log "decoding #{template} for #{target}"
         if ( bindings = URLCodex.match template, target )?
           return { domain, origin, name, bindings }
     null
