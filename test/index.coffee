@@ -22,7 +22,7 @@ fetch = ( request ) ->
   { resource } = request
   switch resource.name
     when "description"
-      content: JSON.stringify fooAPI
+      content: fooAPI
     when "workspace"
       content: address: "acme"
     when "workspaces"
@@ -84,7 +84,7 @@ do ->
         [ https://foo.dashkite.io/workspace/evil ]
         and method [ get ]."
 
-    test { description: "issue rune", wait: 10000 }, ->
+    test { description: "issue rune", wait: 15000 }, ->
       response = await handler
         url: "https://foo.dashkite.io/workspace/acme"
         method: "get"
@@ -98,22 +98,25 @@ do ->
     test "authenticate", ->
       # WARNING this is copied from the source
       #         if that code changes, we should also change it here
-      { EncryptionKeyPair, SharedKey, Message, encrypt } = Confidential
+      { EncryptionKeyPair, SharedKey, Message, encrypt, hash, convert } = Confidential
       keyPair = EncryptionKeyPair.from "base64",
         await getSecret "guardian-encryption-key-pair"
       key = SharedKey.create keyPair
       message = Message.from "utf8", rune
       ciphertext = ( await encrypt key, message ).to "base36"
+      
+      cipher_message = Message.from "base36", ciphertext
+      hash =  ( hash cipher_message ).to "base36"
 
       response = await do ({ rune, nonce, authorization, response } = {}) ->
         ephemeral = policies[1]
           .policies
           .request[1]
-          .context[3]
+          .context[4]
           .ephemeral[ "issue rune" ]
           .authorization
 
-        authorization = expand ephemeral, { ciphertext }
+        authorization = expand ephemeral, { hash }
         { rune, nonce } = await Runes.issue { authorization, secret }
 
         # we now have the ciphertext for the durable rune and the
@@ -121,12 +124,13 @@ do ->
         # authenticate), simulating what we would have extracted from
         # the magic link received via the email...
         handler
-          url: "https://foo.dashkite.io/authenticate/#{ciphertext}"
-          method: "get"
+          url: "https://foo.dashkite.io/authenticate/#{hash}"
+          method: "post"
           headers:
             authorization: [
               "rune #{rune}, nonce=#{nonce}"
             ]
+          content: ciphertext
 
       assert.equal response.description, "ok"
       assert.equal response.content, rune
