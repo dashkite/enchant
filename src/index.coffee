@@ -331,6 +331,7 @@ class Enchanter
               if policy.context?
                 for resolver in policy.context
                   for key, _resolver of resolver
+                    console.log "context resolver", _resolver
                     context[ key ] = await resolve context, _resolver
               for action in policy.actions
                 await execute context, expand action, context
