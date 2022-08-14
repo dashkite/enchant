@@ -281,12 +281,13 @@ cors = (f) ->
 
 decorateMethods = ( policies, methods ) ->
   for key, method of methods
+    signature = ( method.signatures.request ?= {} )
     for policy in policies
       if policy.conditions?
-        for condition in policy.conditions
-          method.signatures.request ?= {}
-          method.signatures.request["authorization"] ?= []
-          method.signatures.request["authorization"].push condition.authorization
+        for condition in policy.conditions when condition.authorization?
+          signature.authorization ?= []
+          if !( condition.authorization in signature.authorization )
+            signature.authorization.push condition.authorization
 
 decorateAPIDescription = ( rules, request, response ) ->
   { origin } = request.resource

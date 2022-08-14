@@ -53,6 +53,17 @@ do ->
 
   print await test "@dashkite/enchant",  [
 
+    test "decorate description", ->
+      response = await handler
+        url: "https://foo.dashkite.io"
+        method: "get"
+      assert response.content?
+      assert response.content.resources?
+      assert response.content.resources.workspace?
+      assert.deepEqual [ "rune", "email" ], 
+        response.content.resources.workspace
+          .methods.get.signatures.request.authorization
+
     test "unauthorized request", ->
       response = await handler
         url: "https://foo.dashkite.io/workspace/acme"

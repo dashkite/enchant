@@ -13,7 +13,7 @@
 
 - resources:
   - origin: https://foo.dashkite.io
-    exclude: []
+    exclude: [ description ]
   policies:
     request:
       - conditions:  
