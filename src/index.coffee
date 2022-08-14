@@ -279,9 +279,43 @@ cors = (f) ->
       "access-control-expose-headers": [ "*" ]
     response
 
+decorateMethods = ( policies, methods ) ->
+  for key, method of methods
+    for policy in policies
+      if policy.conditions?
+        for condition in policy.conditions
+          method.signatures.request ?= {}
+          method.signatures.request["authorization"] ?= []
+          method.signatures.request["authorization"].push condition.authorization
+
+decorateAPIDescription = ( rules, request, response ) ->
+  { origin } = request.resource
+  description = response.content
+  for rule in rules
+    for resource in rule.resources
+      if resource.origin == origin
+        if resource.include? 
+          for name in resource.include
+            decorateMethods rule.policies.request, description.resources[name].methods
+        else if resource.exclude?
+          for name of description.resources
+            if !( name in resource.exclude )
+              decorateMethods rule.policies.request, description.resources[name].methods
+        else
+          throw failure "bad rule definition", rule
+  response
+
+decorate = ( rules, f ) ->
+  ( request ) -> 
+    response = await f request
+    if request.resource.name == "description"
+      decorateAPIDescription rules, request, response
+    else
+      response
+
 enchant = ( rules, fetch ) ->
 
-  cors (request) ->
+  decorate rules, cors (request) ->
     if ( resource = await Resource.find { request, fetch } )?
       request.resource = resource
       if request.method == "options"
