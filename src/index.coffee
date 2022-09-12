@@ -309,7 +309,7 @@ decorateAPIDescription = ( rules, request, response ) ->
 decorate = ( rules, f ) ->
   ( request ) -> 
     response = await f request
-    if request.resource.name == "description"
+    if request.resource?.name == "description"
       decorateAPIDescription rules, request, response
     else
       response
