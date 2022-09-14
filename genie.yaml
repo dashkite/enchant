@@ -43,3 +43,9 @@ sky:
     templates:
       - name: authenticate
         subject: Authenticate with DashKite
+
+  graphene:
+    - name: enchant-test
+      db: 32ro5fmo6qlrb7frp0k3fk1gt
+      collections:
+        - byname: bundles

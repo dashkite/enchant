@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "@dashkite/dolores": "file:../dolores",
+    "@dashkite/graphene-lambda-client": "file:../graphene-lambda-client",
     "@dashkite/media-type": "file:../media-type",
     "@dashkite/messages": "file:../messages",
     "@dashkite/polaris": "file:../polaris",

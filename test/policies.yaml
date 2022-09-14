@@ -82,7 +82,7 @@
                       methods: [ post ]
         actions:
           - email authentication:
-              database: bkqooszc5jqsoyxrcedr6lrsc
+              database: 32ro5fmo6qlrb7frp0k3fk1gt
               email: ${ email }
               ciphertext: ${ ciphertext }
               hash: ${ hash }

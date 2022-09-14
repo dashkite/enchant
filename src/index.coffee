@@ -7,7 +7,7 @@ import * as Runes from "@dashkite/runes"
 import { getSecret } from "@dashkite/dolores/secrets"
 import { sendEmail } from "@dashkite/dolores/ses"
 import { getObject } from "@dashkite/dolores/bucket"
-import { getItem, putItem } from "@dashkite/dolores/graphene-alpha"
+import * as Graphene from "@dashkite/graphene-lambda-client"
 import { MediaType } from "@dashkite/media-type"
 
 import { expand } from "@dashkite/polaris"
@@ -29,6 +29,8 @@ import _messages from "./messages"
 messages = Messages.create()
 messages.add _messages
 messages.prefix = "enchant"
+
+grapheneClient = Graphene.Client.create "graphene-beta-development-api"
 
 unauthorized = ( code, context ) ->
   # TODO add www-authenticate header?
@@ -95,7 +97,9 @@ Actions =
 
   "load bundle": ( context, { database } ) ->
     { code } = context.request.resource.bindings
-    if ( bundle = await getItem { database, collection: "bundles", key: code} )?
+    db = await grapheneClient.db.get database
+    collection = await db.collections.get "bundles"
+    if ( bundle = await collection.entries.get code )?
       context.response = 
         description: "ok"
         content: bundle.content
@@ -108,8 +112,12 @@ Actions =
   "email authentication": ( context,  { database, email, ciphertext, hash, ephemeral } ) ->
     address = await generateAddress()
     item = { ciphertext, hash, ephemeral }
+    
     #TODO Expire this item in graphene
-    await putItem { database, collection: "bundles", key: address, content: item}
+    db = await grapheneClient.db.get database
+    collection = await db.collections.get "bundles"
+    await collection.entries.put address, item
+    
     link = "https://workspaces.dashkite.com/authenticate/#{address}"
     params = 
       source: "DashKite Authentication <authentication@dashkite.com>"
@@ -187,7 +195,9 @@ Actions =
       item = switch MediaType.category mediaType
         when "text", "json"
           encoding = "text"
-          await getItem { database, collection: domain, key }
+          db = await grapheneClient.db.get database
+          collection = await db.collections.get domain
+          await collection.entries.get key
         when "binary"
           encoding = "base64"
           await getObject domain, key
