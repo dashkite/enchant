@@ -1,7 +1,6 @@
 import * as Type from "@dashkite/joy/type"
 import * as Fn from "@dashkite/joy/function"
 import { generic } from "@dashkite/joy/generic"
-import * as Text from "@dashkite/joy/text"
 import { Messages } from "@dashkite/messages"
 import * as Runes from "@dashkite/runes"
 import { getSecret } from "@dashkite/dolores/secrets"
@@ -9,6 +8,7 @@ import { sendEmail } from "@dashkite/dolores/ses"
 import { getObject } from "@dashkite/dolores/bucket"
 import * as Graphene from "@dashkite/graphene-lambda-client"
 import { MediaType } from "@dashkite/media-type"
+import { Temporal } from '@js-temporal/polyfill';
 
 import { expand } from "@dashkite/polaris"
 import * as URLCodex from "@dashkite/url-codex"
@@ -19,6 +19,7 @@ Confidential = confidential()
 import {
   command
   isCommand
+  addResponseHeader
 } from "./helpers"
 
 import { match } from "./matchers"
@@ -37,24 +38,8 @@ unauthorized = ( code, context ) ->
   description: "unauthorized"
   content: messages.message code, context
 
-assign = ( result, object ) -> Object.assign result, object
-
 generateAddress = ->
   Confidential.convert from: "bytes", to: "base36", await Confidential.randomBytes 8
-
-parseAuthorizationFromHeader = ( header ) ->
-  [ credential, parameters... ] = Text.split ",", Text.trim header
-  [ scheme, credential ] = Text.split /\s+/, credential
-  parameters = parameters
-    .map (parameter) -> Text.split "=", parameter
-    .map ([ key, value ]) -> 
-      [ Text.trim key ]: Text.trim value
-    .reduce assign, {}
-  { scheme, credential, parameters }
-
-parseAuthorizationFromRequest = ( request ) ->
-  if ( header = request.headers?.authorization?[0] )?
-    parseAuthorizationFromHeader header
 
 Resolvers =
 
@@ -122,13 +107,14 @@ Actions =
     params = 
       source: "DashKite Authentication <authentication@dashkite.com>"
       template: "dashkite-development-authenticate"
-      toAddresses: [email]
+      toAddresses: [ email ]
       templateData: authenticationLink: link
 
     try 
       await sendEmail params
-    catch
-      console.log "SEND EMAIL ERROR"
+    catch error
+      console.error "unexpected failure sending email"
+      console.error error
       context.response =
         description: "bad request"
         content: "send email failed"
@@ -167,10 +153,12 @@ Actions =
 
   response: ( context, response ) -> context.response = response
 
-  "load media": ( context, { database, fallback } ) ->
+  "load media": ( context, { database, collection, fallback } ) ->
     { request } = context
     { resource, target } = request
     { domain } = resource
+    collection ?= domain
+
     # TODO generate these based on accept?
     # TODO use configuration to determine
 
@@ -196,11 +184,11 @@ Actions =
         when "text", "json"
           encoding = "text"
           db = await grapheneClient.db.get database
-          collection = await db.collections.get domain
+          collection = await db.collections.get collection
           await collection?.entries.get key
         when "binary"
           encoding = "base64"
-          object = await getObject domain, key
+          object = await getObject collection, key
           object?.content
       if item?
         context.response =
@@ -211,6 +199,15 @@ Actions =
             "content-type": [ MediaType.format mediaType ]
         break
     context.response ?= description: "not found"
+
+  cache: ( context, cache  ) ->
+    if cache.expires?
+      duration = ( Temporal.Duration.from cache.expires ).total unit: "second"
+      addResponseHeader context, "cache-control", "max-age=#{ duration }"
+    if cache.public
+      addResponseHeader context, "cache-control", "public"
+    if cache.immutable
+      addResponseHeader context, "cache-control", "immutable"
 
 execute = generic name: "enchant[execute]"
 
@@ -262,9 +259,65 @@ Resource =
           return { domain, origin, name, bindings }
     null
 
+Policy =
+
+  match: ( context, policy ) ->
+    match context, policy.conditions
+
+  resolve: ( context, policy ) ->
+    if policy.context?
+      for resolver in policy.context
+        for key, _resolver of resolver
+          context[ key ] = await resolve context, _resolver
+
+  Request:
+
+    apply: ( context, policy ) ->
+      if context.request.method == "options"
+        context.response = description: "no content"
+      else
+        for action in policy.actions
+          break if context.response?              
+          await execute context, expand action, context
+        context.response ?= do ->
+          { fetch, request } = context
+          fetch request
+
+  Response:
+
+    apply: ( context, policy ) ->
+      for action in policy.actions
+        await execute context, expand action, context
+
+Policies =
+  
+  Request:  
+
+    apply: ( context, policies ) ->
+      if policies?
+        for policy in policies
+          break if context.response?
+          if Policy.match context, policy
+            await Policy.resolve context, policy
+            await Policy.Request.apply context, policy
+  
+  Response:
+
+    apply: ( context, policies ) ->
+      if policies? && context.response?
+        for policy in policies
+          if Policy.match context, policy
+            await Policy.Response.apply context, policy
+
+Rule =
+
+  apply: ( context, rule ) ->
+    await Policies.Request.apply context, rule.policies.request
+    Policies.Response.apply context, rule.policies.response          
+
 Rules =
   find: (resource, rules) ->
-    rules.find ( rule ) ->
+    rules.filter ( rule ) ->
       rule.resources.find ( candidate ) ->
         if candidate.include?
           ( resource.origin == candidate.origin ) &&  
@@ -275,11 +328,20 @@ Rules =
         else
           throw failure "bad rule definition", rule
 
+  apply: ( context, rules ) ->
+    { request, fetch } = context
+    { resource } = request
+
+    for rule in Rules.find resource, rules
+      await Rule.apply context, rule
+
+    context.response ?= await fetch request
+
 cors = (f) ->
   ( request ) -> 
     response = await f request
     response.headers ?= {}
-    #TODO We will need to expand this list. Should we wilcard it?
+    #TODO We will need to expand this list. Should we wildcard it?
     Object.assign response.headers,
       "access-control-allow-origin": [ "*" ]
       "access-control-allow-methods": [ "*" ]
@@ -325,36 +387,12 @@ decorate = ( rules, f ) ->
 enchant = ( rules, fetch ) ->
 
   decorate rules, cors (request) ->
-    if ( resource = await Resource.find { request, fetch } )?
+    context = { request, fetch }
+    if ( resource = await Resource.find context )?
       request.resource = resource
-      if request.method == "options"
-        description: "no content"
-      else if ( rule = Rules.find resource, rules )?
-        request.authorization = parseAuthorizationFromRequest request
-        for policy in rule.policies.request
-          context = { request, fetch }
-          if match context, policy.conditions
-            if policy.context?
-              for resolver in policy.context
-                for key, _resolver of resolver
-                  context[ key ] = await resolve context, _resolver
-            for action in policy.actions
-              await execute context, expand action, context
-              break if context.response?
-            unless context.response?
-              context.response = await fetch context.request
-            break
-          else
-            context.response = description: "bad request"
-        # TODO apply the response policies
-        # finally, return the response
-        context.response
-      else
-        # TODO should this be the default for a non-matched rule?
-        #      rationale is that we already exclude public resources
-        #      in the rule specification
-        await fetch request
+      await Rules.apply context, rules
     else
       description: "not found"
+
 
 export { enchant }

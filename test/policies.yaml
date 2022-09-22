@@ -92,7 +92,8 @@
           - response:
               description: unauthorized
               headers:
-                www-authenticate: rune, nonce=${ authorization.nonce }        
+                www-authenticate:
+                  - rune, nonce=${ authorization.nonce }
 
       - actions:
           - response:
@@ -108,4 +109,10 @@
       - actions:
           - load media:
               database: dd343rnxc1hjqqhu0hq8viun7
+              collection: workspaces.dashkite.com
               fallback: index.html
+    response:
+      - actions:
+          - cache:
+              expires:
+                minutes: 30

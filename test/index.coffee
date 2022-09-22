@@ -31,6 +31,7 @@ fetch = ( request ) ->
     when "account"
       content: address: "alice"
     else
+      console.error resource
       throw new Error "oops that's not a pretend resource!"
 
 handler = enchant policies, fetch
@@ -105,7 +106,7 @@ do ->
             "email dan@dashkite.com"
           ]
       assert.equal response.description, "unauthorized"
-      assert response.headers[ "www-authenticate"].startsWith "rune, nonce="
+      assert response.headers[ "www-authenticate" ][0].startsWith "rune, nonce="
     
     await test "authenticate", ->
       # WARNING this is copied from the source
@@ -148,15 +149,16 @@ do ->
       assert.equal response.content, rune
 
 
-    # TODO Fix This Test
     # We need the normalized request and a graphene collection with media.
-    # await test { description: "load media", wait: false }, ->
-    #   response = await handler
-    #     url: "https://foo.dashkite.io/css/css.css"
-    #     target: "/css/css.css"
-    #     resource:
-    #       domain: "workspaces.dashkite.com"
-    #     method: "get"
-    #   console.log response
+    await test { description: "load media", wait: false }, ->
+      response = await handler
+        url: "https://foo.dashkite.io/css/css.css"
+        target: "/css/css.css"
+        resource:
+          domain: "workspaces.dashkite.com"
+        method: "get"
+      assert.equal response.description, "ok"
+      assert response.headers[ "content-type" ]?.includes "text/css"
+      assert response.headers[ "cache-control" ].includes "max-age=1800"
 
   ]

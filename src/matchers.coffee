@@ -1,15 +1,33 @@
-import * as Type from "@dashkite/joy/type"
 import { generic } from "@dashkite/joy/generic"
+import * as Type from "@dashkite/joy/type"
+import * as Text from "@dashkite/joy/text"
 
 import {
   command
   isCommand
 } from "./helpers"
 
+assign = ( result, object ) -> Object.assign result, object
+
+parseAuthorizationFromHeader = ( header ) ->
+  [ credential, parameters... ] = Text.split ",", Text.trim header
+  [ scheme, credential ] = Text.split /\s+/, credential
+  parameters = parameters
+    .map (parameter) -> Text.split "=", parameter
+    .map ([ key, value ]) -> 
+      [ Text.trim key ]: Text.trim value
+    .reduce assign, {}
+  { scheme, credential, parameters }
+
+parseAuthorizationFromRequest = ( request ) ->
+  if ( header = request.headers?.authorization?[0] )?
+    parseAuthorizationFromHeader header
+
 Matchers =
 
-  authorization: ( context, value ) ->
-    value == context.request.authorization?.scheme
+  authorization: ( { request }, value ) ->
+    request.authorization ?= parseAuthorizationFromRequest request
+    value == request.authorization?.scheme
 
   bindings: ( context, value ) ->
     for key, _value of value
