@@ -202,7 +202,11 @@ Actions =
 
   cache: ( context, cache  ) ->
     if cache.expires?
-      duration = ( Temporal.Duration.from cache.expires ).total unit: "second"
+      duration = do ->
+        ( Temporal.Duration.from cache.expires )
+          .total
+            unit: "second"
+            relativeTo: Temporal.Now.plainDateTimeISO()
       addResponseHeader context, "cache-control", "max-age=#{ duration }"
     if cache.public
       addResponseHeader context, "cache-control", "public"

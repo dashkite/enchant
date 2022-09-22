@@ -115,4 +115,6 @@
       - actions:
           - cache:
               expires:
-                minutes: 30
+                years: 1
+              immutable: true
+              public: true

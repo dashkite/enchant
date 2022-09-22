@@ -159,6 +159,8 @@ do ->
         method: "get"
       assert.equal response.description, "ok"
       assert response.headers[ "content-type" ]?.includes "text/css"
-      assert response.headers[ "cache-control" ].includes "max-age=1800"
+      assert response.headers[ "cache-control" ].includes "max-age=31536000"
+      assert response.headers[ "cache-control" ].includes "public"
+      assert response.headers[ "cache-control" ].includes "immutable"
 
   ]
