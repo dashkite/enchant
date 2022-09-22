@@ -13,7 +13,7 @@
 
 - resources:
   - origin: https://foo.dashkite.io
-    exclude: [ description ]
+    exclude: [ description, media ]
   policies:
     request:
       - conditions:  
@@ -99,3 +99,13 @@
               description: unauthorized
               headers:
                 www-authenticate: [ email ]
+
+- resources:
+  - origin: https://foo.dashkite.io
+    include: [ media ]
+  policies:
+    request:
+      - actions:
+          - load media:
+              database: dd343rnxc1hjqqhu0hq8viun7
+              fallback: index.html

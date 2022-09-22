@@ -16,6 +16,7 @@ import guardianAPI from "./api/guardian"
 import policies from "./policies"
 
 # TODO update tests to better emulate guardian fetch
+# TODO Add test for load media
 fetch = ( request ) ->
   # TODO possibly switch back to target using helper 
   #      to derive target from resource?
@@ -53,7 +54,7 @@ do ->
 
   print await test "@dashkite/enchant",  [
 
-    test "decorate description", ->
+    await test "decorate description", ->
       response = await handler
         url: "https://foo.dashkite.io"
         method: "get"
@@ -64,14 +65,14 @@ do ->
         response.content.resources.workspace
           .methods.get.signatures.request.authorization
 
-    test "unauthorized request", ->
+    await test "unauthorized request", ->
       response = await handler
         url: "https://foo.dashkite.io/workspace/acme"
         method: "get"
       assert.equal response.description == "unauthorized"
       assert.equal response.headers[ "www-authenticate" ][0], "email"
     
-    test "authorized with rune", ->
+    await test "authorized with rune", ->
       response = await handler
         url: "https://foo.dashkite.io/workspace/acme"
         method: "get"
@@ -81,7 +82,7 @@ do ->
           ]
       assert.equal response.content.address, "acme"
 
-    test "wrong authorization with rune", ->
+    await test "wrong authorization with rune", ->
       response = await handler
         url: "https://foo.dashkite.io/workspace/evil"
         method: "get"
@@ -95,7 +96,7 @@ do ->
         [ https://foo.dashkite.io/workspace/evil ]
         and method [ get ]."
 
-    test { description: "issue rune", wait: false }, ->
+    await test { description: "issue rune", wait: false }, ->
       response = await handler
         url: "https://foo.dashkite.io/workspace/acme"
         method: "get"
@@ -106,7 +107,7 @@ do ->
       assert.equal response.description, "unauthorized"
       assert response.headers[ "www-authenticate"].startsWith "rune, nonce="
     
-    test "authenticate", ->
+    await test "authenticate", ->
       # WARNING this is copied from the source
       #         if that code changes, we should also change it here
       { EncryptionKeyPair, SharedKey, Message, encrypt, hash, convert } = Confidential
@@ -146,5 +147,16 @@ do ->
       assert.equal response.description, "ok"
       assert.equal response.content, rune
 
+
+    # TODO Fix This Test
+    # We need the normalized request and a graphene collection with media.
+    # await test { description: "load media", wait: false }, ->
+    #   response = await handler
+    #     url: "https://foo.dashkite.io/css/css.css"
+    #     target: "/css/css.css"
+    #     resource:
+    #       domain: "workspaces.dashkite.com"
+    #     method: "get"
+    #   console.log response
 
   ]

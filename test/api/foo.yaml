@@ -50,3 +50,12 @@ resources:
           response:
             content-type: [ "application/json" ]
             status: [ 200 ]
+
+  media:
+    template: [ /, "/{path*}" ]
+    methods:
+      get:
+        signatures:
+          request: {}
+          response:
+            status: [ 200 ]

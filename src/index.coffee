@@ -102,7 +102,7 @@ Actions =
     if ( bundle = await collection.entries.get code )?
       context.response = 
         description: "ok"
-        content: bundle.content
+        content: bundle
         headers:
           "content-type": [ "application/json"]
     else
@@ -197,14 +197,15 @@ Actions =
           encoding = "text"
           db = await grapheneClient.db.get database
           collection = await db.collections.get domain
-          await collection.entries.get key
+          await collection?.entries.get key
         when "binary"
           encoding = "base64"
-          await getObject domain, key
+          object = await getObject domain, key
+          object?.content
       if item?
         context.response =
           description: "ok"
-          content: item.content
+          content: item
           encoding: encoding
           headers:
             "content-type": [ MediaType.format mediaType ]
@@ -254,9 +255,6 @@ Resource =
     domain = Request.domain request
     api = await discover { fetch, domain, origin }
     for name, resource of api.resources when resource.template?
-      # TODO template expansion of {/path*} should return [] for /, not null
-      #      for now, we allow an array of templates, which might be a reasonable
-      #      thing to do in any event...
       { template } = resource
       templates = if Type.isArray template then template else [ template ]
       for template in templates
