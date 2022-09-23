@@ -178,14 +178,16 @@ Actions =
     if fallback? && !( fallback in candidates )
       candidates.push fallback
 
+    db = undefined
+    _collection = undefined
     for key in candidates
       mediaType = MediaType.fromPath key
       item = switch MediaType.category mediaType
         when "text", "json"
           encoding = "text"
-          db = await grapheneClient.db.get database
-          collection = await db.collections.get collection
-          await collection?.entries.get key
+          db ?= await grapheneClient.db.get database
+          _collection ?= await db.collections.get collection
+          await _collection?.entries.get key
         when "binary"
           encoding = "base64"
           object = await getObject collection, key
@@ -298,7 +300,12 @@ Policies =
   Request:  
 
     apply: ( context, policies ) ->
-      if policies?
+      # TODO i tried moving this down into Policy.Request.apply
+      #      but then we do the context resolution, which I
+      #      seems to fail for preflight requests?
+      if context.request.method == "options"
+        context.response = description: "no content"
+      else if policies?
         for policy in policies
           break if context.response?
           if Policy.match context, policy
