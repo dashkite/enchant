@@ -204,17 +204,18 @@ Actions =
     context.response ?= description: "not found"
 
   cache: ( context, cache  ) ->
-    if cache.expires? && responseIsCacheable context
-      duration = do ->
-        ( Temporal.Duration.from cache.expires )
-          .total
-            unit: "second"
-            relativeTo: Temporal.Now.plainDateTimeISO()
-      addResponseHeader context, "cache-control", "max-age=#{ duration }"
-    if cache.public
-      addResponseHeader context, "cache-control", "public"
-    if cache.immutable
-      addResponseHeader context, "cache-control", "immutable"
+    if responseIsCacheable context
+      if cache.expires?
+        duration = do ->
+          ( Temporal.Duration.from cache.expires )
+            .total
+              unit: "second"
+              relativeTo: Temporal.Now.plainDateTimeISO()
+        addResponseHeader context, "cache-control", "max-age=#{ duration }"
+      if cache.public
+        addResponseHeader context, "cache-control", "public"
+      if cache.immutable
+        addResponseHeader context, "cache-control", "immutable"
 
 execute = generic name: "enchant[execute]"
 
