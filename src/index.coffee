@@ -20,6 +20,7 @@ import {
   command
   isCommand
   addResponseHeader
+  responseIsCacheable
 } from "./helpers"
 
 import { match } from "./matchers"
@@ -203,7 +204,7 @@ Actions =
     context.response ?= description: "not found"
 
   cache: ( context, cache  ) ->
-    if cache.expires?
+    if cache.expires? && responseIsCacheable context
       duration = do ->
         ( Temporal.Duration.from cache.expires )
           .total
