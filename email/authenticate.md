@@ -1,3 +1,0 @@
-# Authenticate with DashKite
-
-<{{authenticationLink}}>
