@@ -4,7 +4,7 @@ import {
 
 import {
   Resource
-  Rules
+  Policies
   decorate
 } from "./helpers"
 
@@ -13,6 +13,6 @@ enchant = ( policies, fetch ) ->
     context = { request, fetch }
     if ( resource = await Resource.find context )?
       request.resource = resource
-      await Rules.apply context, policies
+      await Policies.apply policies, context
     else
       response "not found"
