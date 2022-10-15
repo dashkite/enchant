@@ -11,24 +11,30 @@
 <a name="reference-action"></a>
 ## Action
 
+An action name and optional input expression. The named action will run against the request or response. For request actions, once a  response is generated, no further actions will fire.
+
 **`Action` Properties**
 
 |   |Type|Description|Required|
 |---|---|---|---|
-|**name**|`string`||No|
-|**input**|`string`||No|
+|**name**|`string`|The name of a defined action.| &#10003; Yes|
+|**input**|`string`|The input for the action.| &#10003; Yes|
 
 Additional properties are not allowed.
 
 ### action.name
 
+The name of a defined action.
+
 * **Type**: `string`
-* **Required**: No
+* **Required**:  &#10003; Yes
 
 ### action.input
 
+The input for the action.
+
 * **Type**: `string`
-* **Required**: No
+* **Required**:  &#10003; Yes
 
 
 
@@ -37,24 +43,26 @@ Additional properties are not allowed.
 <a name="reference-condition"></a>
 ## Condition
 
+A condition name and optional input expression. The named condition will be evaluated against the request or response. If a condition fails, the corresponding actions will not fire.
+
 **`Condition` Properties**
 
 |   |Type|Description|Required|
 |---|---|---|---|
-|**name**|`string`||No|
-|**input**|`string`||No|
+|**name**|`string`|| &#10003; Yes|
+|**input**|`string`|| &#10003; Yes|
 
 Additional properties are not allowed.
 
 ### condition.name
 
 * **Type**: `string`
-* **Required**: No
+* **Required**:  &#10003; Yes
 
 ### condition.input
 
 * **Type**: `string`
-* **Required**: No
+* **Required**:  &#10003; Yes
 
 
 
@@ -62,6 +70,12 @@ Additional properties are not allowed.
 ---------------------------------------
 <a name="reference-enchant-policy"></a>
 ## Enchant Policy
+
+Enchant Policies make it easy to define authorization policies for resources. Policies may have rules for handling requests and responses. Each rule may have a context, a condition, and an action. For example, we might have a policy that, when the Rune authorization scheme is used in a request, to verify the Rune before forwarding the request to the origin.
+
+Context properties, conditions, and actions all take expressions, which are templates that may reference any existing context. The request and response provide a default context. Templates may contain expressions enclosed by `${}`.
+
+**Example:** `${ request.authorization.credential }`
 
 Additional properties are not allowed.
 
@@ -72,13 +86,15 @@ Additional properties are not allowed.
 <a name="reference-policy"></a>
 ## Policy
 
+A policy consists of an optional set of resources, and array of request and response rules.
+
 **`Policy` Properties**
 
 |   |Type|Description|Required|
 |---|---|---|---|
 |**resources**|`object`||No|
-|**request**|`rule` `[]`||No|
-|**response**|`rule` `[]`||No|
+|**request**|`rule` `[]`|The list of rules to be applied to the request.|No|
+|**response**|`rule` `[]`|The list of rules to be applied to the response.|No|
 
 Additional properties are allowed.
 
@@ -89,10 +105,14 @@ Additional properties are allowed.
 
 ### policy.request
 
+The list of rules to be applied to the request.
+
 * **Type**: `rule` `[]`
 * **Required**: No
 
 ### policy.response
+
+The list of rules to be applied to the response.
 
 * **Type**: `rule` `[]`
 * **Required**: No
@@ -137,29 +157,37 @@ An expression that will be evaluted to determine the value of the context proper
 <a name="reference-rule"></a>
 ## Rule
 
+A rule describes a context, conditions, and actions for a policy rule.
+
 **`Rule` Properties**
 
 |   |Type|Description|Required|
 |---|---|---|---|
-|**context**|`array` `[]`||No|
-|**conditions**|`condition` `[]`||No|
-|**actions**|`action` `[]`||No|
+|**context**|`property` `[]`|A list of context properties that must be evaluated before the conditions or actions.|No|
+|**conditions**|`condition` `[]`|A list of conditions that must be satisfied before firing the rule action.|No|
+|**actions**|`action` `[]`|A list of actions to fire for the rule.| &#10003; Yes|
 
 Additional properties are allowed.
 
 ### rule.context
 
-* **Type**: `array` `[]`
+A list of context properties that must be evaluated before the conditions or actions.
+
+* **Type**: `property` `[]`
 * **Required**: No
 
 ### rule.conditions
+
+A list of conditions that must be satisfied before firing the rule action.
 
 * **Type**: `condition` `[]`
 * **Required**: No
 
 ### rule.actions
 
+A list of actions to fire for the rule.
+
 * **Type**: `action` `[]`
-* **Required**: No
+* **Required**:  &#10003; Yes
 
 

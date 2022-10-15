@@ -2,6 +2,24 @@ $schema: "https://json-schema.org/draft/2020-12/schema"
 
 title: Enchant Policy
 
+# we need the extra newlines here to use folding
+description: >-
+  Enchant Policies make it easy to define authorization policies
+  for resources. Policies may have rules for handling requests and
+  responses. Each rule may have a context, a condition, and an action.
+  For example, we might have a policy that, when the Rune authorization
+  scheme is used in a request, to verify the Rune before forwarding
+  the request to the origin.
+
+
+  Context properties, conditions, and actions all take expressions,
+  which are templates that may reference any existing context.
+  The request and response provide a default context. Templates may
+  contain expressions enclosed by `${}`.
+
+
+  **Example:** `${ request.authorization.credential }`
+
 $defs:
 
   property:
@@ -26,72 +44,115 @@ $defs:
       - name
       - expression
     additionalProperties: false
-    
+
   condition:
     title: Condition
+
+    description: >-
+      A condition name and optional input expression. The named condition
+      will be evaluated against the request or response. If a condition fails,
+      the corresponding actions will not fire.
     type: object
     properties:
       name: 
         type: string
       input:
         type: string
+    required:
+      - name
+      - input
     additionalProperties: false
+
   action:
     title: Action
+    description: >-
+      An action name and optional input expression. The named action will
+      run against the request or response. For request actions, once a 
+      response is generated, no further actions will fire.
     type: object
     properties:
       name:
+        description: >-
+          The name of a defined action.
         type: string
       input:
+        description: >-
+          The input for the action.
         type: string
+    required:
+      - name
+      - input
     additionalProperties: false
+
   rule:
     title: Rule
     type: object
+    description: >-
+      A rule describes a context, conditions, and actions for a policy rule.
     properties:
       context:
+        description: >-
+          A list of context properties that must be evaluated before the conditions
+          or actions.
         type: array
         items:
-          type: array
-          items:
-            $ref: '#/$defs/property'
+          $ref: '#/$defs/property'
       conditions:
+        description: >-
+          A list of conditions that must be satisfied before firing the
+          rule action.
         type: array
         items:
           $ref: '#/$defs/condition'
       actions:
+        description: >-
+          A list of actions to fire for the rule.
         type: array
         items:
           $ref: '#/$defs/action'
+    required:
+      - actions
+
   policy:
     title: Policy
+    description: >-
+      A policy consists of an optional set of resources,
+      and array of request and response rules.
     type: object
     properties:
       resources:
         type: object
         properties:
           include:
+            description: >-
+              The list of resource names included in this action.
             type: array
             items: string
           exclude:
+            description: >-
+              The list of resource names excluded from this action.
             type: array
             items: string
         additionalProperties: false
       request:
+        description: >-
+          The list of rules to be applied to the request.
         type: array
         items:
           $ref: '#/$defs/rule'
       response:
+        description: >-
+          The list of rules to be applied to the response.
         type: array
         items:
           $ref: '#/$defs/rule'
 
-
 type: object
+# dictionary of domain -> policy array
 patternProperties:
-  # dictionary of domain -> policy array
   '^([a-z]\.){2,}\.[a-z]$':
     type: array
     items:
       $ref: '#/$defs/policy'
+minProperties: 1
 additionalProperties: false
