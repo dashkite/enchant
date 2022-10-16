@@ -1,6 +1,8 @@
+> **Warning:** This document is automatically generated. To make changes, edit the [schema YAML](../src/policies.schema.yaml).
 # Objects
 * [`Enchant Policy`](#reference-enchant-policy) (root object)
-* [`Policy`](#reference-policy)
+* [`Policies`](#reference-policies)
+    * [`Policy`](#reference-policy)
 * [`Rule`](#reference-rule)
     * [`Action`](#reference-action)
     * [`Condition`](#reference-condition)
@@ -71,14 +73,18 @@ Additional properties are not allowed.
 <a name="reference-enchant-policy"></a>
 ## Enchant Policy
 
-Enchant Policies make it easy to define authorization policies for resources. Policies may have rules for handling requests and responses. Each rule may have a context, a condition, and an action. For example, we might have a policy that, when the Rune authorization scheme is used in a request, to verify the Rune before forwarding the request to the origin.
-
-Context properties, conditions, and actions all take expressions, which are templates that may reference any existing context. The request and response provide a default context. Templates may contain expressions enclosed by `${}`.
-
-**Example:** `${ request.authorization.credential }`
+Enchant Policies make it easy to define authorization policies for resources. See the [Policy Reference](./policies-reference.md) for more information.
 
 Additional properties are not allowed.
 
+
+
+
+---------------------------------------
+<a name="reference-policies"></a>
+## Policies
+
+An array of policies.
 
 
 
@@ -92,16 +98,10 @@ A policy consists of an optional set of resources, and array of request and resp
 
 |   |Type|Description|Required|
 |---|---|---|---|
-|**resources**|`object`||No|
 |**request**|`rule` `[]`|The list of rules to be applied to the request.|No|
 |**response**|`rule` `[]`|The list of rules to be applied to the response.|No|
 
 Additional properties are allowed.
-
-### policy.resources
-
-* **Type**: `object`
-* **Required**: No
 
 ### policy.request
 

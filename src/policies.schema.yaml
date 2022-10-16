@@ -5,20 +5,8 @@ title: Enchant Policy
 # we need the extra newlines here to use folding
 description: >-
   Enchant Policies make it easy to define authorization policies
-  for resources. Policies may have rules for handling requests and
-  responses. Each rule may have a context, a condition, and an action.
-  For example, we might have a policy that, when the Rune authorization
-  scheme is used in a request, to verify the Rune before forwarding
-  the request to the origin.
-
-
-  Context properties, conditions, and actions all take expressions,
-  which are templates that may reference any existing context.
-  The request and response provide a default context. Templates may
-  contain expressions enclosed by `${}`.
-
-
-  **Example:** `${ request.authorization.credential }`
+  for resources. See the [Policy Reference](./policies-reference.md)
+  for more information.
 
 $defs:
 
@@ -120,20 +108,6 @@ $defs:
       and array of request and response rules.
     type: object
     properties:
-      resources:
-        type: object
-        properties:
-          include:
-            description: >-
-              The list of resource names included in this action.
-            type: array
-            items: string
-          exclude:
-            description: >-
-              The list of resource names excluded from this action.
-            type: array
-            items: string
-        additionalProperties: false
       request:
         description: >-
           The list of rules to be applied to the request.
@@ -147,12 +121,19 @@ $defs:
         items:
           $ref: '#/$defs/rule'
 
+  policies:
+    title: Policies
+    description: >-
+      An array of policies.
+    type: array
+    items:
+      $ref: '#/$defs/policy'
+
 type: object
 # dictionary of domain -> policy array
 patternProperties:
   '^([a-z]\.){2,}\.[a-z]$':
-    type: array
-    items:
-      $ref: '#/$defs/policy'
+    type:
+      $ref: '#/$defs/policies'
 minProperties: 1
 additionalProperties: false

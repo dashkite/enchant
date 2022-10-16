@@ -24,12 +24,13 @@ presets:
             - '{src,test}/**/*.coffee'
   yaml:
     targets:
-      node: &yaml
+      node:
         - preset: js
           glob:
             - "{src,test}/**/*.yaml"
-      browser: *yaml
-
+        - preset: json
+          glob:
+            - "src/**/*.schema.yaml"
   pug:
     targets:
       node:
