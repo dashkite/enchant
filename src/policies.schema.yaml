@@ -1,76 +1,72 @@
 $schema: "https://json-schema.org/draft/2020-12/schema"
 
-title: Enchant Policy
-
-# we need the extra newlines here to use folding
-description: >-
-  Enchant Policies make it easy to define authorization policies
-  for resources. See the [Policy Reference](./policies-reference.md)
-  for more information.
-
 $defs:
 
   property:
     title: Property
     description: >-
-      A key-value pair that will be loaded into the context,
-      referenceable from conditions and actions.
-    type: object
+      A named policy value, which may be obtained either by specifying 
+      the value directly or an action to obtain it.
     properties:
       name:
         description: >-
-          The name of the context property, used to reference
-          it in conditions and actions.
+          The name by which the property may be referenced
+          in template expressions.
         type: string
-        pattern: '^[a-z_]+$'
-      expression:
+      value:
         description: >-
-          An expression that will be evaluted to determine the value
-          of the context property.
+          The property's value. May contain embedded template
+          expressions.
         type: string
-    required:
-      - name
-      - expression
-    additionalProperties: false
-
-  condition:
-    title: Condition
-
-    description: >-
-      A condition name and optional input expression. The named condition
-      will be evaluated against the request or response. If a condition fails,
-      the corresponding actions will not fire.
-    type: object
-    properties:
-      name: 
-        type: string
-      input:
-        type: string
-    required:
-      - name
-      - input
-    additionalProperties: false
+      action:
+        $ref: "#/$defs/action"
+    <<: &property
+      type: object
+      anyOf:
+        - required:
+          - name
+          - value
+        - required:
+          - name
+          - action
+        - required:
+          - name
 
   action:
     title: Action
     description: >-
-      An action name and optional input expression. The named action will
-      run against the request or response. For request actions, once a 
-      response is generated, no further actions will fire.
-    type: object
+      A named policy action, whose operand may may be obtained either 
+      by specifying the value directly or an action to obtain it.
     properties:
       name:
         description: >-
-          The name of a defined action.
+          The name of the rule action.
         type: string
-      input:
+      value:
         description: >-
-          The input for the action.
+          The operand for the action, if any.
         type: string
-    required:
-      - name
-      - input
-    additionalProperties: false
+      action:
+        $ref: "#/$defs/action"
+    <<: *property
+
+  condition:
+    title: Condition
+    description: >-
+      A named policy condition, whose operand may may be obtained either 
+      by specifying the value directly or an action to obtain it.
+    properties:
+      name:
+        description: >-
+          The name of the rule condition.
+        type: string
+      value:
+        description: >-
+          The operand for the action, if any.
+        type: string
+      action:
+        $ref: "#/$defs/action"
+    <<: *property
 
   rule:
     title: Rule
@@ -78,6 +74,13 @@ $defs:
     description: >-
       A rule describes a context, conditions, and actions for a policy rule.
     properties:
+      conditions:
+        description: >-
+          A list of conditions that must be satisfied before evaluating the
+          rule context or perfoming its actions.
+        type: array
+        items:
+          $ref: '#/$defs/condition'
       context:
         description: >-
           A list of context properties that must be evaluated before the conditions
@@ -85,13 +88,6 @@ $defs:
         type: array
         items:
           $ref: '#/$defs/property'
-      conditions:
-        description: >-
-          A list of conditions that must be satisfied before firing the
-          rule action.
-        type: array
-        items:
-          $ref: '#/$defs/condition'
       actions:
         description: >-
           A list of actions to fire for the rule.
@@ -129,11 +125,12 @@ $defs:
     items:
       $ref: '#/$defs/policy'
 
+title: Enchant Policy
+description: >-
+  A policies document is a dictionary of domains to policies.
 type: object
-# dictionary of domain -> policy array
 patternProperties:
   '^([a-z]\.){2,}\.[a-z]$':
-    type:
-      $ref: '#/$defs/policies'
+    $ref: '#/$defs/policies'
 minProperties: 1
 additionalProperties: false

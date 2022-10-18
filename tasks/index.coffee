@@ -1,21 +1,21 @@
 import * as t from "@dashkite/genie"
 import preset from "@dashkite/genie-presets"
 import sky from "@dashkite/sky-presets"
-import execa from "execa"
+
+import * as Time from "@dashkite/joy/time"
+import FS from "node:fs/promises"
+import YAML from "js-yaml"
+import Ajv from "ajv/dist/2020"
 
 preset t
 sky t
 
-t.define "schema:md", ->
-  # TODO maybe find a better way to insert this warning? :D
-  execa.command "npx wetzel 
-    build/node/src/policies.schema.json |
-    awk 'BEGIN { print \"> **Warning:** This document 
-      is automatically generated. To make changes, edit
-      the [schema YAML](../src/policies.schema.yaml).\"}
-      { print $0 }' > docs/policies.schema.md",
-    shell: true
+t.define "schema:validate", ->
+  ajv = new Ajv
+  await Time.sleep 1000
+  schema = YAML.load await FS.readFile "build/node/src/policies.schema.json", "utf8"
+  ajv.compile schema
 
-t.after "build", "schema:md"
+t.after "build", "schema:validate"
 
 
