@@ -1,10 +1,14 @@
 # Enchant Policies
 
-Enchant Policies are intended to be enforced by a Sky HTTP intermediary. A policies document defines a dictionary between domains and policies. Each domain may have an array of request and response polices. 
+Enchant Policies are intended to be enforced by a Sky HTTP intermediary. A policies document defines a dictionary between domains and policies. Each policy consists of an array of request and response rules.
 
-- Request policies are applied to requests for that domain, while response policies are applied to the response.
-- Each policy consists of an array of rules. Each rule may include a condition, a context, and an action. 
-- For each rule, the context is loaded, the condition is evaluated, and, if satisfied, the action is performed. The context and condition are optional. If there’s no condition, the action will always be performed.
+- Request rules are applied to requests for that domain, while response rules are applied to the response.
+- Each rule may include conditions, context, and actions. 
+- For each rule, the conditions are evaluated, and, if satisfied, the context is loaded and the action is performed.
+
+## Examples
+
+### Request Policy
 
 An example of a request policy might be something like this:
 
@@ -26,13 +30,11 @@ request:
           - description: forbidden
 ```
 
-Or, visually ([edit](https://www.plantuml.com/plantuml/uml/TOzH2i8m38RVTug0prvWJxjAN38MwDAQfegUtcR5Dosba8-l_7-MwcZ-mYDDnlV6rUS9u0fhLXANh3LcW62A1y-0pVTiykQJu_fJsh8zqQZJ2_WkDRp-z0l46xRaO2qno0QQePXa2tT0uzfIrqK1OoWzWAFLlxJXHDeu3qoDlz8GYUjgKkBxsUucHApJmagn_0S0)):
-
-![Visual representation of a request rule.](https://www.plantuml.com/plantuml/svg/TOzH2i8m38RVTug0prvWJxjAN38MwDAQfegUtcR5Dosba8-l_7-MwcZ-mYDDnlV6rUS9u0fhLXANh3LcW62A1y-0pVTiykQJu_fJsh8zqQZJ2_WkDRp-z0l46xRaO2qno0QQePXa2tT0uzfIrqK1OoWzWAFLlxJXHDeu3qoDlz8GYUjgKkBxsUucHApJmagn_0S0)
-
 If a rule produces a response, no further request rules are evaluated and we begin evaluating response rules.
 
 > Future versions of Enchant may make this behavior an optional configuration option for a policy. In particular, we could simply use a condition to check if there is a response. This would allow us to continuing firing request rules after a response is generated. However, up to now, we haven’t needed this. If it turns out at some point, we find a need for that, we can introduce a configuration property and have it default to the current behavior.
+
+### Response Policy
 
 An example of a response policy might be something like this:
 
@@ -60,21 +62,27 @@ response:
             value: ${ credential.nonce }
 ```
 
-Or visually ([edit](https://www.plantuml.com/plantuml/uml/ZL6nQiKm3Dpz5HgwfeIEdl8hgYs8YQCKIouD9V_UY2P-a4VWQR9EToV96aInw8fpTeNaQs4Xxm0w20l7f6a7B0SmZ74c3xj2gpWuuXjptT6FlZV8T4e_UXM5Gf5O4-Ocn63slkLmK9D89IYLwIorBWPSs15bd98In4-htWiiQCQKFRpz_hzWSssGvpr7maX5tArZ-v1fxIxZdcnhzLZztLYmtLZmmk453wEPoK0SxMv_)):
+### Enchant Schema
 
-![Visual representation of a response rule.](https://www.plantuml.com/plantuml/svg/ZL6nQiKm3Dpz5HgwfeIEdl8hgYs8YQCKIouD9V_UY2P-a4VWQR9EToV96aInw8fpTeNaQs4Xxm0w20l7f6a7B0SmZ74c3xj2gpWuuXjptT6FlZV8T4e_UXM5Gf5O4-Ocn63slkLmK9D89IYLwIorBWPSs15bd98In4-htWiiQCQKFRpz_hzWSssGvpr7maX5tArZ-v1fxIxZdcnhzLZztLYmtLZmmk453wEPoK0SxMv_)
+At the top level, the [Enchant schema](../src/policies.schema.yaml) is a map of domains to an array of properties.
 
-## Properties
+- Each policy has `request` and `response` properties whose values are arrays of rules.
+- Each rule may have `conditions`, `context`, and `actions` properties whose values are arrays of clauses.
+- Each clause must have a `name` property and may have a resolver, either a `value` or an `action` property.
+- The `name` property must be text. The `value` property must be a template. The `action` property is another clause.
+- A template may be an array, object, or scalar. Text values, including when nested, may include [Polaris](https://github.com/dashkite/polaris#polaris) expressions.
 
-The condition, context, and action items of a rule must have a name and a either a value or an action. In content items, the name may be used in template expressions and the value or action specifies its value. For conditions and actions, the name references an action, and the value or action specifies its operand.
+Clauses are evaluated differently, depending on where they’re used.
 
-## Expressions
+- Within `conditions`, the `name` refers to a condition function and the resolver to its operand, if any.
+- Within `context`, the `name` refers to the context property and the resolver to its value.
+- Within `actions`, the `name` refers to an action function and the resolver to its operand, if any.
 
-Rules may use [Polaris](https://github.com/dashkite/polaris#polaris) expressions in context properties or condition and action inputs.
+Conditions are evaluated first to determine whether the context and action clauses should be evaluated. If the conditions are satisfied, the context clauses are evaluated, enriching the context available for the actions. Finally, the action clauses are evaluated.
 
 ## Conditions
 
-Conditions are specified by name with an optional operand, which may either be a value or an action. Conditions are just actions that return a boolean value: if they evaluate to true, the condition is satisfied, otherwise it is not.
+Condition functions return a boolean value: if they evaluate to true, the condition is satisfied, otherwise it is not.
 
 ### Request Conditions
 
@@ -109,11 +117,11 @@ value:
 
 ## Context
 
-The polcy context is initially populated with the request and response objects, normalized per the Sublime schema. The request includes a Sky resource description. Context properties add new values into the policy context.
+Context clauses describe properties to add to the context. The context is initially populated with the request and response objects, normalized per the Sublime schema. The request includes a Sky resource description.
 
 > **Todo:** Define schemas for Sublime request and response objects and the Sky resource description and link to them.
 
->  **Important:** The context is only evaluated based if the conditions are satisifed, to avoid unnecessary processing. If a condition requires additional context, you may precede it with a rule that has no condition.
+>  **Important:** The context is only evaluated based if the conditions are satisifed, to avoid unnecessary processing. If a condition requires additional context, you may precede it with a rule that has no conditions or actions.
 >
 > **Important:** Properties added to the context are carried over between rules. Context is never discarded until the policy has been fully evaluated and a response has been sent to the client.
 
@@ -126,7 +134,7 @@ value: ${ request.resource.bindings.email }
 
 ## Actions
 
-Actions may be used to create or update responses or to dynamically add data to the context.
+Actions may be used to create or update responses or, when used as resolvers, to dynamically add data to the context.
 
 ### General Actions
 

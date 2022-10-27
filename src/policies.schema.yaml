@@ -2,8 +2,8 @@ $schema: "https://json-schema.org/draft/2020-12/schema"
 
 $defs:
 
-  property:
-    title: Property
+  clause:
+    title: Clause
     description: >-
       A named policy value, which may be obtained either by specifying 
       the value directly or an action to obtain it.
@@ -20,7 +20,7 @@ $defs:
         type: string
       action:
         $ref: "#/$defs/action"
-    <<: &property
+    <<: &clause
       type: object
       anyOf:
         - required:
@@ -48,7 +48,7 @@ $defs:
         type: string
       action:
         $ref: "#/$defs/action"
-    <<: *property
+    <<: *clause
 
   condition:
     title: Condition
@@ -66,7 +66,7 @@ $defs:
         type: string
       action:
         $ref: "#/$defs/action"
-    <<: *property
+    <<: *clause
 
   rule:
     title: Rule
@@ -87,7 +87,7 @@ $defs:
           or actions.
         type: array
         items:
-          $ref: '#/$defs/property'
+          $ref: '#/$defs/clause'
       actions:
         description: >-
           A list of actions to fire for the rule.
@@ -117,20 +117,14 @@ $defs:
         items:
           $ref: '#/$defs/rule'
 
-  policies:
-    title: Policies
-    description: >-
-      An array of policies.
-    type: array
-    items:
-      $ref: '#/$defs/policy'
-
 title: Enchant Policy
 description: >-
   A policies document is a dictionary of domains to policies.
 type: object
 patternProperties:
   '^([a-z]\.){2,}\.[a-z]$':
-    $ref: '#/$defs/policies'
+    type: array
+    items:
+      $ref: '#/$defs/policy'
 minProperties: 1
 additionalProperties: false

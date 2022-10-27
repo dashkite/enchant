@@ -38,6 +38,9 @@ presets:
           glob:
             - "email/**/*.pug"
 
+  schema:
+    glob: "src/**/*.schema.yaml"
+    
 sky:
   namespace: dashkite
   ses:

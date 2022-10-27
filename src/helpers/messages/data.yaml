@@ -1,0 +1,13 @@
+authorize / unsupported scheme: >-
+  Unsupported authorization scheme [ ${ scheme } ]
+  for resource [ ${ request.url } ]
+  and method [ ${ request.method } ].
+
+rune / request disallowed: >-
+  Rune authorization did not match the given request
+  for resource [ ${ request.url } ]
+  and method [ ${ request.method } ].
+
+rune / verification failed: >-
+  Rune verification failed for resource [ ${ request.url } ]
+  and method [ ${ request.method } ].
