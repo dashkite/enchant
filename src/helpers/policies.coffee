@@ -1,10 +1,10 @@
 import { Rules } from "./rules"
 Policies =
 
-  apply: ( policies, context ) ->
+  apply: ( policies, request ) ->
 
-    { request } = context
     { domain } = request
+    context = { request }
 
     policy = policies[ domain ] ? {}
 

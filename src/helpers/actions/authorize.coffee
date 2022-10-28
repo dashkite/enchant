@@ -7,7 +7,7 @@ register "authorize", ( value, context ) ->
   # TODO classifier should set this up?
   { scheme, credential, parameters } = request.authorization
   { nonce } = parameters
-  if ( authorize = Authorizers[ scheme ] )?    
+  if (( scheme in value ) && authorize = Authorizers[ scheme ] )?    
     result = authorize { credential, parameters }, request
     if result.valid
       true

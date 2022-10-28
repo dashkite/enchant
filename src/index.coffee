@@ -4,10 +4,9 @@ import {
 
 import {
   Policies
-  decorate
+  decorator
 } from "./helpers"
 
 enchant = ( policies ) ->
-  ( request ) ->
-    decorate policies,
+ decorator policies, ( request ) ->
       await Policies.apply policies, request

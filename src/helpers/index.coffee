@@ -1,3 +1,2 @@
-export * from "./decorate"
-export * from "./resource"
-export * from "./rules"
+export * from "./decorator"
+export * from "./policies"
