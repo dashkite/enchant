@@ -2,10 +2,8 @@ import {
   response
 } from "@dashkite/maeve/sublime"
 
-import {
-  Policies
-  decorator
-} from "./helpers"
+import { Policies } from "./policies"
+import { decorator } from "./decorator"
 
 enchant = ( policies ) ->
  decorator policies, ( request ) ->

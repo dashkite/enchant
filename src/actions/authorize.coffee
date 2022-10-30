@@ -1,14 +1,12 @@
 import { register } from "./registry"
-import { Authorizers } from "../authorizers"
 import { message } from "../messages"
 
-register "authorize", ( value, context ) ->
+register "authorize", ( schemes, context ) ->
   { request } = context
-  # TODO classifier should set this up?
   { scheme, credential, parameters } = request.authorization
   { nonce } = parameters
-  if (( scheme in value ) && authorize = Authorizers[ scheme ] )?    
-    result = authorize { credential, parameters }, request
+  if (( scheme in schemes ) && authorize = Authorizers[ scheme ] )?    
+    result = await authorize { credential, parameters }, context
     if result.valid
       true
     else
