@@ -1,5 +1,6 @@
 import { Temporal } from "@js-temporal/polyfill"
 import { register } from "./registry"
+import * as Sublime from "@dashkite/maeve/sublime"
 
 isCacheable = ( response ) ->
   switch response?.description
@@ -17,11 +18,11 @@ toDuration = ( expires ) ->
 register "cache", ( cache, { response } ) ->
   if isCacheable response
     if cache.expires?
-      Sublime.Response.appendHeader response, 
+      Sublime.Response.Headers.append response, 
         "cache-control", "max-age=#{ toDuration cache.expires }"
     if cache.public
-      Sublime.Response.appendHeader response,
+      Sublime.Response.Headers.append response,
         "cache-control", "public"
     if cache.immutable
-      Sublime.Response.appendHeader response,
+      Sublime.Response.Headers.append response,
         "cache-control", "immutable"

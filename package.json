@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "@dashkite/dolores": "file:../dolores",
+    "@dashkite/maeve": "file:../maeve",
     "@dashkite/messages": "file:../messages",
     "@dashkite/polaris": "file:../polaris",
     "@dashkite/url-codex": "file:../url-codex",

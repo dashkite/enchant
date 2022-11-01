@@ -1,0 +1,38 @@
+- name: expires
+  cache:
+    expires:
+      days: 7
+  response:
+    description: "ok"
+    content: "cache me"
+  expect:
+    cache-control:
+      - max-age=604800
+
+- name: public, expires
+  cache:
+    expires:
+      days: 7
+    public: true
+  response:
+    description: "ok"
+    content: "cache me"
+  expect:
+    cache-control:
+      - max-age=604800  
+      - public    
+
+- name: public, expires, immutable
+  cache:
+    expires:
+      days: 7
+    public: true
+    immutable: true
+  response:
+    description: "ok"
+    content: "cache me"
+  expect:
+    cache-control:
+      - max-age=604800  
+      - public 
+      - immutable   
