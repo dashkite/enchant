@@ -1,4 +1,4 @@
 import { register } from "./registry"
 
-register "resource", ( value, { request } ) ->
-  request.method == value
+register "method", ( value, { request } ) ->
+  request.method in value

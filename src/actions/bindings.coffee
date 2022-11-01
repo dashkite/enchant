@@ -1,9 +1,17 @@
+import * as Type from "@dashkite/joy/type"
 import { register } from "./registry"
+import { Expression } from "../expression"
 
-register "bindings", ( value, { request }) ->
+
+register "bindings", ( target, context) ->
+  { request } = context
   { resource } = request
   { bindings } = resource
   
-  Object.entries value
-    .every ( entry ) ->
-      bindings[ entry[0] ] == entry[1]
+  Object.entries target
+    .every ([ key, value ]) ->
+      value = Expression.apply value, context
+      if Type.isArray value
+        bindings[ key ] in value
+      else
+        bindings[ key ] == value

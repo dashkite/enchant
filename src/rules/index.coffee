@@ -1,5 +1,6 @@
-import { Action } from "./action"
-import { Expression } from "./expression"
+import * as Fn from "@dashkite/joy/function"
+import { Action } from "../action"
+import { Expression } from "../expression"
 
 Rule =
 
@@ -11,7 +12,7 @@ Rule =
         return false
     true
 
-  resolve: ( rule, context ) ->
+  resolve: Fn.rtee ( rule, context ) ->
     for { name, value, action } in rule.context
       context[ name ] = if value?
         Expression.apply value, context

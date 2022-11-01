@@ -16,12 +16,9 @@ do ->
 
   print await test "Enchant", [
 
-    test "Actions", [
-
-      test "bindings", ActionTests.bindings
-
-    ]
-
+    test "Actions", do ->
+      for name, tests of  ActionTests
+        test name, tests
 
   ]
 

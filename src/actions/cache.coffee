@@ -7,6 +7,12 @@ isCacheable = ( response ) ->
       response.content?
     else false
 
+toDuration = ( expires ) ->
+  Temporal.Duration.from expires
+    .total
+      unit: "second"
+      relativeTo: Temporal.Now.plainDateTimeISO()
+
 # TODO add etag? last-modified?
 register "cache", ( cache, { response } ) ->
   if isCacheable response

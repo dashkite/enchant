@@ -1,5 +1,6 @@
 import { register } from "./registry"
 import { message } from "../messages"
+import { Authorizers } from "../authorizers"
 
 register "authorize", ( schemes, context ) ->
   { request } = context
