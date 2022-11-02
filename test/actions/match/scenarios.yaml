@@ -1,0 +1,23 @@
+- name: match
+  equal: true
+  value:
+    name: foo
+    value: ^\w+$
+  context:
+    foo: abc
+
+- name: not equal
+  equal: false
+  value:
+    name: foo
+    value: ^\d+
+  context:
+    foo: abc
+
+- name: not defined
+  equal: false
+  value:
+    name: foo
+    value: ^\w+$
+  context: {}
+     

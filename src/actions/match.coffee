@@ -1,5 +1,6 @@
 import { register } from "./registry"
 
-register "match", ( { name, value }, context ) ->
-  new Regexp value
-    .test context[ name ]
+register "match", ({ name, value }, context ) ->
+  context[ name ]? &&
+    new RegExp value
+      .test context[ name ]
