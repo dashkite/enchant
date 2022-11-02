@@ -1,0 +1,46 @@
+- name: exact match
+  match: true
+  bindings:
+    foo: abc
+    bar: def
+  context:
+    request:
+      resource:
+        bindings:
+          foo: abc
+          bar: def
+
+- name: mismatch
+  match: false
+  bindings:
+    foo: abc
+    bar: ghi
+  context:
+    request:
+      resource:
+        bindings:
+          foo: abc
+          bar: def
+
+- name: subset
+  match: true
+  bindings:
+    foo: abc
+  context:
+    request:
+      resource:
+        bindings:
+          foo: abc
+          bar: def
+
+- name: superset
+  bindings:
+    foo: abc
+    bar: def
+    baz: ghi
+  context:
+    request:
+      resource:
+        bindings:
+          foo: abc
+          bar: def

@@ -1,0 +1,51 @@
+- name: text
+  match:
+    resource: foo
+    request:
+      resource:
+        name: foo
+  mismatch:
+    resource: foo
+    request:
+      resource:
+        name: bar
+
+- name: array
+  match:
+    resource: [ foo ]
+    request:
+      resource:
+        name: foo
+  mismatch:
+    resource: [ bar ]
+    request:
+      resource:
+        name: foo
+
+- name: include
+  match:
+    resource: 
+      include: [ foo ]
+    request:
+      resource:
+        name: foo
+  mismatch:
+    resource:
+      include: [ foo ]
+    request:
+      resource:
+        name: bar      
+
+- name: exclude
+  match:
+    resource: 
+      exclude: [ bar ]
+    request:
+      resource:
+        name: foo
+  mismatch:
+    resource:
+      exclude: [ bar ]
+    request:
+      resource:
+        name: bar      
