@@ -1,5 +1,7 @@
+import { Response } from "@dashkite/maeve/sublime"
 import { register } from "./registry"
 
 register "headers", ( headers, { response } ) ->
   if response?
-    Sublime.appendHeaders response, headers
+    Response.Headers.append response, headers
+  response

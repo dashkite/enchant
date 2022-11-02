@@ -1,3 +1,5 @@
 export * from "./bindings"
-export * from "./resource"
 export * from "./cache"
+export * from "./equal"
+export * from "./headers"
+export * from "./resource"

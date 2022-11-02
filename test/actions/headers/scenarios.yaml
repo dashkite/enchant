@@ -1,0 +1,7 @@
+- name: add header
+  headers:
+    foo: bar
+  response: {}
+  expect:
+    headers:
+      foo: [ bar ]

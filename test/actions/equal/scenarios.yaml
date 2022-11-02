@@ -1,0 +1,23 @@
+- name: equal
+  equal: true
+  value:
+    name: foo
+    value: abc
+  context:
+    foo: abc
+
+- name: not equal
+  equal: false
+  value:
+    name: foo
+    value: abc
+  context:
+    foo: def
+
+- name: not defined
+  equal: false
+  value:
+    name: foo
+    value: abc
+  context: {}
+     
