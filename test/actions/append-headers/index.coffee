@@ -3,13 +3,13 @@ import assert from "@dashkite/assert"
 import { Actions } from "../../../src/actions"
 import scenarios from "./scenarios"
 
-headers = do ->
+appendHeaders = do ->
 
   for scenario in scenarios
     { headers, response } = scenario
     test scenario.name, ->
-      actual = Actions.headers headers, { response }
+      actual = Actions[ "append headers" ] headers, { response }
       assert.deepEqual scenario.expect, actual
         
 
-export { headers }
+export { appendHeaders }

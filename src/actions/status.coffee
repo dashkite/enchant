@@ -1,4 +1,4 @@
 import { register } from "./registry"
 
-register "status", ( value, { response } ) ->
-  response?.status == value
+register "status", ( values, { response }) ->
+  response.description in values

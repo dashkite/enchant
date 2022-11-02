@@ -4,9 +4,12 @@ import { Expression } from "./expression"
 Action =
 
   apply: ({ name, value, action }, context ) ->
-    if action?
-      value = await Action.apply action, context
-    Actions[ name ] ( Expression.apply value ), context
+    value = if action?
+      await Action.apply action, context
+    else if value?
+      Expression.apply value, context
+
+    Actions[ name ] value, context
 
 export {
   Action

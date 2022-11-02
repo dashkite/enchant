@@ -18,6 +18,6 @@ import "./issue-rune"
 
 # response actions
 import "./cache"
-import "./headers"
+import "./append-headers"
 
 export * from "./registry"

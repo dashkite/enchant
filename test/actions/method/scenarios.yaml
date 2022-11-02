@@ -1,0 +1,10 @@
+- name: match
+  match: true
+  methods: [ get, put, delete ]
+  request:
+    method: get
+- name: mismatch
+  match: false
+  methods: [ get, put, delete ]
+  request:
+    method: post

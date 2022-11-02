@@ -1,0 +1,10 @@
+- name: match
+  match: true
+  statuses: [ ok, created ]
+  response:
+    description: ok
+- name: mismatch
+  match: false
+  statuses: [ ok, created ]
+  response:
+    description: not found

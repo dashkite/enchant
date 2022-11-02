@@ -5,6 +5,8 @@ import assert from "@dashkite/assert"
 # MUT
 import { Actions } from "../src/actions"
 
+import * as Text from "@dashkite/joy/text"
+
 # test modules
 import * as ActionTests from "./actions"
 
@@ -18,7 +20,7 @@ do ->
 
     test "Actions", do ->
       for name, tests of  ActionTests
-        test name, tests
+        test ( Text.uncase name ), tests
 
   ]
 
