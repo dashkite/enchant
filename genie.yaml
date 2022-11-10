@@ -28,9 +28,6 @@ presets:
         - preset: js
           glob:
             - "{src,test}/**/*.yaml"
-        - preset: json
-          glob:
-            - "src/**/*.schema.yaml"
   pug:
     targets:
       node:
@@ -39,7 +36,7 @@ presets:
             - "email/**/*.pug"
 
   schema:
-    glob: "src/**/*.schema.yaml"
+    glob: "src/**/schema.yaml"
     
 sky:
   namespace: dashkite

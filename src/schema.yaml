@@ -121,7 +121,7 @@ description: >-
   A policies document is a dictionary of domains to policies.
 type: object
 patternProperties:
-  '^([a-z]\.){2,}\.[a-z]$':
+  '^([a-z0-9\-]+\.[a-z0-9\-]+){1,}\.[a-z]+$':
     type: array
     items:
       $ref: '#/$defs/policy'
