@@ -1,10 +1,8 @@
-import {
-  response
-} from "@dashkite/maeve/sublime"
-
+import { decorator } from "@dashkite/enchant-decorator"
 import { Policies } from "./policies"
-import { decorator } from "./decorator"
 
 enchant = ( policies ) ->
- decorator policies, ( request ) ->
-      await Policies.apply policies, request
+  decorator policies, ( request ) ->
+    await Policies.apply policies, request
+
+export { enchant }

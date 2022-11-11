@@ -148,11 +148,10 @@ Actions may be used to create or update responses or, when used as resolvers, to
 
 Response actions require a response to be available in the context.
 
-| Name    | Input                                                        | Description                                                  | Returns                          |
-| ------- | ------------------------------------------------------------ | ------------------------------------------------------------ | -------------------------------- |
-| cache   | A caching policy.                                            | Use the given caching policy to attach caching headers to the response. | The resulting modified response. |
-| header  | A policy property where the name is the name of a response header and the value (or the action generating it) is a scalar. | Add a header to the response using the given name and value. Dates will be converted to ISO 8601 format. | The resulting modified response. |
-| headers | A list of policy properties, where the names are the name of a response header and the values (or the actions generating them) are scalars. | Just like `header` but takes a list of properties.           | The resulting modified response. |
+| Name           | Input                                                        | Description                                                  | Returns                          |
+| -------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | -------------------------------- |
+| cache          | A caching policy.                                            | Use the given caching policy to attach caching headers to the response. | The resulting modified response. |
+| append headers | A list of policy properties, where the names are the name of a response header and the values (or the actions generating them) are scalars. | Add headers to the response using the given name and value. Dates will be converted to ISO 8601 format. | The resulting modified response. |
 
 ### Example
 

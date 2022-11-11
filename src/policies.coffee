@@ -3,19 +3,16 @@ Policies =
 
   apply: ( policies, request ) ->
 
-    { domain } = request
     context = { request }
 
-    policy = policies[ domain ] ? {}
-
-    if ( rules = policy.request )?
-      await Rules.Request.apply rules, context
+    for policy in policies when policy.request?
+      await Rules.Request.apply policy.request, context
     
     # forward is effectively the default request policy
     context.response ?= await Sky.fetch request
 
-    if ( rules = policy.response )?
-      await Rules.Repsonse.apply rules, context
+    for policy in policies when policy.response?
+      await Rules.Response.apply policy.response, context
 
     context.response
 

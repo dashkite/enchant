@@ -119,12 +119,15 @@ $defs:
 
 title: Enchant Policy
 description: >-
-  A policies document is a dictionary of domains to policies.
+  A policy document contains a list of policies.
 type: object
-patternProperties:
-  '^([a-z]\.){2,}\.[a-z]$':
+properties:
+  title:
+    type: string
+  policies: 
     type: array
     items:
-      $ref: '#/$defs/policy'
-minProperties: 1
+      $ref: "#/$defs/policy"
+required:
+  - policies
 additionalProperties: false
