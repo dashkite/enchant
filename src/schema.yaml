@@ -45,7 +45,7 @@ $defs:
       value:
         description: >-
           The operand for the action, if any.
-        type: string
+        type: [ string, object, array ]
       action:
         $ref: "#/$defs/action"
     <<: *clause
@@ -100,8 +100,7 @@ $defs:
   policy:
     title: Policy
     description: >-
-      A policy consists of an optional set of resources,
-      and array of request and response rules.
+      A policy consists of an array of request and response rules.
     type: object
     properties:
       request:
