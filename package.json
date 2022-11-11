@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "@dashkite/dolores": "file:../dolores",
+    "@dashkite/enchant-decorator": "file:../enchant-decorator",
     "@dashkite/maeve": "file:../maeve",
     "@dashkite/messages": "file:../messages",
     "@dashkite/polaris": "file:../polaris",
