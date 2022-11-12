@@ -1,11 +1,12 @@
 import { Rules } from "./rules"
 Policies =
 
-  apply: ( policies, request ) ->
+  apply: ({ policies }, request ) ->
 
     context = { request }
 
     for policy in policies when policy.request?
+      console.log "enchant: request policy", policy
       await Rules.Request.apply policy.request, context
     
     # forward is effectively the default request policy

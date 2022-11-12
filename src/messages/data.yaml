@@ -1,13 +1,23 @@
+authorize / required: >-
+  Authorization required
+  for resource [ ${ request.resource.name } ]
+  and method [ ${ request.method } ]
+  at domain [ ${ request.domain } ].
+
 authorize / unsupported scheme: >-
   Unsupported authorization scheme [ ${ scheme } ]
-  for resource [ ${ request.url } ]
-  and method [ ${ request.method } ].
+  for resource [ ${ request.resource.name } ]
+  and method [ ${ request.method } ]
+  at domain [ ${ request.domain } ].
 
 rune / request disallowed: >-
   Rune authorization did not match the given request
-  for resource [ ${ request.url } ]
-  and method [ ${ request.method } ].
+  for resource [ ${ request.resource.name } ]
+  and method [ ${ request.method } ]
+  at domain [ ${ request.domain } ].
 
 rune / verification failed: >-
-  Rune verification failed for resource [ ${ request.url } ]
-  and method [ ${ request.method } ].
+  Rune verification failed
+  for resource [ ${ request.resource.name } ]
+  and method [ ${ request.method } ]
+  at domain [ ${ request.domain } ].
