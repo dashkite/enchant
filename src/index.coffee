@@ -1,8 +1,12 @@
-import { decorator } from "@dashkite/enchant-decorator"
+import { decorator } from "./decorator"
 import { Policies } from "./policies"
 
 enchant = ( policies ) ->
   decorator policies, ( request ) ->
     await Policies.apply policies, request
 
-export { enchant }
+import { register, lookup } from "./registry"
+
+Registry = { register, lookup }
+
+export { enchant, Registry }

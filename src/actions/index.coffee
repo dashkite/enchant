@@ -5,6 +5,9 @@ import "./domain"
 import "./resource"
 import "./method"
 
+# request actions
+import "./forward"
+
 # response conditions
 import "./status"
 

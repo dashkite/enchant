@@ -1,9 +1,11 @@
 import { Rules } from "./rules"
+import { registry } from "./registry"
+
 Policies =
 
   apply: ({ policies }, request ) ->
 
-    context = { request }
+    context = { request, registry }
 
     for policy in policies when policy.request?
       console.log "enchant: request policy", policy

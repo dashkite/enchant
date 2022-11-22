@@ -7,9 +7,12 @@ Rule =
   match: ({ conditions }, context ) ->
     if conditions?
       for condition in conditions
+        console.log "enchant: match condition", condition
         if await Action.apply condition, context
+          console.log "enchant: condition matched"
           continue
         else
+          console.log "enchant: condition failed"
           return false
       true
     else
@@ -27,8 +30,10 @@ Rule =
     apply: Fn.rtee ({ actions }, context ) ->
       if actions?
         for action in actions
+          console.log "enchant: apply action", action
           break if context.response?
           context.$ = await Action.apply action, context
+          console.log "enchant: action applied", context
 
   Response:
     apply: Fn.rtee ({ actions }, context ) ->
