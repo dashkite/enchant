@@ -18,6 +18,8 @@ import "./match"
 # general actions
 import "./respond"
 import "./request"
+import "./encrypt"
+import "./hash"
 
 # response actions
 import "./cache"
