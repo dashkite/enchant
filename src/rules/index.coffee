@@ -49,7 +49,7 @@ Rules =
       for rule in rules
         break if context.response?
         console.log "enchant: applying request rule", rule
-        if Rule.match rule, context
+        if await Rule.match rule, context
           await Rule.resolve rule, context
           await Rule.Request.apply rule, context
 
@@ -58,7 +58,7 @@ Rules =
       console.log "enchant: applying response rules"
       for rule in rules
         console.log "enchant: applying response rule", rule
-        if Rule.match rule, context
+        if await Rule.match rule, context
           await Rule.resolve rule, context
           await Rule.Request.apply rule, context
 

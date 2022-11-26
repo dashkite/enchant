@@ -5,28 +5,21 @@ import { Authorizers } from "../authorizers"
 # TODO we should probably just place error messages in the context
 #      rather than deciding how to respond here
 register "authorize", ( schemes, context ) ->
+  console.warn "enchant: attempt authorization"
   { request } = context
   if request.authorization?
+    console.warn "enchant: authorization defined"
     { scheme, credential, parameters } = request.authorization
-    { nonce } = parameters
-    if (( scheme in schemes ) && authorize = Authorizers[ scheme ] )?    
-      result = await authorize { credential, parameters }, context
-      if result.valid
-        true
-      else
-        context.response =
-          description: "unauthorized"
-          content: result.reason
-        false
-    else
-      context.response =
-        description: "unauthorized"
-        content: message "authorize / unsupported scheme", { request, scheme }
+    if !( scheme in schemes )
+      console.warn "enchant: scheme not supported by policy"
       false
-  else
-    context.response =
-      description: "unauthorized"
-      content: message "authorize / required", { request, scheme }
-    false
+    else if !( authorize = Authorizers[ scheme ] )?
+      console.warn message "authorize / unsupported scheme",
+        { request, scheme }
+      false
+    else
+      console.log "enchant: authorizing..."
+      ( await authorize { credential, parameters }, context )
+        .valid
 
 
