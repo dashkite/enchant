@@ -90,6 +90,10 @@ decorator = ({ policies }, handler ) ->
             for rules in policy
               if ( schemes = match rules, { domain, resource, method })?
                 method.authorization = schemes
+                method.response ?= {}
+                method.response.status ?= []
+                method.response.status.push 401
+                method.response.status.push 403
                 return
       response.content = description.data
     response
