@@ -1,4 +1,4 @@
 import { register } from "./registry"
 
-register "equal", ({ name, value }, context ) ->
-  context[ name ] == value
+register "equal", ( [lhs, rhs] ) ->
+  lhs == rhs

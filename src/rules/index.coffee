@@ -21,10 +21,11 @@ Rule =
   resolve: Fn.rtee ( rule, context ) ->
     if rule.context?
       for { name, value, action } in rule.context
-        context[ name ] = if value?
-          Expression.apply value, context
+        value = if value?
+          value
         else
           await Action.apply action, context
+        context[name] = Expression.apply value, context
 
   Request:
     apply: Fn.rtee ({ actions }, context ) ->
@@ -60,7 +61,7 @@ Rules =
         console.log "enchant: applying response rule", rule
         if await Rule.match rule, context
           await Rule.resolve rule, context
-          await Rule.Request.apply rule, context
+          await Rule.Response.apply rule, context
 
 export {
   Rule

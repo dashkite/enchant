@@ -7,6 +7,10 @@
       "browser": "./build/browser/src/index.js",
       "node": "./build/node/src/index.js"
     },
+    "./expression": {
+      "browser": "./build/browser/src/expression.js",
+      "node": "./build/node/src/expression.js"
+    },
     "./*": {
       "browser": "./build/browser/src/*/index.js",
       "node": "./build/node/src/*/index.js"
