@@ -11,7 +11,10 @@ register "bindings", ( target, context) ->
   Object.entries target
     .every ([ key, value ]) ->
       value = Expression.apply value, context
-      if Type.isArray value
-        bindings[ key ] in value
+      if bindings[key]? && value?
+        if Type.isArray value
+          bindings[ key ] in value
+        else
+          bindings[ key ] == value
       else
-        bindings[ key ] == value
+        false

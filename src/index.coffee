@@ -1,8 +1,8 @@
 import { decorator } from "./decorator"
 import { Policies } from "./policies"
 
-enchant = ( policies ) ->
-  decorator policies, ( request ) ->
+enchant = ( { policies, authorization } ) ->
+  decorator { authorization }, ( request ) ->
     await Policies.apply policies, request
 
 import { register, lookup } from "./registry"
