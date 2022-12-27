@@ -18,6 +18,10 @@
     "./schema": {
       "browser": "./build/browser/src/schema.js",
       "node": "./build/node/src/schema.js"
+    },
+    "./action": {
+      "browser": "./build/browser/src/action.js",
+      "node": "./build/node/src/action.js"
     }
   },
   "scripts": {
@@ -49,6 +53,7 @@
     "@dashkite/url-codex": "file:../url-codex",
     "@js-temporal/polyfill": "^0.4.2",
     "ajv": "^8.11.0",
+    "cache-control-parser": "^2.0.2",
     "panda-confidential": "^3.1.2"
   }
 }

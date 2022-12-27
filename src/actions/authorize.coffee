@@ -9,19 +9,19 @@ register "authorize", ( schemes, context ) ->
   { request } = context
   if request.authorization?
     console.warn "enchant: authorization defined"
-    { scheme, credential, parameters } = request.authorization
-    console.log "enchant: authorize", { scheme, credential }
-    console.log "enchant: authorize", { schemes }
-    if !( scheme in schemes )
-      console.warn "enchant: scheme not supported by policy"
-      false
-    else if !( authorize = Authorizers[ scheme ] )?
-      console.warn message "authorize / unsupported scheme",
-        { request, scheme }
-      false
-    else
-      console.log "enchant: authorizing..."
-      ( await authorize { credential, parameters }, context )
-        .valid
+    for item in request.authorization
+      { scheme, credential, parameters } = item
+      console.log "enchant: authorize", { scheme, credential }
+      console.log "enchant: authorize", { schemes }
+      if !( scheme in schemes )
+        console.warn "enchant: scheme not supported by policy"
+      else if !( authorize = Authorizers[ scheme ] )?
+        console.warn message "authorize / unsupported scheme",
+          { request, scheme }
+      else
+        console.log "enchant: authorizing..."
+        if ( await authorize { credential, parameters }, context ).valid
+          return true
+  return false
 
 

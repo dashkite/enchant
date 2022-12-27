@@ -1,9 +1,12 @@
 import { decorator } from "./decorator"
 import { Policies } from "./policies"
+import { set } from "./cache"
 
 enchant = ({ policies, authorization }) ->
   decorator { authorization }, ( request ) ->
-    await Policies.apply policies, request
+    result = await Policies.apply policies, request
+    set request, result
+    result
 
 import { register, lookup } from "./registry"
 

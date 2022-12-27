@@ -23,10 +23,11 @@ import "./encrypt"
 import "./hash"
 import "./json"
 import "./base36"
+import "./base64"
+import "./map"
 
 
 # response actions
-import "./cache"
 import "./append-headers"
 
 export * from "./registry"
