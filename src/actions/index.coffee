@@ -1,5 +1,6 @@
 # request conditions
 import "./authorize"
+import "./authorization-scheme"
 import "./bindings"
 import "./domain"
 import "./resource"
