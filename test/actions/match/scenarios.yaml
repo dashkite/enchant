@@ -1,23 +1,18 @@
 - name: match
-  equal: true
+  match: true
   value:
-    name: foo
-    value: ^\w+$
-  context:
-    foo: abc
+    pattern: ^\w+$
+    target: foo
 
-- name: not equal
-  equal: false
+- name: no match
+  match: false
   value:
-    name: foo
-    value: ^\d+
-  context:
-    foo: abc
+    pattern: ^\d+$
+    target: foo
 
 - name: not defined
-  equal: false
+  match: false
   value:
-    name: foo
-    value: ^\w+$
-  context: {}
+    pattern: ^\w+$
+    target: ~
      

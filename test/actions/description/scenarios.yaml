@@ -1,10 +1,10 @@
 - name: match
   match: true
-  statuses: [ 200, 201 ]
+  descriptions: [ ok, created ]
   response:
     description: ok
 - name: mismatch
   match: false
-  statuses: [ 200, 201 ]
+  descriptions: [ ok, created ]
   response:
     description: not found

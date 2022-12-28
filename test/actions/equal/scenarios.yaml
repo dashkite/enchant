@@ -1,23 +1,18 @@
 - name: equal
   equal: true
   value:
-    name: foo
-    value: abc
-  context:
-    foo: abc
+    - abc
+    - abc
 
 - name: not equal
   equal: false
   value:
-    name: foo
-    value: abc
-  context:
-    foo: def
+    - abc
+    - def
 
 - name: not defined
   equal: false
   value:
-    name: foo
-    value: abc
-  context: {}
+    - abc
+    - ~
      

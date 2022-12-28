@@ -6,12 +6,12 @@ import scenarios from "./scenarios"
 equal = do ->
 
   for scenario in scenarios
-    { value, context } = scenario
+    { value } = scenario
     if scenario.equal
       test scenario.name, ->
-        assert Actions.equal value, context
+        assert Actions.equal value
     else        
       test scenario.name, ->
-        assert !( Actions.equal value, context )
+        assert !( Actions.equal value )
 
 export { equal }
