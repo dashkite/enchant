@@ -6,7 +6,6 @@ enchant = ({ policies, authorization }) ->
   decorator { authorization }, ( request ) ->
     result = await Policies.apply policies, request
     set request, result
-    result
 
 import { register, lookup } from "./registry"
 

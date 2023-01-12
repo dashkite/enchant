@@ -50,3 +50,10 @@ sky:
       db: 32ro5fmo6qlrb7frp0k3fk1gt
       collections:
         - byname: bundles
+    - name: dashkite-development
+      db: 7tro1s4qcwnz2ytrj1eox8y1a
+      collections:
+        - byname: guardian-cache
+
+  managed-policies:
+    - "arn:aws:iam::618441030511:policy/graphene-beta-manager"

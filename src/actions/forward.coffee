@@ -4,7 +4,10 @@ import { register } from "./registry"
 import { cache } from "../cache"
 
 forwardLambda = ( request ) ->
+  start = Date.now()
+  console.log "FORWARD LAMBDA INVOKE"
   { Payload, StatusCode } = await syncInvokeLambda request.lambda, request
+  console.log "FORWARD LAMBDA DURATION", Date.now() - start, "ms"
   if 200 <= StatusCode < 300
     JSON.parse convert to: "utf8", from: "bytes", Payload
   else
@@ -14,13 +17,14 @@ forwardLambda = ( request ) ->
 forward = ->
   ( value, context ) -> 
     if value?
-      context.proxy ?= {}
-      context.proxy.request = context.request
-      context.request = value
       context.response = await Sky.fetch context.request
     else
       context.response = await forwardLambda context.request
       context.response.content
 
 register "forward", ( value, context ) ->
+  if value?
+    context.proxy ?= {}
+    context.proxy.request = context.request
+    context.request = value
   cache { value, context }, forward()

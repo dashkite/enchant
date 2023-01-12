@@ -29,5 +29,7 @@ import "./map"
 
 # response actions
 import "./append-headers"
+import "./set-headers"
+import "./invalidate"
 
 export * from "./registry"

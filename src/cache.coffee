@@ -2,25 +2,41 @@ import { Response } from "@dashkite/maeve/sublime"
 import { parse as CacheControlParse } from "cache-control-parser"
 import * as Val from "@dashkite/joy/value"
 import * as Arr from "@dashkite/joy/array"
+import * as URLCodex from "@dashkite/url-codex"
+import * as Parsers from "@dashkite/url-codex/parsers"
+import { invalidatePaths } from "@dashkite/dolores/cloudfront"
+import * as Dracarys from "@dashkite/dracarys"
+import configuration from "./configuration"
+
+Cache = Dracarys.Client.create "guardian"
 
 cacheable = ( request ) ->
   request.url? && request.method == "get"
 
-current = ( entry ) -> entry.expires >= Date.now()
+normalizeRequest = ( request ) ->
+  { domain, resource } = request
+  { domain, resource }
 
 get = ( request ) ->
-  if ( entry = cache[ request.url ] )?
-    # TODO this should be an array of candidates with a match function
-    # ex: candidates.find match request
-    # that way we can match on authorization header, ...
+  if ( entry = await Cache.get ( normalizeRequest request ) )?
     console.log "enchant: cache hit", request.url, entry
-    if current entry
-      console.log "enchant: entry still current"
-      Val.clone entry.response
+    Val.clone entry
+  else
+    undefined
+
+cache = ( { value, context }, handler ) ->
+  { request } = context
+  console.log "enchant: cache check", request
+  if cacheable request
+    console.log "enchant: cacheable request"
+    if ( response = await get request )?
+      Response.Headers.append response, "guardian-cache": "hit"
+      context.response = response
+      response.content
     else
-      console.log "enchant: entry expired, removing from cache"
-      delete cache[ request.url ]
-      undefined
+      handler value, context
+  else
+    handler value, context
 
 getMaxAge = ( response ) ->
   if ( header = Response.Headers.get response, "cache-control" )?
@@ -29,25 +45,20 @@ getMaxAge = ( response ) ->
 
 set = ( request, response ) ->
   console.log "enchant: attempting to cache response", response
-  if ( maxAge = getMaxAge response )? && ( Response.Status.ok response )
-    console.log "enchant: got max-age, caching"
-    cache[ request.url ] =
-      expires: Date.now() + ( maxAge * 1000 )
-      response: Val.clone response
+  if cacheable request
+    if ( maxAge = getMaxAge response )? && ( Response.Status.ok response )
+      if ( Response.Headers.get response, "guardian-cache" ) != "hit"
+        console.log "enchant: got max-age, caching"
+        await Cache.put ( normalizeRequest request ), ( Val.clone response )
   response
 
-cache = ( { value, context }, handler ) ->
-  { request } = context
-  console.log "enchant: cache check", request
+invalidateGuardian = ( value ) ->
+  for request in value
+    console.log "enchant: invalidating entry from guardian cache", request
+    await Cache.delete ( normalizeRequest request )
+    undefined
 
-  if cacheable request
-    console.log "enchant: cacheable request"
-    if ( response = get request )?
-      context.response = response
-      response.content
-    else
-      handler value, context
-  else
-    handler value, context
+invalidate = ( value, context ) ->
+  invalidateGuardian value
 
-export { cache, set }
+export { cache, set, invalidate }
