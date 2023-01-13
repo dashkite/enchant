@@ -1,0 +1,12 @@
+- name: match
+  match: true
+  scheme: rune
+  request:
+    authorization:
+      - scheme: rune
+- name: mismatch
+  match: false
+  scheme: rune
+  request:
+    authorization:
+      - scheme: digest

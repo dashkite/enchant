@@ -34,6 +34,7 @@
           bar: def
 
 - name: superset
+  match: false
   bindings:
     foo: abc
     bar: def

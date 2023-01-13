@@ -31,6 +31,7 @@ cache = ( { value, context }, handler ) ->
     console.log "enchant: cacheable request"
     if ( response = await get request )?
       Response.Headers.append response, "guardian-cache": "hit"
+      Response.Headers.remove response, "credentials"
       context.response = response
       response.content
     else

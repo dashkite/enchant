@@ -2,9 +2,6 @@ import { test, success } from "@dashkite/amen"
 import print from "@dashkite/amen-console"
 import assert from "@dashkite/assert"
 
-# MUT
-import { Actions } from "../src/actions"
-
 import * as Text from "@dashkite/joy/text"
 
 # test modules
@@ -19,7 +16,7 @@ do ->
   print await test "Enchant", [
 
     test "Actions", do ->
-      for name, tests of  ActionTests
+      for name, tests of ActionTests
         test ( Text.uncase name ), tests
 
   ]

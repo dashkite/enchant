@@ -3,15 +3,14 @@ import assert from "@dashkite/assert"
 import { Actions } from "../../../src/actions"
 import scenarios from "./scenarios"
 
-match = do ->
-
+description = do ->
   for scenario in scenarios
-    { value } = scenario
+    { descriptions, response } = scenario
     if scenario.match
       test scenario.name, ->
-        assert Actions.match value
+        assert Actions["status description"] descriptions, { response }
     else        
       test scenario.name, ->
-        assert !( Actions.match value )
+        assert !( Actions["status description"] descriptions, { response })
 
-export { match }
+export { description }

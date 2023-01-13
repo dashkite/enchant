@@ -3,15 +3,14 @@ import assert from "@dashkite/assert"
 import { Actions } from "../../../src/actions"
 import scenarios from "./scenarios"
 
-match = do ->
-
+ok = do ->
   for scenario in scenarios
-    { value } = scenario
+    { response } = scenario
     if scenario.match
       test scenario.name, ->
-        assert Actions.match value
+        assert Actions.ok null, { response }
     else        
       test scenario.name, ->
-        assert !( Actions.match value )
+        assert !( Actions.ok null, { response })
 
-export { match }
+export { ok }
