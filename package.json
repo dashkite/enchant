@@ -20,7 +20,8 @@
     }
   },
   "scripts": {
-    "test": "genie test"
+    "test": "genie test",
+    "build": "genie build"
   },
   "repository": {
     "type": "git",
