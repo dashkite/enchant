@@ -35,5 +35,6 @@ import "./append-headers"
 import "./set-headers"
 import "./invalidate"
 import "./cache"
+import "./format-authorization"
 
 export * from "./registry"

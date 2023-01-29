@@ -10,8 +10,8 @@ register "authorize", ( schemes, context ) ->
   if request.authorization?
     console.warn "enchant: authorization defined"
     for item in request.authorization
-      { scheme, credential, parameters } = item
-      console.log "enchant: authorize", { scheme, credential }
+      { scheme, parameters } = item
+      console.log "enchant: authorize", { scheme, parameters }
       console.log "enchant: authorize", { schemes }
       if !( scheme in schemes )
         console.warn "enchant: scheme not supported by policy"
@@ -20,7 +20,7 @@ register "authorize", ( schemes, context ) ->
           { request, scheme }
       else
         console.log "enchant: authorizing..."
-        if ( await authorize { credential, parameters }, context ).valid
+        if ( await authorize { parameters }, context ).valid
           return true
   return false
 

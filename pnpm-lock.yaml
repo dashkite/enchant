@@ -9,6 +9,7 @@ specifiers:
   '@dashkite/dracarys': link:../dracarys
   '@dashkite/genie': ^0.5.11
   '@dashkite/genie-presets': ^0.6.2
+  '@dashkite/http-headers': link:../http-headers
   '@dashkite/joy': ^0.3.16
   '@dashkite/maeve': link:../maeve
   '@dashkite/messages': link:../messages
@@ -23,6 +24,7 @@ specifiers:
 dependencies:
   '@dashkite/bake': 0.0.6
   '@dashkite/dracarys': link:../dracarys
+  '@dashkite/http-headers': link:../http-headers
   '@dashkite/joy': 0.3.16
   '@dashkite/maeve': link:../maeve
   '@dashkite/sky-api-description': link:../sky-api-description
