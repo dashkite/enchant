@@ -7,7 +7,8 @@ json64 = ( value ) ->
   convert
     from: "utf8"
     to: "base64"
-    String.raw"#{JSON.stringify value}"
+    JSON.stringify value
+    # String.raw"#{JSON.stringify value}"
 
 register "format authorization", ({ scheme, token, parameters }) ->
   if scheme?
