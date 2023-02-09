@@ -28,6 +28,7 @@ import "./json"
 import "./base36"
 import "./base64"
 import "./map"
+import "./apply"
 
 
 # response actions
