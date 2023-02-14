@@ -20,6 +20,7 @@ forward = ->
       context.response = await Sky.fetch context.request
     else
       context.response = await forwardLambda context.request
+      console.log "FORWARD RESPONSE", context.response
       context.response.content
 
 register "forward", ( value, context ) ->
