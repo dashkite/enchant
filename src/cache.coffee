@@ -19,16 +19,16 @@ normalizeRequest = ( request ) ->
 
 get = ( request ) ->
   if ( entry = await Cache.get ( normalizeRequest request ) )?
-    console.log "enchant: cache hit", request.url, entry
+    # console.log "enchant: cache hit", request.url, entry
     Val.clone entry
   else
     undefined
 
 cache = ( { value, context }, handler ) ->
   { request } = context
-  console.log "enchant: cache check", request
+  # console.log "enchant: cache check", request
   if cacheable request
-    console.log "enchant: cacheable request"
+    # console.log "enchant: cacheable request"
     if ( response = await get request )?
       Response.Headers.append response, "guardian-cache": "hit"
       Response.Headers.remove response, "credentials"
@@ -45,17 +45,17 @@ getMaxAge = ( response ) ->
     directive[ "s-maxage" ] ? directive[ "max-age" ]
 
 set = ( request, response ) ->
-  console.log "enchant: attempting to cache response", response
+  # console.log "enchant: attempting to cache response", response
   if cacheable request
     if ( maxAge = getMaxAge response )? && ( Response.Status.ok response )
       if ( Response.Headers.get response, "guardian-cache" ) != "hit"
-        console.log "enchant: got max-age, caching"
+        # console.log "enchant: got max-age, caching"
         await Cache.put ( normalizeRequest request ), ( Val.clone response )
   response
 
 invalidateGuardian = ( value ) ->
   for request in value
-    console.log "enchant: invalidating entry from guardian cache", request
+    # console.log "enchant: invalidating entry from guardian cache", request
     await Cache.delete ( normalizeRequest request )
     undefined
 
