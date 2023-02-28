@@ -11,7 +11,6 @@ register "authorize", ( schemes, context ) ->
     console.warn "enchant: authorization defined"
     for item in request.authorization
       { scheme, parameters } = item
-      # console.log "enchant: authorize", { scheme, parameters }
       # console.log "enchant: authorize", { schemes }
       if !( scheme in schemes )
         console.warn "enchant: scheme not supported by policy"

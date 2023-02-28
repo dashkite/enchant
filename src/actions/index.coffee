@@ -18,6 +18,7 @@ import "./status-description"
 # general conditions
 import "./equal"
 import "./match"
+import "./defined"
 
 # general actions
 import "./respond"
@@ -37,5 +38,6 @@ import "./set-headers"
 import "./invalidate"
 import "./cache"
 import "./format-authorization"
+import "./cors"
 
 export * from "./registry"

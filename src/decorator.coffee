@@ -1,7 +1,14 @@
+import * as Val from "@dashkite/joy/value"
+
 decorateMethods = ({ schemes, methods }) ->
   for key, method of methods
     method.request ?= {}
     method.request.authorization = schemes
+    # ensure request comes before response for documentation generator
+    if method.response?
+      response = Val.clone method.response
+      delete method.response
+      method.response = response
     method.response ?= {}
     method.response.status ?= []
     method.response.status.push 401
