@@ -5,7 +5,7 @@ import { register } from "./registry"
 register "apply", ( value, context ) ->
   if value?
     for policy in value.policies when policy.request?
-      console.log "enchant: request policy", policy
+      # console.log "enchant: request policy", policy
       await Rules.Request.apply policy.request, context
     
     if context.response?

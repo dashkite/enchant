@@ -8,7 +8,7 @@ Policies =
     context = { request, registry }
 
     for policy in policies when policy.request?
-      console.log "enchant: request policy", policy
+      # console.log "enchant: request policy", policy
       await Rules.Request.apply policy.request, context
     
     # forward is effectively the default request policy
