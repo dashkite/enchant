@@ -7,6 +7,6 @@ register "cors", (_, { request, response }) ->
       "access-control-expose-headers": "credentials"
     if request.headers?.origin?
       headers[ "access-control-allow-origin" ] = request.headers.origin[0]
-    else
+    else if request.proxy?.request.headers?.origin?
       headers[ "access-control-allow-origin" ] = request.proxy.request.headers.origin[0]
     Response.Headers.set response, headers
