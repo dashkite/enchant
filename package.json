@@ -37,7 +37,7 @@
     "@dashkite/assert": "^0.1.4",
     "@dashkite/dolores": "link:../dolores",
     "@dashkite/genie": "^0.5.11",
-    "@dashkite/genie-presets": "^0.6.2",
+    "@dashkite/genie-presets": "^0.7.0",
     "@dashkite/messages": "link:../messages",
     "@dashkite/polaris": "link:../polaris",
     "@dashkite/sky-presets": "link:../sky-presets"
