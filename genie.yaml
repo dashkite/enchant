@@ -1,42 +1,22 @@
-presets:
-  verify: null
-  update: null
-  release: null
-  esm: null
-  coffeescript:
-    targets:
-      browser:
-        - preset: browser
-          glob:
-            - src/**/*.coffee
-      #   - preset: browser
-      #     glob:
-      #       - test/client/**/*.coffee
-      #     options:
-      #       mode: debug
-      #   - preset: node
-      #     glob:
-      #       - test/**/*.coffee
-      #       - '!test/client/**/*.coffee'
-      node:
-        - preset: node
-          glob:
-            - '{src,test}/**/*.coffee'
-  yaml:
-    targets:
-      node:
-        - preset: js
-          glob:
-            - "{src,test}/**/*.yaml"
-  pug:
-    targets:
-      node:
-        - preset: render
-          glob:
-            - "email/**/*.pug"
+coffee:
+  targets:
+    - node
 
-  schema:
-    glob: "src/**/schema.yaml"
+yaml:
+  targets:
+    node:
+      - preset: js
+        glob:
+          - "{src,test}/**/*.yaml"
+pug:
+  targets:
+    node:
+      - preset: render
+        glob:
+          - "email/**/*.pug"
+
+schema:
+  glob: "src/**/schema.yaml"
     
 sky:
   namespace: dashkite
