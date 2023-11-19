@@ -40,6 +40,7 @@
     "@dashkite/genie-coffee": "link:../genie-coffee",
     "@dashkite/genie-json-schema": "link:../genie-json-schema",
     "@dashkite/genie-pug": "link:../genie-pug",
+    "@dashkite/genie-yaml": "link:../genie-yaml",
     "@dashkite/messages": "link:../messages",
     "@dashkite/polaris": "link:../polaris",
     "@dashkite/sky-presets": "link:../sky-presets"
