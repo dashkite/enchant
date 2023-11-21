@@ -2,12 +2,6 @@ coffee:
   targets:
     - node
 
-yaml:
-  targets:
-    node:
-      - preset: js
-        glob:
-          - "{src,test}/**/*.yaml"
 pug:
   targets:
     node:
@@ -20,11 +14,23 @@ schema:
     
 sky:
   namespace: dashkite
+
+  # i think this is here for testing
+  # TODO move into test config?
   ses:
     templates:
       - name: authenticate
         subject: Authenticate with DashKite
 
+  yaml:
+    targets:
+      node:
+        - preset: js
+          glob:
+            - "{src,test}/**/*.yaml"
+
+  # i think this is here for testing
+  # TODO move into test config?
   graphene:
     - name: enchant-test
       db: 32ro5fmo6qlrb7frp0k3fk1gt
@@ -35,5 +41,6 @@ sky:
       collections:
         - byname: guardian-cache
 
+  # is this needed here?
   managed-policies:
     - "arn:aws:iam::618441030511:policy/graphene-beta-manager"

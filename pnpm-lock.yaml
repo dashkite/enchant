@@ -61,6 +61,9 @@ devDependencies:
   '@dashkite/genie-pug':
     specifier: link:../genie-pug
     version: link:../genie-pug
+  '@dashkite/genie-sky':
+    specifier: link:../genie-sky
+    version: link:../genie-sky
   '@dashkite/genie-yaml':
     specifier: link:../genie-yaml
     version: link:../genie-yaml
@@ -70,9 +73,6 @@ devDependencies:
   '@dashkite/polaris':
     specifier: link:../polaris
     version: link:../polaris
-  '@dashkite/sky-presets':
-    specifier: link:../sky-presets
-    version: link:../sky-presets
 
 packages:
 

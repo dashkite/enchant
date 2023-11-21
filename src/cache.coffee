@@ -8,7 +8,7 @@ import { invalidatePaths } from "@dashkite/dolores/cloudfront"
 import * as Dracarys from "@dashkite/dracarys"
 import configuration from "./configuration"
 
-Cache = Dracarys.Client.create "guardian"
+Cache = Dracarys.Client.create configuration.dracarys
 
 cacheable = ( request ) ->
   request.url? && request.method == "get"
