@@ -12,6 +12,14 @@ pug:
 schema:
   glob: "src/**/schema.yaml"
     
+drn:
+  yaml:
+    targets:
+      node:
+        - preset: js
+          glob:
+            - "{src,test}/**/*.yaml"
+
 sky:
   namespace: dashkite
 
@@ -21,13 +29,6 @@ sky:
     templates:
       - name: authenticate
         subject: Authenticate with DashKite
-
-  yaml:
-    targets:
-      node:
-        - preset: js
-          glob:
-            - "{src,test}/**/*.yaml"
 
   # i think this is here for testing
   # TODO move into test config?

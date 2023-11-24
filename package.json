@@ -42,8 +42,7 @@
     "@dashkite/genie-pug": "link:../genie-pug",
     "@dashkite/genie-sky": "link:../genie-sky",
     "@dashkite/genie-yaml": "link:../genie-yaml",
-    "@dashkite/messages": "link:../messages",
-    "@dashkite/polaris": "link:../polaris"
+    "@dashkite/genie-yaml-drn": "link:../genie-yaml-drn"
   },
   "dependencies": {
     "@dashkite/bake": "^0.0.6",
@@ -51,6 +50,8 @@
     "@dashkite/http-headers": "link:../http-headers",
     "@dashkite/joy": "^0.3.16",
     "@dashkite/maeve": "link:../maeve",
+    "@dashkite/messages": "link:../messages",
+    "@dashkite/polaris": "link:../polaris",
     "@dashkite/sky-api-description": "link:../sky-api-description",
     "@dashkite/url-codex": "link:../url-codex",
     "@js-temporal/polyfill": "^0.4.2",

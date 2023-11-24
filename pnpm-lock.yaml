@@ -20,6 +20,12 @@ dependencies:
   '@dashkite/maeve':
     specifier: link:../maeve
     version: link:../maeve
+  '@dashkite/messages':
+    specifier: link:../messages
+    version: link:../messages
+  '@dashkite/polaris':
+    specifier: link:../polaris
+    version: link:../polaris
   '@dashkite/sky-api-description':
     specifier: link:../sky-api-description
     version: link:../sky-api-description
@@ -67,12 +73,9 @@ devDependencies:
   '@dashkite/genie-yaml':
     specifier: link:../genie-yaml
     version: link:../genie-yaml
-  '@dashkite/messages':
-    specifier: link:../messages
-    version: link:../messages
-  '@dashkite/polaris':
-    specifier: link:../polaris
-    version: link:../polaris
+  '@dashkite/genie-yaml-drn':
+    specifier: link:../genie-yaml-drn
+    version: link:../genie-yaml-drn
 
 packages:
 
