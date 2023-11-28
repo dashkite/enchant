@@ -55,6 +55,9 @@ devDependencies:
   '@dashkite/dolores':
     specifier: link:../dolores
     version: link:../dolores
+  '@dashkite/drn-sky':
+    specifier: link:../drn-sky
+    version: link:../drn-sky
   '@dashkite/genie':
     specifier: link:../genie
     version: link:../genie

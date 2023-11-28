@@ -13,6 +13,10 @@ schema:
   glob: "src/**/schema.yaml"
     
 drn:
+
+  resolvers:
+    - "@dashkite/drn-sky"
+
   yaml:
     targets:
       node:
