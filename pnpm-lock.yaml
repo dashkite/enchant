@@ -37,7 +37,7 @@ dependencies:
     version: 0.4.4
   cache-control-parser:
     specifier: ^2.0.2
-    version: 2.0.4
+    version: 2.0.5
   panda-confidential:
     specifier: ^3.1.2
     version: 3.1.2
@@ -136,8 +136,8 @@ packages:
       color-convert: 2.0.1
     dev: true
 
-  /cache-control-parser@2.0.4:
-    resolution: {integrity: sha512-/FyoH+1kaAHoJC86Yz+ix0+l4DCisx/+nNjZs4HRFQcyuUJv5O9TsEu9pXi4e56kV7veou6k3QMCl6LRGo0qdQ==}
+  /cache-control-parser@2.0.5:
+    resolution: {integrity: sha512-4oMIg6G2cQcNdlGDaAqZQxFclkL80HImlZhrJNZCbOeHS3vLQcNYeBpxf5jO9yJHnVee8I8URtRPpC7f2Lh+Og==}
     dev: false
 
   /chalk@4.1.2:
