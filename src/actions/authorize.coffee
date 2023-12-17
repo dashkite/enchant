@@ -10,10 +10,9 @@ find = ( scheme, schemes ) ->
   schemes.find ( candidate ) -> candidate.scheme == scheme 
 
 register "authorize", ( schemes, context ) ->
-  log.debug authorization: "required"
   { request } = context
   if request.authorization?
-    log.debug { schemes }
+    log.debug trying: schemes
     for item in request.authorization
       { scheme, parameters } = item
       log.debug trying: scheme
@@ -23,10 +22,14 @@ register "authorize", ( schemes, context ) ->
         log.warn unsupported: scheme
       else
         { options } = match
-        log.debug authorizing: { parameters, options }
+        log.debug verifying: scheme
         if ( await authorize { parameters, options }, context ).valid
+          log.debug verified: true
           return true
-  log.debug authorization: "not provided"
-  return false
+    log.debug verified: false
+    return false
+  else
+    log.debug authorized: false
+    return false
 
 
