@@ -29,9 +29,6 @@ dependencies:
   '@dashkite/polaris':
     specifier: link:../polaris
     version: link:../polaris
-  '@dashkite/sky-api-description':
-    specifier: link:../sky-api-description
-    version: link:../sky-api-description
   '@dashkite/url-codex':
     specifier: link:../url-codex
     version: link:../url-codex

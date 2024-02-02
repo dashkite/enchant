@@ -54,7 +54,6 @@
     "@dashkite/maeve": "link:../maeve",
     "@dashkite/messages": "link:../messages",
     "@dashkite/polaris": "link:../polaris",
-    "@dashkite/sky-api-description": "link:../sky-api-description",
     "@dashkite/url-codex": "link:../url-codex",
     "@js-temporal/polyfill": "^0.4.2",
     "cache-control-parser": "^2.0.2",
