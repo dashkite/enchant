@@ -79,9 +79,6 @@ devDependencies:
   '@dashkite/genie-yaml':
     specifier: link:../genie-yaml
     version: link:../genie-yaml
-  '@dashkite/genie-yaml-drn':
-    specifier: link:../genie-yaml-drn
-    version: link:../genie-yaml-drn
 
 packages:
 
