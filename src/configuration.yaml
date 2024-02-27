@@ -1,6 +1,2 @@
-# TODO is this even used any more?
-cache:
-  db: 7tro1s4qcwnz2ytrj1eox8y1a
-  collection: guardian-cache
 # TODO should this be passed into Enchant somehow?
 dracarys: drn:name/guardian/cache
