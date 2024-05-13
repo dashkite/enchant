@@ -51,7 +51,7 @@
     "@dashkite/dracarys": "link:../dracarys",
     "@dashkite/http-headers": "link:../http-headers",
     "@dashkite/joy": "^0.3.16",
-    "@dashkite/kaiko": "link:../kaiko",
+    "@dashkite/kaiko": "^0.3.3",
     "@dashkite/maeve": "link:../maeve",
     "@dashkite/messages": "link:../messages",
     "@dashkite/polaris": "link:../polaris",
