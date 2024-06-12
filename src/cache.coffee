@@ -5,10 +5,9 @@ import * as Arr from "@dashkite/joy/array"
 import * as URLCodex from "@dashkite/url-codex"
 import * as Parsers from "@dashkite/url-codex/parsers"
 import { invalidatePaths } from "@dashkite/dolores/cloudfront"
-import * as Dracarys from "@dashkite/dracarys"
-import configuration from "./configuration"
 
-Cache = Dracarys.Client.create configuration.dracarys
+Cache = undefined
+initialize = ( cache ) -> Cache = cache
 
 cacheable = ( request ) ->
   request.url? && request.method == "get"
@@ -62,4 +61,4 @@ invalidateGuardian = ( value ) ->
 invalidate = ( value, context ) ->
   invalidateGuardian value
 
-export { cache, set, invalidate }
+export { initialize, cache, set, invalidate }

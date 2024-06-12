@@ -1,9 +1,10 @@
 import log from "@dashkite/kaiko"
 import { decorator } from "./decorator"
 import { Policies } from "./policies"
-import { set } from "./cache"
+import { initialize, set } from "./cache"
 
-enchant = ({ policies, authorization }) ->
+enchant = ({ policies, authorization, cache }) ->
+  initialize cache
   decorator { authorization }, ( request ) ->
     log.context "enchant", ->
       log.debug { request }
