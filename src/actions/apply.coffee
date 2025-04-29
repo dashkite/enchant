@@ -1,7 +1,6 @@
 import { Rules } from "../rules"
 import { register } from "./registry"
 
-# TODO reconcile with Policies.apply
 register "apply", ( value, context ) ->
   if value?
     for policy in value.policies when policy.request?

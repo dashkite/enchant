@@ -14,7 +14,6 @@ toDuration = ( expires ) ->
       unit: "second"
       relativeTo: Temporal.Now.plainDateTimeISO()
 
-# TODO add etag? last-modified?
 register "cache", ( cache, { response } ) ->
   if isCacheable response
     if cache.expires?

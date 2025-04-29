@@ -3,8 +3,6 @@ import { register } from "./registry"
 import { message } from "../messages"
 import { Authorizers } from "../authorizers"
 
-# TODO we should probably just place error messages in the context
-#      rather than deciding how to respond here
 
 find = ( scheme, schemes ) ->
   schemes.find ( candidate ) -> candidate.scheme == scheme 

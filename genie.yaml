@@ -28,14 +28,12 @@ sky:
   namespace: dashkite
 
   # i think this is here for testing
-  # TODO move into test config?
   ses:
     templates:
       - name: authenticate
         subject: Authenticate with DashKite
 
   # i think this is here for testing
-  # TODO move into test config?
   graphene:
     - name: enchant-test
       db: 32ro5fmo6qlrb7frp0k3fk1gt
