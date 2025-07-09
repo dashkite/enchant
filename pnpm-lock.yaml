@@ -78,6 +78,9 @@ importers:
       '@dashkite/genie-pug':
         specifier: link:../genie-pug
         version: link:../genie-pug
+      '@dashkite/genie-release':
+        specifier: link:../genie-release
+        version: link:../genie-release
       '@dashkite/genie-sky':
         specifier: link:../genie-sky
         version: link:../genie-sky
