@@ -43,10 +43,9 @@
     "@dashkite/genie-drn": "link:../genie-drn",
     "@dashkite/genie-json-schema": "link:../genie-json-schema",
     "@dashkite/genie-pug": "link:../genie-pug",
-    "@dashkite/genie-release": "link:../genie-release",
+    "@dashkite/genie-release": "^0.2.0",
     "@dashkite/genie-sky": "link:../genie-sky",
-    "@dashkite/genie-yaml": "link:../genie-yaml",
-    "@dashkite/vista": "link:../vista"
+    "@dashkite/genie-yaml": "link:../genie-yaml"
   },
   "dependencies": {
     "@dashkite/bake": "^0.0.6",
