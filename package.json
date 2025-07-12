@@ -36,7 +36,7 @@
     "@dashkite/amen": "^0.2.0",
     "@dashkite/amen-console": "^0.0.2",
     "@dashkite/assert": "^0.1.4",
-    "@dashkite/dolores": "link:../dolores",
+    "@dashkite/dolores": "0.1.0",
     "@dashkite/drn-sky": "link:../drn-sky",
     "@dashkite/genie": "^0.8.4",
     "@dashkite/genie-clean": "0.2.0",
@@ -46,7 +46,7 @@
     "@dashkite/genie-pug": "link:../genie-pug",
     "@dashkite/genie-release": "^0.2.4",
     "@dashkite/genie-sky": "link:../genie-sky",
-    "@dashkite/genie-yaml": "link:../genie-yaml"
+    "@dashkite/genie-yaml": "0.1.0"
   },
   "dependencies": {
     "@dashkite/bake": "^0.0.6",
