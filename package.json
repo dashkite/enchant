@@ -42,7 +42,7 @@
     "@dashkite/genie-clean": "0.2.0",
     "@dashkite/genie-coffee": "0.2.0",
     "@dashkite/genie-drn": "link:../genie-drn",
-    "@dashkite/genie-json-schema": "link:../genie-json-schema",
+    "@dashkite/genie-json-schema": "0.1.0",
     "@dashkite/genie-pug": "link:../genie-pug",
     "@dashkite/genie-release": "^0.2.3",
     "@dashkite/genie-sky": "link:../genie-sky",
