@@ -79,8 +79,8 @@ importers:
         specifier: link:../genie-pug
         version: link:../genie-pug
       '@dashkite/genie-release':
-        specifier: ^0.2.4
-        version: 0.2.4
+        specifier: ^0.2.5
+        version: 0.2.5
       '@dashkite/genie-sky':
         specifier: link:../genie-sky
         version: link:../genie-sky
@@ -915,8 +915,8 @@ packages:
   '@dashkite/genie-json-schema@0.1.0':
     resolution: {integrity: sha512-C5mIvMPUWsk5VAGV9qRnKG7/uDoHfZUj+cNDESyzvY1YvSTq1Mvo97II2/+8zjaA9H2/KkmptGWTT3HWkKQqlQ==}
 
-  '@dashkite/genie-release@0.2.4':
-    resolution: {integrity: sha512-+tc5Qk+8H62hC6uZ6GY1Q1jWglVhcVxkAmXNcWUT8qL/3VTIBQKJBUqdOAqsik98vwuGugIDJAjj+TVsHKA8ow==}
+  '@dashkite/genie-release@0.2.5':
+    resolution: {integrity: sha512-lPsJNwZP1C1SAUHN3ZKhGmAlr2jWMj36+kEjTH/fYT19ovXoKQ5gNcdmrmVuRwxFqRrW2mmqIxLGg+thFbeK/Q==}
 
   '@dashkite/genie-yaml@0.1.0':
     resolution: {integrity: sha512-NDvqIDiDslWWhe1DIxCm9CGl+1nc0x/EligQHZv3Izdg/rV21M/KUaSyChPf2z6h96eDLfJa9kinZhrxlzO3fA==}
@@ -3997,7 +3997,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@dashkite/genie-release@0.2.4':
+  '@dashkite/genie-release@0.2.5':
     dependencies:
       '@dashkite/zephyr': 0.2.0
       zx: 8.6.1
