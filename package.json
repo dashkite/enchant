@@ -61,5 +61,9 @@
     "@js-temporal/polyfill": "^0.4.2",
     "cache-control-parser": "^2.0.2",
     "panda-confidential": "^3.1.2"
-  }
+  },
+  "files": [
+    "build/browser/src",
+    "build/node/src"
+  ]
 }
