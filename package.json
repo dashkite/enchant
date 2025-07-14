@@ -44,7 +44,7 @@
     "@dashkite/genie-drn": "link:../genie-drn",
     "@dashkite/genie-json-schema": "0.1.0",
     "@dashkite/genie-pug": "link:../genie-pug",
-    "@dashkite/genie-release": "^0.2.8",
+    "@dashkite/genie-release": "^0.2.9",
     "@dashkite/genie-sky": "link:../genie-sky",
     "@dashkite/genie-yaml": "0.1.0"
   },
