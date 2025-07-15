@@ -51,13 +51,13 @@
   "dependencies": {
     "@dashkite/bake": "^0.0.6",
     "@dashkite/dracarys": "link:../dracarys",
-    "@dashkite/http-headers": "link:../http-headers",
+    "@dashkite/http-headers": "0.9.0",
     "@dashkite/joy": "^0.7.0",
     "@dashkite/kaiko": "^0.3.3",
-    "@dashkite/maeve": "link:../maeve",
-    "@dashkite/messages": "link:../messages",
-    "@dashkite/polaris": "link:../polaris",
-    "@dashkite/url-codex": "link:../url-codex",
+    "@dashkite/maeve": "0.5.0",
+    "@dashkite/messages": "0.6.0",
+    "@dashkite/polaris": "0.7.0",
+    "@dashkite/url-codex": "0.6.0",
     "@js-temporal/polyfill": "^0.4.2",
     "cache-control-parser": "^2.0.2",
     "panda-confidential": "^3.1.2"
