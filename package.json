@@ -50,7 +50,7 @@
   },
   "dependencies": {
     "@dashkite/bake": "^0.0.6",
-    "@dashkite/dracarys": "link:../dracarys",
+    "@dashkite/dracarys": "0.2.0",
     "@dashkite/http-headers": "0.9.0",
     "@dashkite/joy": "^0.7.0",
     "@dashkite/kaiko": "^0.3.3",

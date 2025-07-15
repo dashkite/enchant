@@ -12,8 +12,8 @@ importers:
         specifier: ^0.0.6
         version: 0.0.6
       '@dashkite/dracarys':
-        specifier: link:../dracarys
-        version: link:../dracarys
+        specifier: 0.2.0
+        version: 0.2.0(encoding@0.1.13)
       '@dashkite/http-headers':
         specifier: 0.9.0
         version: 0.9.0
@@ -921,6 +921,9 @@ packages:
   '@dashkite/dolores@0.8.0':
     resolution: {integrity: sha512-ga+AxqsQcUjW3D5J6mCQqTU7GqJsmnlT9OfqYrmPA3lGJSjk0GqJRQb3RIjoqjjXVszeK8vAW3RdJPx0W7OhNw==}
 
+  '@dashkite/dracarys@0.2.0':
+    resolution: {integrity: sha512-ysXI+GjlPDNUZjr5DV8oI+24gO5m79S6pVFDhqfKIgH9z6ovgv8RSHz+LzdIEaHa3437uwuxE2sINSVbBcftSA==}
+
   '@dashkite/drn-loader@0.7.0':
     resolution: {integrity: sha512-40Hg1xVvXQkwp/cEmKyUT4o7r1jRyxWjleZkMQLbJbNoAfnrInyhaDB7iH9uN3VxMyIHS3hwGFx7s1rNGihZcA==}
 
@@ -1007,6 +1010,9 @@ packages:
   '@dashkite/lru-cache@0.1.0':
     resolution: {integrity: sha512-bAN6/NxYrorgiKMdh0/f6U6AMdLoBFn9sJUZDD+Od/Fw6O1istAMF2hQugdO3SOeBOUi9dQN+rXMP60dJ/2zOw==}
 
+  '@dashkite/lru-cache@0.4.0':
+    resolution: {integrity: sha512-CQq1YHWnpH3bLFhdVJuszT6zIeyBQd4A8GPpfnZI+RCq99tM6b4RQoFmQ8JhbxoqQ+mvmEupCtAx5cglecCe+w==}
+
   '@dashkite/maeve@0.5.0':
     resolution: {integrity: sha512-9HjLsJROAYQR2HORLOwSB52hFc2wASSXs5qiarATXFFbnCnTMt7OiWZmh2dhRHnOh2dAgqfzDTHh2VH22ONAGg==}
 
@@ -1075,6 +1081,9 @@ packages:
 
   '@dashkite/media-type@0.4.0':
     resolution: {integrity: sha512-jIGD/CMCR8PuslHzb1+9j7Q4hNUe76HZoHp03M7zYk4B+hVwvXepudGq4VXvo6iBquNfHwSqsEqb1wmA20DoQg==}
+
+  '@dashkite/media-type@0.5.0':
+    resolution: {integrity: sha512-duqnAZ032JStS4T2yE1Dosb78Qu5mtRNhTV6pgII0Isyk78q3SG2qQYlXfG/3J+jYfZ1LqSsBl2XutjqO9l1PA==}
 
   '@dashkite/messages@0.5.0':
     resolution: {integrity: sha512-2vV9HcNDw6RCkD1heFqvFiK45j4WCFbNwTgYdTFZZZoI4peTn8lwrqfQEa7Oj5x2q12924DSq3jhBg4ugdBPQQ==}
@@ -5250,6 +5259,19 @@ snapshots:
       - aws-crt
       - encoding
 
+  '@dashkite/dracarys@0.2.0(encoding@0.1.13)':
+    dependencies:
+      '@dashkite/bake': 0.0.6
+      '@dashkite/joy': 0.3.16
+      '@dashkite/lru-cache': 0.4.0
+      '@dashkite/maeve': 0.5.0(encoding@0.1.13)
+      '@dashkite/media-type': 0.5.0
+      cache-control-parser: 2.0.6
+      handlebars: 4.7.8
+      js-yaml: 4.1.0
+    transitivePeerDependencies:
+      - encoding
+
   '@dashkite/drn-loader@0.7.0': {}
 
   '@dashkite/drn-sky@0.4.0(@aws-sdk/credential-provider-node@3.529.0)(encoding@0.1.13)':
@@ -5495,6 +5517,8 @@ snapshots:
 
   '@dashkite/lru-cache@0.1.0': {}
 
+  '@dashkite/lru-cache@0.4.0': {}
+
   '@dashkite/maeve@0.5.0(encoding@0.1.13)':
     dependencies:
       '@dashkite/bake': 0.0.6
@@ -5650,6 +5674,11 @@ snapshots:
     dependencies:
       '@dashkite/joy': 0.3.16
       '@dashkite/parse': 0.4.3
+
+  '@dashkite/media-type@0.5.0':
+    dependencies:
+      '@dashkite/joy': 0.7.0
+      '@dashkite/parse': 0.7.0
 
   '@dashkite/messages@0.5.0':
     dependencies:
