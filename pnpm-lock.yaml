@@ -79,8 +79,8 @@ importers:
         specifier: 0.4.1
         version: 0.4.1
       '@dashkite/genie-release':
-        specifier: ^0.2.10
-        version: 0.2.10
+        specifier: ^0.2.11
+        version: 0.2.11
       '@dashkite/genie-sky':
         specifier: 0.3.0
         version: 0.3.0(@aws-sdk/credential-provider-node@3.529.0)(encoding@0.1.13)(pug@3.0.3)(stylus@0.60.0)
@@ -966,8 +966,8 @@ packages:
   '@dashkite/genie-pug@0.4.1':
     resolution: {integrity: sha512-X2T8OebU4amkGT7pAXPML//Ul0CHQOxUJFJi/rfYZY4s51vLpdbS9zkBelwE+UqoOtiUrsYzRlp7foskhXGZyg==}
 
-  '@dashkite/genie-release@0.2.10':
-    resolution: {integrity: sha512-8pczG/SY+Nbstl+cIc9s0+tsNewNTyNfi60g7RHvpzxe6Qd2/WUCIfmFqcF39CAUVlAq94+6M29vhDOwPlLk/Q==}
+  '@dashkite/genie-release@0.2.11':
+    resolution: {integrity: sha512-7xkcSSaSh17FLyibgRpNp6IWyeEvsd6cimVPAp7NtOCYVQG4LWonjlh6W/OCxF/4lGrijdZ/q/MDGM2LNBIEFg==}
 
   '@dashkite/genie-sky@0.3.0':
     resolution: {integrity: sha512-2d++vW1r0Y81RglGZ2yEEHoGrUVrRbvNv0BJ98xTcikHSTqSk8gS8dOuj7yq9chKMxgfW5/r3mSHZ5nOU9DTYQ==}
@@ -5390,7 +5390,7 @@ snapshots:
       - '@swc/helpers'
       - supports-color
 
-  '@dashkite/genie-release@0.2.10':
+  '@dashkite/genie-release@0.2.11':
     dependencies:
       '@dashkite/zephyr': 0.2.0
       zx: 8.7.1
