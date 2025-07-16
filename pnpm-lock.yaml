@@ -79,8 +79,8 @@ importers:
         specifier: 0.4.1
         version: 0.4.1
       '@dashkite/genie-release':
-        specifier: ^0.2.12
-        version: 0.2.12
+        specifier: ^0.2.14
+        version: 0.2.14
       '@dashkite/genie-sky':
         specifier: 0.3.0
         version: 0.3.0(@aws-sdk/credential-provider-node@3.529.0)(encoding@0.1.13)(pug@3.0.3)(stylus@0.60.0)
@@ -966,8 +966,8 @@ packages:
   '@dashkite/genie-pug@0.4.1':
     resolution: {integrity: sha512-X2T8OebU4amkGT7pAXPML//Ul0CHQOxUJFJi/rfYZY4s51vLpdbS9zkBelwE+UqoOtiUrsYzRlp7foskhXGZyg==}
 
-  '@dashkite/genie-release@0.2.12':
-    resolution: {integrity: sha512-pO0uXG1ntZT+inD63YobSW84MyeHNiEuwpiDsDR5LvwVfhXlwQtZEQCVpimfHKAf14SeZ5RL8YQKgeRy1V/+Lw==}
+  '@dashkite/genie-release@0.2.14':
+    resolution: {integrity: sha512-nCl/031ZlxwIXC6ThX7xv1HBKo4GVxesKU2d3PcWDrXe7heXGC7bjmxmS3ZVqhH9zXV7T+bDOsDWOOUMH2wciA==}
 
   '@dashkite/genie-sky@0.3.0':
     resolution: {integrity: sha512-2d++vW1r0Y81RglGZ2yEEHoGrUVrRbvNv0BJ98xTcikHSTqSk8gS8dOuj7yq9chKMxgfW5/r3mSHZ5nOU9DTYQ==}
@@ -1157,8 +1157,8 @@ packages:
   '@dashkite/xrl@0.4.0':
     resolution: {integrity: sha512-5dpqsBtOFb25iAitvH56mSUeNFpKvWluH2Y6WP72MLhIh9lY9GxK7yyo1AFAGQ42v/Km3Jb9txBkz2m1sJR5Cw==}
 
-  '@dashkite/zephyr@0.2.0':
-    resolution: {integrity: sha512-l3Fm9nyOIp1yBnv4IzGOKVgo1/UucU5WLvsqAfcP2jEVlE4AgpPkODssyloxTyC3N+bhcz1DXqC/7KokI1eVjA==}
+  '@dashkite/zephyr@0.12.1':
+    resolution: {integrity: sha512-84wSTbmFpI+tydtzTkMT6FS5ybnNaL4V40fA2c235/UPx/Whg3NRr6BaVLW53+v+bHL6fDbttCTZNNLEtzTxPw==}
 
   '@dashkite/zephyr@0.3.0':
     resolution: {integrity: sha512-IcR7Ab6hPE56XZpDoCZpVQtBHBWrDffFQ97f8sQGsqAAww7w/RdchwFFQQQlp9Ke/BansVSEY14rvvzEnLFJeA==}
@@ -5390,9 +5390,9 @@ snapshots:
       - '@swc/helpers'
       - supports-color
 
-  '@dashkite/genie-release@0.2.12':
+  '@dashkite/genie-release@0.2.14':
     dependencies:
-      '@dashkite/zephyr': 0.2.0
+      '@dashkite/zephyr': 0.12.1
       zx: 8.7.1
 
   '@dashkite/genie-sky@0.3.0(@aws-sdk/credential-provider-node@3.529.0)(encoding@0.1.13)(pug@3.0.3)(stylus@0.60.0)':
@@ -5797,9 +5797,9 @@ snapshots:
     dependencies:
       '@dashkite/joy': 0.4.0
 
-  '@dashkite/zephyr@0.2.0':
+  '@dashkite/zephyr@0.12.1':
     dependencies:
-      '@dashkite/joy': 0.3.16
+      '@dashkite/joy': 0.7.0
       js-yaml: 4.1.0
 
   '@dashkite/zephyr@0.3.0':
