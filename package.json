@@ -45,7 +45,7 @@
     "@dashkite/genie-json-schema": "^0.7.0",
     "@dashkite/genie-pug": "^0.4.1",
     "@dashkite/genie-release": "^0.4.3",
-    "@dashkite/genie-sky": "^0.6.10",
+    "@dashkite/genie-sky": "^0.6.11",
     "@dashkite/genie-yaml": "^0.7.0"
   },
   "dependencies": {
@@ -55,8 +55,8 @@
     "@dashkite/joy": "^0.7.0",
     "@dashkite/kaiko": "^0.3.3",
     "@dashkite/maeve": "^0.5.0",
-    "@dashkite/messages": "^0.9.9",
-    "@dashkite/polaris": "^0.10.9",
+    "@dashkite/messages": "^0.9.10",
+    "@dashkite/polaris": "^0.10.10",
     "@dashkite/url-codex": "^0.6.0",
     "@js-temporal/polyfill": "^0.4.4",
     "cache-control-parser": "^2.0.6",
