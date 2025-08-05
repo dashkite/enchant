@@ -27,11 +27,11 @@ importers:
         specifier: ^0.5.0
         version: 0.5.0(encoding@0.1.13)
       '@dashkite/messages':
-        specifier: ^0.9.10
-        version: 0.9.10
+        specifier: ^0.9.11
+        version: 0.9.11
       '@dashkite/polaris':
-        specifier: ^0.10.10
-        version: 0.10.10
+        specifier: ^0.10.11
+        version: 0.10.11
       '@dashkite/url-codex':
         specifier: ^0.6.0
         version: 0.6.0
@@ -58,11 +58,11 @@ importers:
         specifier: ^0.8.0
         version: 0.8.0(@aws-sdk/credential-provider-node@3.529.0)(encoding@0.1.13)
       '@dashkite/drn-sky':
-        specifier: ^0.8.7
-        version: 0.8.7(@aws-sdk/credential-provider-node@3.529.0)(encoding@0.1.13)
+        specifier: ^0.8.8
+        version: 0.8.8(@aws-sdk/credential-provider-node@3.529.0)(encoding@0.1.13)
       '@dashkite/genie':
-        specifier: ^0.20.8
-        version: 0.20.8
+        specifier: ^0.20.9
+        version: 0.20.9
       '@dashkite/genie-clean':
         specifier: ^0.9.0
         version: 0.9.0
@@ -70,8 +70,8 @@ importers:
         specifier: ^0.9.0
         version: 0.9.0
       '@dashkite/genie-drn':
-        specifier: ^0.12.8
-        version: 0.12.8
+        specifier: ^0.12.10
+        version: 0.12.10
       '@dashkite/genie-json-schema':
         specifier: ^0.7.0
         version: 0.7.0
@@ -1103,14 +1103,14 @@ packages:
   '@dashkite/dracarys@0.2.0':
     resolution: {integrity: sha512-ysXI+GjlPDNUZjr5DV8oI+24gO5m79S6pVFDhqfKIgH9z6ovgv8RSHz+LzdIEaHa3437uwuxE2sINSVbBcftSA==}
 
-  '@dashkite/drn-loader@0.11.6':
-    resolution: {integrity: sha512-gEZjKUmRLZDrBG6KEU8CTpO/QxHvNAbN1hMLN/b3MggL7mo1djxgbFTrtUCj33p0N+8v4cMbrr0lC6z4K29dQw==}
+  '@dashkite/drn-loader@0.11.8':
+    resolution: {integrity: sha512-UoaPX3CSS7c6PJWyuPZZr+ee4k2pzxyqMgqi3Z4FMvKAW5+4h8KC4zxO6r26A4Y9rwKteffxYiiUFI/WkJ/azA==}
 
-  '@dashkite/drn-sky@0.8.7':
-    resolution: {integrity: sha512-Nxt9Kb3nk7tROFeDieXe3m04FnxRrvdyjWhzeyVHzZFC7tRIKJ1yXD1+JX8dqm4s33wvYKn2cDdYsNR0xjOm3w==}
+  '@dashkite/drn-sky@0.8.8':
+    resolution: {integrity: sha512-RQbhOILWuctPvE8dgTMIqveHKnJhuHQbKMYxvLVd1MV/Kn1WPO5VQOHosF+F5hkdSV64uG9rnNsBN1HsXQTbhA==}
 
-  '@dashkite/drn@0.12.8':
-    resolution: {integrity: sha512-tQqvyT+4z3bzlL8Z9zZSYySmtbCz2iinDuCxI9oElrsWZNvRrvYIePkzrRYCBwu/XSq06jsigVV2yz3V04p0yQ==}
+  '@dashkite/drn@0.12.9':
+    resolution: {integrity: sha512-GgOwkmo3DF5UNKTy1QBWMsdll+6z6w506/6j9Bo5ZSCb1v9Z8tr6nQ9CS+51N4X0jn8q6E6MvFaSsLHPyzEnLw==}
 
   '@dashkite/format-text@0.5.0':
     resolution: {integrity: sha512-v2Ri1PmnsXeAamAp2k8EMtYkweyKigIqLWYdmWu9wtpsGLhavQcxQ1BCHkUQrFjLDFq8QcHKRBWS3E449SW/Lw==}
@@ -1124,8 +1124,8 @@ packages:
   '@dashkite/genie-coffee@0.9.0':
     resolution: {integrity: sha512-8Ukg3m/nQnxbmrww313lzYJJQRAxhRgbPpbqCWj7ovzS8LejoA1OGbbjRd8Ew7SdzZrJ6WYY7d08VxIbim72mw==}
 
-  '@dashkite/genie-drn@0.12.8':
-    resolution: {integrity: sha512-Ht7289vCEcOpOriY1IKjYnOkQrpYyUxxfX0MdMZ5AxrUURDNm8oMINNS3dnNT01nR+XNPUZ1+Y8Zd2NsoGXPEg==}
+  '@dashkite/genie-drn@0.12.10':
+    resolution: {integrity: sha512-ofxxMCVDzl5LOW3LMTBe+5xE2lagwD5aoqsFyJlPdeptEy0e3bHWXxR8x2sS4zoJkEcpeESjNaol/nBW4tlRRw==}
 
   '@dashkite/genie-json-schema@0.7.0':
     resolution: {integrity: sha512-5C6THIzES6e3MhJx+y2nOOuviUBAubITPT4HtzRtYii2QGK6OjMdEhz9b9gqKlcZ8flegBCWQibYj+kY/c5yjg==}
@@ -1142,8 +1142,8 @@ packages:
   '@dashkite/genie-yaml@0.7.0':
     resolution: {integrity: sha512-XpliyPq/hF9BXMxBbD2wKCsNEI4ViLIzfRam2dS7lsoX4LR2fM5xPrZ/0RFdh3Tar1pugnEdbSZTDGfn3LPDwA==}
 
-  '@dashkite/genie@0.20.8':
-    resolution: {integrity: sha512-zpKtzW1hIjAOQvCr+92FlKhbHZTqLYyiumLAl8R+tX4BkmBcarhEccaGBsq0it023afAYzChLrg6r4Cduunanw==}
+  '@dashkite/genie@0.20.9':
+    resolution: {integrity: sha512-5EVuUP0q/xS35R/tV6EmFLwVct2ao3JSR11Ff3r5nvWUK+kP4WqvX+sLk6dgHEkc1cOZwMX03FwDN93UUqtMKQ==}
     engines: {node: '>=20.0.0'}
     hasBin: true
 
@@ -1252,8 +1252,8 @@ packages:
   '@dashkite/media-type@0.5.0':
     resolution: {integrity: sha512-duqnAZ032JStS4T2yE1Dosb78Qu5mtRNhTV6pgII0Isyk78q3SG2qQYlXfG/3J+jYfZ1LqSsBl2XutjqO9l1PA==}
 
-  '@dashkite/messages@0.9.10':
-    resolution: {integrity: sha512-3IAObCpOwNX3Mc4Jr+mndmtOOQL5TTNVsnQcVEpf+bO7ShKhJgNAzmAih+T2YKRtqRrmN1vXZCFIDqJnD2u8Lw==}
+  '@dashkite/messages@0.9.11':
+    resolution: {integrity: sha512-5GiBbqPrmiZv5Fj8G5xR/JMTEK9EQl0uLEdwCreiGFyrso9u2MuFowGv5FtlBVw9jd+mSjLhCAzK11w1jvVe5g==}
 
   '@dashkite/parse@0.4.3':
     resolution: {integrity: sha512-bE0kBjaGYjUnCzWJelQnx8vsfJ9YP07aRTVFZoY7TZWvMmnihoCSugL4IVWAOA2O0EAZXjT8FcjA4bNJ/BQwwg==}
@@ -1261,8 +1261,8 @@ packages:
   '@dashkite/parse@0.7.0':
     resolution: {integrity: sha512-lhU3LuRKCUVOgswBHjTvLnGIzhOk+QIxUQVSRNv+U1iPSzjpypFd/EBL5UQQ4qqU2w9u8M63FIBFHcxRiB/oDw==}
 
-  '@dashkite/polaris@0.10.10':
-    resolution: {integrity: sha512-zIVSvsgiY2UGOfclJhpC2lzK68+fFvnAYcy4C1qHOR+++5k0OT8a1ZOsnFQMbLxSIOnPGB5qgcfVKILvC0cFug==}
+  '@dashkite/polaris@0.10.11':
+    resolution: {integrity: sha512-tYYN+Ozxj1oK+7Zt8RNvk6N0XWv/kVlU+GD+jJNAhjpw3iORKbcigcBXl8eu8m/OfPfa525YCNz3N4/Uuf5m5g==}
 
   '@dashkite/polaris@0.3.0':
     resolution: {integrity: sha512-DnUVo1tlTSTFGz7y0TadJJvY8Ly4HoNeD4+ZVDKWWLLbBLi48le2KyuURZ53KKViom1IuWEFWUl5gNtcZ/2Duw==}
@@ -1910,8 +1910,8 @@ packages:
     resolution: {integrity: sha512-zmPitbQ8+6zNutpwgcQuLcsEpn/Cj54Kbn7L5pX0Os5kdWplB7xPgEh/g+SWOB/qmows2gpuCaPyduq8ZZRnxA==}
     deprecated: This is a stub types definition. minimatch provides its own type definitions, so you do not need this installed.
 
-  '@types/node@24.1.0':
-    resolution: {integrity: sha512-ut5FthK5moxFKH2T1CUOC6ctR67rQRvvHdFLCD2Ql6KXmMuCrjsSsRI9UsLCm9M18BMwClv4pn327UvB7eeO1w==}
+  '@types/node@24.2.0':
+    resolution: {integrity: sha512-3xyG3pMCq3oYCNg7/ZP+E1ooTaGB4cG8JWRsqqOYQdbWNY4zbaV0Ennrd7stjiJEFZCaybcIgpTjJWHRfBSIDw==}
 
   '@types/uuid@9.0.8':
     resolution: {integrity: sha512-jg+97EGIcY9AGHJJRaaPVgetKDsrTgbRjQ5Msgjh/DQKEFl0DtyRr/VCOyD1T2R1MNeWPK/u7JoGhlDZnKBAfA==}
@@ -2191,8 +2191,8 @@ packages:
   convert-source-map@1.9.0:
     resolution: {integrity: sha512-ASFBup0Mz1uyiIjANan1jzLQami9z1PoYSZCiiYW2FczPbenXc45FZdBZLzOT+r6+iciuEModtmCti+hjaAk0A==}
 
-  core-js-compat@3.44.0:
-    resolution: {integrity: sha512-JepmAj2zfl6ogy34qfWtcE7nHKAJnKsQFRn++scjVS2bZFllwptzw61BZcZFYBPpUznLfAvh0LGhxKppk04ClA==}
+  core-js-compat@3.45.0:
+    resolution: {integrity: sha512-gRoVMBawZg0OnxaVv3zpqLLxaHmsubEGyTnqdpI/CEBvX4JadI1dMSHxagThprYRtSVbuQxvi6iUatdPxohHpA==}
 
   core-util-is@1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
@@ -2262,8 +2262,8 @@ packages:
     resolution: {integrity: sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A==}
     engines: {node: '>= 0.4'}
 
-  electron-to-chromium@1.5.194:
-    resolution: {integrity: sha512-SdnWJwSUot04UR51I2oPD8kuP2VI37/CADR1OHsFOUzZIvfWJBO6q11k5P/uKNyTT3cdOsnyjkrZ+DDShqYqJA==}
+  electron-to-chromium@1.5.195:
+    resolution: {integrity: sha512-URclP0iIaDUzqcAyV1v2PgduJ9N0IdXmWsnPzPfelvBmjmZzEy6xJcjb1cXj+TbYqXgtLrjHEoaSIdTYhw4ezg==}
 
   emojis-list@3.0.0:
     resolution: {integrity: sha512-/kyM18EfinwXZbno9FyUGeFh87KC8HRQBQGildHZbEuRyWFOmv1U10o9BBp8XVZDVNNuQKyIGIu5ZYAAXJ0V2Q==}
@@ -3479,8 +3479,8 @@ packages:
   undici-types@5.28.4:
     resolution: {integrity: sha512-3OeMF5Lyowe8VW0skf5qaIE7Or3yS9LS7fvMUI0gg4YxpIBVg0L8BxCmROw2CcYhSkpR68Epz7CGc8MPj94Uww==}
 
-  undici-types@7.8.0:
-    resolution: {integrity: sha512-9UJ2xGDvQ43tYyVMpuHlsgApydB8ZKfVYTsLDhXkFL/6gfkp+U8xTGdh8pMJv1SpZna0zxG1DwsKZsreLbXBxw==}
+  undici-types@7.10.0:
+    resolution: {integrity: sha512-t5Fy/nfn+14LuOc2KNYg75vZqClpAiqscVvMygNnlsHBFpSXdJaYtXMcdNLpl/Qvc3P2cB3s6lOV51nqsFq4ag==}
 
   unicode-canonical-property-names-ecmascript@2.0.1:
     resolution: {integrity: sha512-dA8WbNeb2a6oQzAQ55YlT5vQAWGV9WXOsi3SskE3bcCdM0P4SDd+24zS/OCacdRq5BkdsRj9q3Pg6YyQoxIGqg==}
@@ -6300,7 +6300,7 @@ snapshots:
       babel-plugin-polyfill-corejs2: 0.4.14(@babel/core@7.22.15)
       babel-plugin-polyfill-corejs3: 0.8.7(@babel/core@7.22.15)
       babel-plugin-polyfill-regenerator: 0.5.5(@babel/core@7.22.15)
-      core-js-compat: 3.44.0
+      core-js-compat: 3.45.0
       semver: 6.3.1
     transitivePeerDependencies:
       - supports-color
@@ -6458,13 +6458,13 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@dashkite/drn-loader@0.11.6': {}
+  '@dashkite/drn-loader@0.11.8': {}
 
-  '@dashkite/drn-sky@0.8.7(@aws-sdk/credential-provider-node@3.529.0)(encoding@0.1.13)':
+  '@dashkite/drn-sky@0.8.8(@aws-sdk/credential-provider-node@3.529.0)(encoding@0.1.13)':
     dependencies:
       '@dashkite/bake': 0.0.6
       '@dashkite/dolores': 0.8.0(@aws-sdk/credential-provider-node@3.529.0)(encoding@0.1.13)
-      '@dashkite/drn': 0.12.8
+      '@dashkite/drn': 0.12.9
       '@dashkite/joy': 0.7.0
       '@dashkite/sky-local-storage': 0.8.0
       '@dashkite/xrl': 0.4.0
@@ -6476,7 +6476,7 @@ snapshots:
       - aws-crt
       - encoding
 
-  '@dashkite/drn@0.12.8':
+  '@dashkite/drn@0.12.9':
     dependencies:
       '@dashkite/bake': 0.0.6
       '@dashkite/joy': 0.7.0
@@ -6512,10 +6512,10 @@ snapshots:
       - '@swc/helpers'
       - supports-color
 
-  '@dashkite/genie-drn@0.12.8':
+  '@dashkite/genie-drn@0.12.10':
     dependencies:
-      '@dashkite/drn': 0.12.8
-      '@dashkite/drn-loader': 0.11.6
+      '@dashkite/drn': 0.12.9
+      '@dashkite/drn-loader': 0.11.8
       '@dashkite/masonry-hooks': 0.8.0
       '@dashkite/zephyr': 0.9.0
       js-yaml: 4.1.0
@@ -6551,7 +6551,7 @@ snapshots:
       '@dashkite/bake': 0.0.6
       '@dashkite/diff': 0.7.0(@aws-sdk/credential-provider-node@3.529.0)(encoding@0.1.13)
       '@dashkite/dolores': 0.8.0(@aws-sdk/credential-provider-node@3.529.0)(encoding@0.1.13)
-      '@dashkite/drn-sky': 0.8.7(@aws-sdk/credential-provider-node@3.529.0)(encoding@0.1.13)
+      '@dashkite/drn-sky': 0.8.8(@aws-sdk/credential-provider-node@3.529.0)(encoding@0.1.13)
       '@dashkite/graphene-core': 0.4.0
       '@dashkite/joy': 0.7.0
       '@dashkite/katana': 0.4.8
@@ -6561,17 +6561,17 @@ snapshots:
       '@dashkite/masonry-targets': 0.9.0
       '@dashkite/masonry-watch': 0.4.0(@aws-sdk/credential-provider-node@3.529.0)(encoding@0.1.13)
       '@dashkite/masonry-yaml': 0.8.0
-      '@dashkite/messages': 0.9.10
-      '@dashkite/polaris': 0.10.10
+      '@dashkite/messages': 0.9.11
+      '@dashkite/polaris': 0.10.11
       '@dashkite/sky-alb': 0.0.4
       '@dashkite/sky-local-storage': 0.8.0
       '@dashkite/template': 0.0.1
       '@dashkite/zephyr': 0.9.0
       ajv: 8.17.1
       brotli: 1.3.3
-      coffee-loader: 3.0.0(coffeescript@2.7.0)(webpack@5.101.0)
+      coffee-loader: 3.0.0(coffeescript@2.7.0)(webpack@5.101.0(esbuild@0.15.18))
       coffeescript: 2.7.0
-      css-loader: 6.11.0(webpack@5.101.0)
+      css-loader: 6.11.0(webpack@5.101.0(esbuild@0.15.18))
       esbuild: 0.15.18
       execa: 5.1.1
       fast-glob: 3.3.3
@@ -6585,12 +6585,12 @@ snapshots:
       panda-confidential: 3.1.2
       prompts: 2.4.2
       pug-loader: 2.4.0(pug@3.0.3)
-      raw-loader: 4.0.2(webpack@5.101.0)
+      raw-loader: 4.0.2(webpack@5.101.0(esbuild@0.15.18))
       semver: 7.7.2
       sort-package-json: 1.57.0
-      source-map-loader: 4.0.2(webpack@5.101.0)
+      source-map-loader: 4.0.2(webpack@5.101.0(esbuild@0.15.18))
       sprintf-js: 1.1.3
-      stylus-loader: 6.2.0(stylus@0.60.0)(webpack@5.101.0)
+      stylus-loader: 6.2.0(stylus@0.60.0)(webpack@5.101.0(esbuild@0.15.18))
       terminal-kit: 3.1.2
       webpack: 5.101.0(esbuild@0.15.18)
       yaml-loader: 0.6.0
@@ -6617,7 +6617,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@dashkite/genie@0.20.8':
+  '@dashkite/genie@0.20.9':
     dependencies:
       '@dashkite/joy': 0.7.0
       '@dashkite/kaiko': 0.3.3
@@ -6831,7 +6831,7 @@ snapshots:
       '@dashkite/joy': 0.7.0
       '@dashkite/parse': 0.7.0
 
-  '@dashkite/messages@0.9.10':
+  '@dashkite/messages@0.9.11':
     dependencies:
       '@dashkite/format-text': 0.5.0
       '@dashkite/generic': 0.5.0
@@ -6845,7 +6845,7 @@ snapshots:
     dependencies:
       '@dashkite/joy': 0.3.16
 
-  '@dashkite/polaris@0.10.10':
+  '@dashkite/polaris@0.10.11':
     dependencies:
       '@dashkite/joy': 0.7.0
       '@dashkite/scan': 0.4.0
@@ -7747,7 +7747,7 @@ snapshots:
   '@types/glob@7.2.0':
     dependencies:
       '@types/minimatch': 6.0.0
-      '@types/node': 24.1.0
+      '@types/node': 24.2.0
 
   '@types/json-schema@7.0.15': {}
 
@@ -7755,9 +7755,9 @@ snapshots:
     dependencies:
       minimatch: 10.0.3
 
-  '@types/node@24.1.0':
+  '@types/node@24.2.0':
     dependencies:
-      undici-types: 7.8.0
+      undici-types: 7.10.0
 
   '@types/uuid@9.0.8': {}
 
@@ -7929,7 +7929,7 @@ snapshots:
     dependencies:
       '@babel/core': 7.22.15
       '@babel/helper-define-polyfill-provider': 0.4.4(@babel/core@7.22.15)
-      core-js-compat: 3.44.0
+      core-js-compat: 3.45.0
     transitivePeerDependencies:
       - supports-color
 
@@ -7974,7 +7974,7 @@ snapshots:
   browserslist@4.25.1:
     dependencies:
       caniuse-lite: 1.0.30001731
-      electron-to-chromium: 1.5.194
+      electron-to-chromium: 1.5.195
       node-releases: 2.0.19
       update-browserslist-db: 1.1.3(browserslist@4.25.1)
 
@@ -8048,7 +8048,7 @@ snapshots:
 
   clean-stack@2.2.0: {}
 
-  coffee-loader@3.0.0(coffeescript@2.7.0)(webpack@5.101.0):
+  coffee-loader@3.0.0(coffeescript@2.7.0)(webpack@5.101.0(esbuild@0.15.18)):
     dependencies:
       coffeescript: 2.7.0
       webpack: 5.101.0(esbuild@0.15.18)
@@ -8074,7 +8074,7 @@ snapshots:
 
   convert-source-map@1.9.0: {}
 
-  core-js-compat@3.44.0:
+  core-js-compat@3.45.0:
     dependencies:
       browserslist: 4.25.1
 
@@ -8086,7 +8086,7 @@ snapshots:
       shebang-command: 2.0.0
       which: 2.0.2
 
-  css-loader@6.11.0(webpack@5.101.0):
+  css-loader@6.11.0(webpack@5.101.0(esbuild@0.15.18)):
     dependencies:
       icss-utils: 5.1.0(postcss@8.5.6)
       postcss: 8.5.6
@@ -8138,7 +8138,7 @@ snapshots:
       es-errors: 1.3.0
       gopd: 1.2.0
 
-  electron-to-chromium@1.5.194: {}
+  electron-to-chromium@1.5.195: {}
 
   emojis-list@3.0.0: {}
 
@@ -8603,7 +8603,7 @@ snapshots:
 
   jest-worker@27.5.1:
     dependencies:
-      '@types/node': 24.1.0
+      '@types/node': 24.2.0
       merge-stream: 2.0.0
       supports-color: 8.1.1
 
@@ -9043,7 +9043,7 @@ snapshots:
     dependencies:
       safe-buffer: 5.2.1
 
-  raw-loader@4.0.2(webpack@5.101.0):
+  raw-loader@4.0.2(webpack@5.101.0(esbuild@0.15.18)):
     dependencies:
       loader-utils: 2.0.4
       schema-utils: 3.3.0
@@ -9181,7 +9181,7 @@ snapshots:
 
   source-map-js@1.2.1: {}
 
-  source-map-loader@4.0.2(webpack@5.101.0):
+  source-map-loader@4.0.2(webpack@5.101.0(esbuild@0.15.18)):
     dependencies:
       iconv-lite: 0.6.3
       source-map-js: 1.2.1
@@ -9222,7 +9222,7 @@ snapshots:
 
   strnum@2.1.1: {}
 
-  stylus-loader@6.2.0(stylus@0.60.0)(webpack@5.101.0):
+  stylus-loader@6.2.0(stylus@0.60.0)(webpack@5.101.0(esbuild@0.15.18)):
     dependencies:
       fast-glob: 3.3.3
       klona: 2.0.6
@@ -9317,7 +9317,7 @@ snapshots:
 
   undici-types@5.28.4: {}
 
-  undici-types@7.8.0: {}
+  undici-types@7.10.0: {}
 
   unicode-canonical-property-names-ecmascript@2.0.1: {}
 
