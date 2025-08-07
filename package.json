@@ -1,6 +1,6 @@
 {
   "name": "@dashkite/enchant",
-  "version": "0.5.21",
+  "version": "0.5.22",
   "description": "Authenticated authorization for HTTP",
   "exports": {
     ".": {
