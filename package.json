@@ -59,7 +59,7 @@
     "@dashkite/polaris": "0.10.12",
     "@dashkite/url-codex": "^0.6.0",
     "@js-temporal/polyfill": "^0.4.4",
-    "cache-control-parser": "^2.0.6",
+    "cache-control-parser": "^2.2.0",
     "panda-confidential": "^3.1.2"
   },
   "files": [
