@@ -21,4 +21,4 @@ do ->
 
   ]
 
-  process.exit success
+  process.exit if success then 0 else 1

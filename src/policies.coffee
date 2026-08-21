@@ -2,13 +2,11 @@ import log from "@dashkite/kaiko"
 import { Rules } from "./rules"
 import { registry } from "./registry"
 
-env = JSON.parse process.env.context
-
 Policies =
 
   apply: ({ policies }, request ) ->
 
-    context = { request, registry, env }
+    context = { request, registry }
 
     for policy in policies when policy.request?
       await Rules.Request.apply policy.request, context

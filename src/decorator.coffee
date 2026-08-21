@@ -1,8 +1,6 @@
 import * as Val from "@dashkite/joy/value"
 import { Expression } from "./expression"
 
-env = JSON.parse process.env.context
-
 decorateMethods = ({ schemes, methods }) ->
   for key, method of methods
     method.request ?= {}
@@ -17,7 +15,7 @@ decorateMethods = ({ schemes, methods }) ->
     method.response.status.push 401
 
 decorator = ({ authorization }, handler ) ->
-  authorization = Expression.apply authorization, { env }
+  authorization = Expression.apply authorization
   ( request ) ->
     response = await handler request
     { resource, domain } = request
