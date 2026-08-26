@@ -5,4 +5,7 @@ register "status description", ( values, { response }) ->
   description = response.description ? 
     getDescriptionFromStatus response.status
 
-  description in values
+  if Array.isArray values
+    description in values
+  else
+    description == values

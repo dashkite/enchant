@@ -1,4 +1,7 @@
 import { register } from "./registry"
 
 register "method", ( value, { request }) ->
-  request.method in value
+  if Array.isArray value
+    request.method in value
+  else
+    request.method == value
